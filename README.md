@@ -10,7 +10,7 @@ and share theirs would be great. I hope this project does that and is a useful t
 
 ## User Stories
 
-Include a link to your trellow board with user stories.
+https://trello.com/b/Xa39eEtK/track-it
 
 ## Wireframes
 
