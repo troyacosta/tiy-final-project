@@ -22,4 +22,4 @@ A list of all of your models with necessary information. Use either a markdown l
 
 ## APIs, Plugins, Libraries and Frameworks
 
-A list of all of the third-party tools and code you will need for your project as well as a short demo (with code) of you successfully using that tool.
+This project will use React, Backbone, Parse, and Bootstrap.
