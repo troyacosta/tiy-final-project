@@ -34,6 +34,6 @@ var Router = Backbone.Router.extend({
 var r = new Router();
 Backbone.history.start();
 ReactDOM.render(
-	<NavComponent router={r} />,
+	<NavigationComponent router={r} />,
 	document.getElementById('nav')
 	);
