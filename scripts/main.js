@@ -19,16 +19,22 @@ var Router = Backbone.Router.extend({
 		'user/:id': 'userPage'
 	},
 	home: function() {
-		<HomePageComponent router={r}/>,
-		App
+		ReactDOM.render(
+			<HomePageComponent router={r}/>,
+			App
+		)
 	},
 	registerLogin: function() {
-		<RegisterLoginComponent router={r}/>,
-		App
+		ReactDOM.render(
+			<RegisterLoginComponent router={r}/>,
+			App
+		)
 	},
 	userPage: function(id) {
-		<UserPageComponent userId={id}/>,
-		App
+		ReactDOM.render(
+			<UserPageComponent userId={id}/>,
+			App
+		)
 	}
 })
 var r = new Router();
@@ -36,4 +42,4 @@ Backbone.history.start();
 ReactDOM.render(
 	<NavigationComponent router={r} />,
 	document.getElementById('nav')
-	);
+);

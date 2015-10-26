@@ -31710,12 +31710,266 @@ var React = require('react');
 'use strict';
 
 var React = require('react');
+var Backbone = require('backbone');
 
-},{"react":160}],163:[function(require,module,exports){
+module.exports = React.createClass({
+	displayName: 'exports',
+
+	componentWillMount: function componentWillMount() {
+		var _this = this;
+
+		this.props.router.on('route', function () {
+			_this.forceUpdate();
+		});
+	},
+	render: function render() {
+		var currentUser = Parse.User.current();
+		var links = [];
+		if (currentUser) {
+			links.push(React.createElement(
+				'li',
+				null,
+				React.createElement(
+					'a',
+					{ href: '#blogs' },
+					'Blogs'
+				)
+			));
+			links.push(React.createElement(
+				'li',
+				null,
+				React.createElement(
+					'a',
+					{ href: '#create' },
+					'Create New Blog'
+				)
+			));
+			links.push(React.createElement(
+				'li',
+				null,
+				React.createElement(
+					'a',
+					{ href: '#logOut' },
+					'Log Out'
+				)
+			));
+			links.push(React.createElement(
+				'li',
+				null,
+				React.createElement(
+					'a',
+					{ href: '#userPage/' + currentUser.id },
+					currentUser.get('firstName'),
+					' ',
+					currentUser.get('lastName')
+				)
+			));
+		} else {
+			links.push(React.createElement(
+				'li',
+				null,
+				React.createElement(
+					'a',
+					{ href: '#register' },
+					'Register'
+				)
+			));
+			links.push(React.createElement(
+				'li',
+				null,
+				React.createElement(
+					'a',
+					{ href: '#login' },
+					'Log In'
+				)
+			));
+		}
+		return React.createElement(
+			'nav',
+			{ className: 'navbar navbar-default navbar-custom navbar-fixed-top' },
+			React.createElement(
+				'div',
+				{ className: 'container-fluid' },
+				React.createElement(
+					'div',
+					{ className: 'navbar-header page-scroll' },
+					React.createElement(
+						'button',
+						{ type: 'button', className: 'navbar-toggle', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1' },
+						React.createElement(
+							'span',
+							{ className: 'sr-only' },
+							'Toggle navigation'
+						),
+						React.createElement('span', { className: 'icon-bar' }),
+						React.createElement('span', { className: 'icon-bar' }),
+						React.createElement('span', { className: 'icon-bar' })
+					),
+					React.createElement(
+						'a',
+						{ className: 'navbar-brand', href: '#home' },
+						'HOME'
+					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'collapse navbar-collapse' },
+					React.createElement(
+						'ul',
+						{ className: 'nav navbar-nav navbar-right' },
+						links
+					)
+				)
+			)
+		);
+	}
+
+});
+
+},{"backbone":1,"react":160}],163:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var Backbone = require('backbone');
+
+module.exports = React.createClass({
+	displayName: 'exports',
+
+	getInitialState: function getInitialState() {
+		return { error: null };
+	},
+	render: function render() {
+		var errorElement = null;
+		var url = Backbone.history.getFragment();
+		if (this.state.error) {
+			errorElement = React.createElement(
+				'p',
+				{ className: 'red' },
+				this.state.error
+			);
+		}
+		if (url === 'login') {
+			return React.createElement(
+				'form',
+				{ className: 'loginForm', onSubmit: this.onLogin },
+				React.createElement(
+					'div',
+					{ className: 'form-group' },
+					React.createElement(
+						'label',
+						null,
+						'Email address'
+					),
+					React.createElement('input', { type: 'email', className: 'form-control', ref: 'email', placeholder: 'Email' })
+				),
+				React.createElement(
+					'div',
+					{ className: 'form-group' },
+					React.createElement(
+						'label',
+						null,
+						'Password'
+					),
+					React.createElement('input', { type: 'password', className: 'form-control', ref: 'password', placeholder: 'Password' })
+				),
+				errorElement,
+				React.createElement(
+					'button',
+					{ type: 'submit', className: 'btn btn-default' },
+					'Log On!'
+				)
+			);
+		} else {
+			return React.createElement(
+				'form',
+				{ className: 'registerForm', onSubmit: this.onRegister },
+				React.createElement(
+					'div',
+					{ className: 'form-group' },
+					React.createElement(
+						'label',
+						null,
+						'First Name'
+					),
+					React.createElement('input', { type: 'text', className: 'form-control', ref: 'firstName', placeholder: 'First Name' })
+				),
+				React.createElement(
+					'div',
+					{ className: 'form-group' },
+					React.createElement(
+						'label',
+						null,
+						'Last Name'
+					),
+					React.createElement('input', { type: 'text', className: 'form-control', ref: 'lastName', placeholder: 'Last Name' })
+				),
+				React.createElement(
+					'div',
+					{ className: 'form-group' },
+					React.createElement(
+						'label',
+						null,
+						'Email'
+					),
+					React.createElement('input', { type: 'email', className: 'form-control', ref: 'email', placeholder: 'yourEmail@you.com' })
+				),
+				React.createElement(
+					'div',
+					{ className: 'form-group' },
+					React.createElement(
+						'label',
+						null,
+						'Password'
+					),
+					React.createElement('input', { type: 'password', className: 'form-control', ref: 'password', placeholder: 'Password' })
+				),
+				errorElement,
+				React.createElement(
+					'button',
+					{ type: 'submit', className: 'btn btn-default' },
+					'Register!'
+				)
+			);
+		}
+	},
+	onLogin: function onLogin(e) {
+		var _this = this;
+
+		e.preventDefault();
+		Parse.User.logIn(this.refs.email.value, this.refs.password.value, {
+			success: function success(u) {
+				_this.props.router.navigate('blogs', { trigger: true });
+			},
+			error: function error(u, _error) {
+				_this.setState({
+					error: _error.message
+				});
+			}
+		});
+	},
+	onRegister: function onRegister(e) {
+		var _this2 = this;
+
+		e.preventDefault();
+		var user = new Parse.User();
+		user.signUp({
+			firstName: this.refs.firstName.value,
+			lastName: this.refs.lastName.value,
+			username: this.refs.email.value,
+			password: this.refs.password.value
+		}, {
+			success: function success(u) {
+				_this2.props.router.navigate('blogs', { trigger: true });
+			},
+			error: function error(u, _error2) {
+				console.log(_error2);
+				_this2.setState({
+					error: _error2.message
+				});
+			}
+		});
+	}
+});
 
 },{"backbone":1,"react":160}],164:[function(require,module,exports){
 'use strict';
@@ -31744,13 +31998,13 @@ var Router = Backbone.Router.extend({
 		'user/:id': 'userPage'
 	},
 	home: function home() {
-		React.createElement(HomePageComponent, { router: r }), App;
+		ReactDOM.render(React.createElement(HomePageComponent, { router: r }), App);
 	},
 	registerLogin: function registerLogin() {
-		React.createElement(RegisterLoginComponent, { router: r }), App;
+		ReactDOM.render(React.createElement(RegisterLoginComponent, { router: r }), App);
 	},
 	userPage: function userPage(id) {
-		React.createElement(UserPageComponent, { userId: id }), App;
+		ReactDOM.render(React.createElement(UserPageComponent, { userId: id }), App);
 	}
 });
 var r = new Router();
