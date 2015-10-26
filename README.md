@@ -22,4 +22,4 @@ A list of all of your models with necessary information. Use either a markdown l
 
 ## APIs, Plugins, Libraries and Frameworks
 
-This project will use React, Backbone, Parse, and Bootstrap.
+This project will use React, Backbone, Sass, Parse, Filepicker, and Bootstrap.
