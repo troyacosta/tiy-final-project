@@ -31702,80 +31702,182 @@ module.exports = warning;
 module.exports = require('./lib/React');
 
 },{"./lib/React":29}],161:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var React = require('react');
+var CarModel = require('../models/CarModel');
+var TireSetModel = require('../models/TireSetModel');
 
 module.exports = React.createClass({
-	displayName: "exports",
+	displayName: 'exports',
 
 	getInitialState: function getInitialState() {
 		return { error: null };
 	},
 	render: function render() {
 		return React.createElement(
-			"form",
-			{ className: "loginForm", onSubmit: this.addCar },
+			'form',
+			{ className: 'addCarForm', onSubmit: this.addCar },
 			React.createElement(
-				"div",
-				{ className: "form-group" },
+				'div',
+				{ className: 'form-group' },
 				React.createElement(
-					"label",
+					'label',
 					null,
-					"Email address"
+					'Make'
 				),
-				React.createElement("input", { type: "email", className: "form-control", ref: "email", placeholder: "Email" })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'make', placeholder: 'Ford' })
 			),
 			React.createElement(
-				"div",
-				{ className: "form-group" },
+				'div',
+				{ className: 'form-group' },
 				React.createElement(
-					"label",
+					'label',
 					null,
-					"Password"
+					'Model'
 				),
-				React.createElement("input", { type: "password", className: "form-control", ref: "password", placeholder: "Password" })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'model', placeholder: 'Mustang' })
 			),
-			errorElement,
-			React.createElement("input", { type: "filepicker", "data-fp-apikey": "AttpdoWEyRR2zL1yUKA3Zz", onchange: "alert(event.fpfile.url)" }),
 			React.createElement(
-				"button",
-				{ type: "submit", className: "btn btn-default" },
-				"Add Car!"
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Year'
+				),
+				React.createElement('input', { type: 'number', className: 'form-control', ref: 'year', placeholder: '2015' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Car Class'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'carClass', placeholder: 'SSM' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Weight'
+				),
+				React.createElement('input', { type: 'number', className: 'form-control', ref: 'weight', placeholder: '3250' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Color'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'color', placeholder: 'White' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Front Wheel Size'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'frontWheelSize', placeholder: '17X10' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Rear Wheel Size'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearWheelSize', placeholder: '18X12' })
+			),
+			React.createElement('input', { type: 'filepicker', 'data-fp-apikey': 'AttpdoWEyRR2zL1yUKA3Zz', onchange: 'alert(event.fpfile.url)' }),
+			React.createElement(
+				'button',
+				{ type: 'submit', className: 'btn btn-default' },
+				'Add Car!'
 			)
 		);
 	},
 	addCar: function addCar(e) {
-		var _this = this;
-
 		e.preventDefault();
-		Parse.User.logIn(this.refs.email.value, this.refs.password.value, {
-			success: function success(u) {
-				_this.props.router.navigate('blogs', { trigger: true });
-			},
-			error: function error(u, _error) {
-				_this.setState({
-					error: _error.message
-				});
-			}
+		var carYear = parseInt(this.refs.year.value);
+		var carWeight = parseInt(this.refs.weight.value);
+		var Car = new CarModel({
+			make: this.refs.make.value,
+			model: this.refs.model.value,
+			year: carYear,
+			carClass: this.refs.carClass.value,
+			weight: carWeight,
+			color: this.refs.color.value,
+			frontWheelSize: this.refs.frontWheelSize.value,
+			rearWheelSize: this.refs.rearWheelSize.value,
+			user: Parse.User.current()
 		});
+		Car.save();
 	}
 });
 
-},{"react":160}],162:[function(require,module,exports){
-"use strict";
+},{"../models/CarModel":170,"../models/TireSetModel":172,"react":160}],162:[function(require,module,exports){
+'use strict';
 
 var React = require('react');
+var EventModel = require('../models/EventModel');
+var CarModel = require('../models/CarModel');
 
 module.exports = React.createClass({
-	displayName: "exports",
+	displayName: 'exports',
 
 	render: function render() {
-		return React.createElement("input", { type: "filepicker", "data-fp-apikey": "AttpdoWEyRR2zL1yUKA3Zz", onchange: "alert(event.fpfile.url)" });
+		return React.createElement(
+			'form',
+			{ className: 'loginForm', onSubmit: this.addEvent },
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Event Location'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'location', placeholder: 'Location' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Weather Conditions'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'weather', placeholder: '80 degrees and sunny' })
+			),
+			React.createElement('input', { type: 'filepicker', 'data-fp-apikey': 'AttpdoWEyRR2zL1yUKA3Zz', onchange: 'alert(event.fpfile.url)' }),
+			React.createElement(
+				'button',
+				{ type: 'submit', className: 'btn btn-default' },
+				'Add Event!'
+			)
+		);
+	},
+	addEvent: function addEvent(e) {
+		e.preventDefault();
+		var Event = new EventModel({
+			location: this.refs.location.value,
+			weather: this.refs.weather.value
+		});
+		Event.save();
 	}
 });
 
-},{"react":160}],163:[function(require,module,exports){
+},{"../models/CarModel":170,"../models/EventModel":171,"react":160}],163:[function(require,module,exports){
 "use strict";
 
 },{}],164:[function(require,module,exports){
@@ -32077,15 +32179,67 @@ var AddEventComponent = require('./AddEventComponent');
 var EditCarComponent = require('./EditCarComponent');
 
 module.exports = React.createClass({
-	displayName: 'exports',
+				displayName: 'exports',
 
-	render: function render() {
-		return React.createElement(
-			'div',
-			null,
-			'USER'
-		);
-	}
+				render: function render() {
+								return React.createElement(
+												'div',
+												null,
+												React.createElement(
+																'div',
+																{ className: 'col-xs-6 col-sm-3 col-md-4' },
+																React.createElement('h3', null),
+																React.createElement(
+																				'button',
+																				{ type: 'button', className: 'btn btn-primary', onClick: this.onAddCarModal },
+																				'Add Car'
+																),
+																React.createElement(
+																				'div',
+																				{ ref: 'addCarBox', className: 'modal fade bs-example-modal-lg', tabindex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+																				React.createElement(
+																								'div',
+																								{ className: 'modal-dialog modal-lg' },
+																								React.createElement(
+																												'div',
+																												{ className: 'modal-content' },
+																												React.createElement(AddCarComponent, null)
+																								)
+																				)
+																)
+												),
+												React.createElement(
+																'div',
+																{ className: 'col-xs-6 col-sm-3 col-md-4' },
+																React.createElement('h3', null),
+																React.createElement(
+																				'button',
+																				{ type: 'button', className: 'btn btn-primary', onClick: this.onAddEventModal },
+																				'Add Event'
+																),
+																React.createElement(
+																				'div',
+																				{ ref: 'addEventBox', className: 'modal fade bs-example-modal-lg', tabindex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+																				React.createElement(
+																								'div',
+																								{ className: 'modal-dialog modal-lg' },
+																								React.createElement(
+																												'div',
+																												{ className: 'modal-content' },
+																												React.createElement(AddEventComponent, null)
+																								)
+																				)
+																)
+												)
+								);
+				},
+				onAddCarModal: function onAddCarModal() {
+								$(this.refs.addCarBox).modal('show');
+				},
+				onAddEventModal: function onAddEventModal() {
+								$(this.refs.addEventBox).modal('show');
+				}
+
 });
 
 },{"./AddCarComponent":161,"./AddEventComponent":162,"./EditCarComponent":163,"react":160}],169:[function(require,module,exports){
@@ -32133,7 +32287,28 @@ var r = new Router();
 Backbone.history.start();
 ReactDOM.render(React.createElement(NavigationComponent, { router: r }), document.getElementById('nav'));
 
-},{"./components/HomePageComponent":164,"./components/LandingPageComponent":165,"./components/NavigationComponent":166,"./components/RegisterLoginComponent":167,"./components/UserPageComponent":168,"backbone":1,"jquery":4,"react":160,"react-dom":5}]},{},[169])
+},{"./components/HomePageComponent":164,"./components/LandingPageComponent":165,"./components/NavigationComponent":166,"./components/RegisterLoginComponent":167,"./components/UserPageComponent":168,"backbone":1,"jquery":4,"react":160,"react-dom":5}],170:[function(require,module,exports){
+'use strict';
+
+module.exports = Parse.Object.extend({
+	className: 'Car'
+});
+
+},{}],171:[function(require,module,exports){
+'use strict';
+
+module.exports = Parse.Object.extend({
+	className: 'Event'
+});
+
+},{}],172:[function(require,module,exports){
+'use strict';
+
+module.exports = Parse.Object.extend({
+	className: 'Tires'
+});
+
+},{}]},{},[169])
 
 
 //# sourceMappingURL=bundle.js.map

@@ -1,4 +1,6 @@
 var React = require('react');
+var CarModel = require('../models/CarModel');
+var TireSetModel = require('../models/TireSetModel');
 
 module.exports = React.createClass({
 	getInitialState: function() {
@@ -6,16 +8,39 @@ module.exports = React.createClass({
 	},
 	render: function() {
 		return(
-				<form className="loginForm" onSubmit={this.addCar}>
+				<form className="addCarForm" onSubmit={this.addCar}>
 					<div className="form-group">					
-						<label>Email address</label>
-						<input type="email" className="form-control" ref="email" placeholder="Email" />
+						<label>Make</label>
+						<input type="text" className="form-control" ref="make" placeholder="Ford" />
 					</div>
 					<div className="form-group">
-						<label>Password</label>
-						<input type="password" className="form-control" ref="password" placeholder="Password" />
+						<label>Model</label>
+						<input type="text" className="form-control" ref="model" placeholder="Mustang" />
 					</div>
-					{errorElement}
+					<div className="form-group">					
+						<label>Year</label>
+						<input type="number" className="form-control" ref="year" placeholder="2015" />
+					</div>
+					<div className="form-group">					
+						<label>Car Class</label>
+						<input type="text" className="form-control" ref="carClass" placeholder="SSM" />
+					</div>
+					<div className="form-group">					
+						<label>Weight</label>
+						<input type="number" className="form-control" ref="weight" placeholder="3250" />
+					</div>
+					<div className="form-group">					
+						<label>Color</label>
+						<input type="text" className="form-control" ref="color" placeholder="White" />
+					</div>
+					<div className="form-group">					
+						<label>Front Wheel Size</label>
+						<input type="text" className="form-control" ref="frontWheelSize" placeholder="17X10" />
+					</div>
+					<div className="form-group">					
+						<label>Rear Wheel Size</label>
+						<input type="text" className="form-control" ref="rearWheelSize" placeholder="18X12" />
+					</div>
 					<input type="filepicker" data-fp-apikey="AttpdoWEyRR2zL1yUKA3Zz" onchange="alert(event.fpfile.url)"/>
 					<button type="submit" className="btn btn-default">Add Car!</button>
 				</form>
@@ -23,18 +48,19 @@ module.exports = React.createClass({
 	},
 	addCar: function(e) {
 		e.preventDefault();
-		Parse.User.logIn(
-			this.refs.email.value,
-			this.refs.password.value,
-			{
-				success: (u) => {
-					this.props.router.navigate('blogs', {trigger: true});
-				},
-				error: (u, error) => {
-					this.setState({
-						error: error.message
-				});
-			}
+		var carYear = parseInt(this.refs.year.value);
+		var carWeight = parseInt(this.refs.weight.value);
+		var Car = new CarModel({
+			make: this.refs.make.value,
+			model: this.refs.model.value,
+			year: carYear,
+			carClass: this.refs.carClass.value,
+			weight: carWeight,
+			color: this.refs.color.value,
+			frontWheelSize: this.refs.frontWheelSize.value,
+			rearWheelSize: this.refs.rearWheelSize.value,
+			user: Parse.User.current()
 		});
+		Car.save();
 	}
 })
