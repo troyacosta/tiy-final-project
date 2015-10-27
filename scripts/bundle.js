@@ -31798,6 +31798,46 @@ module.exports = React.createClass({
 				),
 				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearWheelSize', placeholder: '18X12' })
 			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Tire Brand'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'brand', placeholder: 'Hoosier' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Tire Model'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'tireModel', placeholder: 'A7' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Front Tire Size'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'frontTireSize', placeholder: '295/35/18' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Rear Tire Size'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearTireSize', placeholder: '315/30/18' })
+			),
 			React.createElement('input', { type: 'filepicker', 'data-fp-apikey': 'AttpdoWEyRR2zL1yUKA3Zz', onchange: 'alert(event.fpfile.url)' }),
 			React.createElement(
 				'button',
@@ -31807,6 +31847,8 @@ module.exports = React.createClass({
 		);
 	},
 	addCar: function addCar(e) {
+		var _this = this;
+
 		e.preventDefault();
 		var carYear = parseInt(this.refs.year.value);
 		var carWeight = parseInt(this.refs.weight.value);
@@ -31821,7 +31863,21 @@ module.exports = React.createClass({
 			rearWheelSize: this.refs.rearWheelSize.value,
 			user: Parse.User.current()
 		});
-		Car.save();
+		Car.save(null, {
+			success: function success(Car) {
+				var Tires = new TireSetModel({
+					brand: _this.refs.brand.value,
+					model: _this.refs.tireModel.value,
+					frontTireSize: _this.refs.frontTireSize.value,
+					rearTireSize: _this.refs.rearTireSize.value,
+					car: Car
+				});
+				Tires.save();
+			},
+			error: function error(Car, _error) {
+				console.log(_error);
+			}
+		});
 	}
 });
 
