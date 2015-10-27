@@ -13,7 +13,7 @@ module.exports = React.createClass({
 				<p className="red">{this.state.error}</p>
 			);
 		}
-		if(url === 'login') {
+		if(url == 'login') {
 			return(
 				<form className="loginForm" onSubmit={this.onLogin}>
 					<div className="form-group">					
@@ -61,7 +61,7 @@ module.exports = React.createClass({
 			this.refs.password.value,
 			{
 				success: (u) => {
-					this.props.router.navigate('blogs', {trigger: true});
+					this.props.router.navigate('home', {trigger: true});
 				},
 				error: (u, error) => {
 					this.setState({
@@ -81,7 +81,7 @@ module.exports = React.createClass({
 		},
 		{
 			success: (u) => {
-				this.props.router.navigate('blogs', {trigger: true});
+				this.props.router.navigate('home', {trigger: true});
 			},
 			error: (u, error) => {
 				console.log(error);

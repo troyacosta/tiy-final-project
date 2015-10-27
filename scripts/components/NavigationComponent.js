@@ -11,10 +11,9 @@ module.exports = React.createClass({
 		var currentUser = Parse.User.current();
 		var links = [];         
 		if(currentUser) {
-			links.push(<li><a href="#blogs">Blogs</a></li>);
-			links.push(<li><a href="#create">Create New Blog</a></li>);
+			links.push(<li><a href="#home">Home</a></li>);
 			links.push(<li><a href="#logOut">Log Out</a></li>);
-			links.push(<li><a href={'#userPage/'+currentUser.id}>{currentUser.get('firstName')} {currentUser.get('lastName')}</a></li>);
+			links.push(<li><a href={'#user/'+currentUser.id}>{currentUser.get('firstName')} {currentUser.get('lastName')}</a></li>);
 		}
 		else {
 			links.push(<li><a href="#register">Register</a></li>);

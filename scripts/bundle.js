@@ -31702,131 +31702,228 @@ module.exports = warning;
 module.exports = require('./lib/React');
 
 },{"./lib/React":29}],161:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	getInitialState: function getInitialState() {
+		return { error: null };
+	},
+	render: function render() {
+		return React.createElement(
+			"form",
+			{ className: "loginForm", onSubmit: this.addCar },
+			React.createElement(
+				"div",
+				{ className: "form-group" },
+				React.createElement(
+					"label",
+					null,
+					"Email address"
+				),
+				React.createElement("input", { type: "email", className: "form-control", ref: "email", placeholder: "Email" })
+			),
+			React.createElement(
+				"div",
+				{ className: "form-group" },
+				React.createElement(
+					"label",
+					null,
+					"Password"
+				),
+				React.createElement("input", { type: "password", className: "form-control", ref: "password", placeholder: "Password" })
+			),
+			errorElement,
+			React.createElement("input", { type: "filepicker", "data-fp-apikey": "AttpdoWEyRR2zL1yUKA3Zz", onchange: "alert(event.fpfile.url)" }),
+			React.createElement(
+				"button",
+				{ type: "submit", className: "btn btn-default" },
+				"Add Car!"
+			)
+		);
+	},
+	addCar: function addCar(e) {
+		var _this = this;
+
+		e.preventDefault();
+		Parse.User.logIn(this.refs.email.value, this.refs.password.value, {
+			success: function success(u) {
+				_this.props.router.navigate('blogs', { trigger: true });
+			},
+			error: function error(u, _error) {
+				_this.setState({
+					error: _error.message
+				});
+			}
+		});
+	}
+});
+
+},{"react":160}],162:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	render: function render() {
+		return React.createElement("input", { type: "filepicker", "data-fp-apikey": "AttpdoWEyRR2zL1yUKA3Zz", onchange: "alert(event.fpfile.url)" });
+	}
+});
+
+},{"react":160}],163:[function(require,module,exports){
+"use strict";
+
+},{}],164:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 
-},{"react":160}],162:[function(require,module,exports){
+module.exports = React.createClass({
+	displayName: 'exports',
+
+	render: function render() {
+		return React.createElement(
+			'div',
+			null,
+			'HOME'
+		);
+	}
+});
+
+},{"react":160}],165:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+
+module.exports = React.createClass({
+	displayName: 'exports',
+
+	render: function render() {
+		return React.createElement(
+			'div',
+			null,
+			'LANDING'
+		);
+	}
+});
+
+},{"react":160}],166:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var Backbone = require('backbone');
 
 module.exports = React.createClass({
-	displayName: 'exports',
+  displayName: 'exports',
 
-	componentWillMount: function componentWillMount() {
-		var _this = this;
+  componentWillMount: function componentWillMount() {
+    var _this = this;
 
-		this.props.router.on('route', function () {
-			_this.forceUpdate();
-		});
-	},
-	render: function render() {
-		var currentUser = Parse.User.current();
-		var links = [];
-		if (currentUser) {
-			links.push(React.createElement(
-				'li',
-				null,
-				React.createElement(
-					'a',
-					{ href: '#blogs' },
-					'Blogs'
-				)
-			));
-			links.push(React.createElement(
-				'li',
-				null,
-				React.createElement(
-					'a',
-					{ href: '#create' },
-					'Create New Blog'
-				)
-			));
-			links.push(React.createElement(
-				'li',
-				null,
-				React.createElement(
-					'a',
-					{ href: '#logOut' },
-					'Log Out'
-				)
-			));
-			links.push(React.createElement(
-				'li',
-				null,
-				React.createElement(
-					'a',
-					{ href: '#userPage/' + currentUser.id },
-					currentUser.get('firstName'),
-					' ',
-					currentUser.get('lastName')
-				)
-			));
-		} else {
-			links.push(React.createElement(
-				'li',
-				null,
-				React.createElement(
-					'a',
-					{ href: '#register' },
-					'Register'
-				)
-			));
-			links.push(React.createElement(
-				'li',
-				null,
-				React.createElement(
-					'a',
-					{ href: '#login' },
-					'Log In'
-				)
-			));
-		}
-		return React.createElement(
-			'nav',
-			{ className: 'navbar navbar-default navbar-custom navbar-fixed-top' },
-			React.createElement(
-				'div',
-				{ className: 'container-fluid' },
-				React.createElement(
-					'div',
-					{ className: 'navbar-header page-scroll' },
-					React.createElement(
-						'button',
-						{ type: 'button', className: 'navbar-toggle', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1' },
-						React.createElement(
-							'span',
-							{ className: 'sr-only' },
-							'Toggle navigation'
-						),
-						React.createElement('span', { className: 'icon-bar' }),
-						React.createElement('span', { className: 'icon-bar' }),
-						React.createElement('span', { className: 'icon-bar' })
-					),
-					React.createElement(
-						'a',
-						{ className: 'navbar-brand', href: '#home' },
-						'HOME'
-					)
-				),
-				React.createElement(
-					'div',
-					{ className: 'collapse navbar-collapse' },
-					React.createElement(
-						'ul',
-						{ className: 'nav navbar-nav navbar-right' },
-						links
-					)
-				)
-			)
-		);
-	}
+    this.props.router.on('route', function () {
+      _this.forceUpdate();
+    });
+  },
+  render: function render() {
+    var currentUser = Parse.User.current();
+    var links = [];
+    if (currentUser) {
+      links.push(React.createElement(
+        'li',
+        null,
+        React.createElement(
+          'a',
+          { href: '#home' },
+          'Home'
+        )
+      ));
+      links.push(React.createElement(
+        'li',
+        null,
+        React.createElement(
+          'a',
+          { href: '#logOut' },
+          'Log Out'
+        )
+      ));
+      links.push(React.createElement(
+        'li',
+        null,
+        React.createElement(
+          'a',
+          { href: '#user/' + currentUser.id },
+          currentUser.get('firstName'),
+          ' ',
+          currentUser.get('lastName')
+        )
+      ));
+    } else {
+      links.push(React.createElement(
+        'li',
+        null,
+        React.createElement(
+          'a',
+          { href: '#register' },
+          'Register'
+        )
+      ));
+      links.push(React.createElement(
+        'li',
+        null,
+        React.createElement(
+          'a',
+          { href: '#login' },
+          'Log In'
+        )
+      ));
+    }
+    return React.createElement(
+      'nav',
+      { className: 'navbar navbar-default navbar-custom navbar-fixed-top' },
+      React.createElement(
+        'div',
+        { className: 'container-fluid' },
+        React.createElement(
+          'div',
+          { className: 'navbar-header page-scroll' },
+          React.createElement(
+            'button',
+            { type: 'button', className: 'navbar-toggle', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1' },
+            React.createElement(
+              'span',
+              { className: 'sr-only' },
+              'Toggle navigation'
+            ),
+            React.createElement('span', { className: 'icon-bar' }),
+            React.createElement('span', { className: 'icon-bar' }),
+            React.createElement('span', { className: 'icon-bar' })
+          ),
+          React.createElement(
+            'a',
+            { className: 'navbar-brand', href: '#home' },
+            'HOME'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'collapse navbar-collapse' },
+          React.createElement(
+            'ul',
+            { className: 'nav navbar-nav navbar-right' },
+            links
+          )
+        )
+      )
+    );
+  }
 
 });
 
-},{"backbone":1,"react":160}],163:[function(require,module,exports){
+},{"backbone":1,"react":160}],167:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -31848,7 +31945,7 @@ module.exports = React.createClass({
 				this.state.error
 			);
 		}
-		if (url === 'login') {
+		if (url == 'login') {
 			return React.createElement(
 				'form',
 				{ className: 'loginForm', onSubmit: this.onLogin },
@@ -31938,7 +32035,7 @@ module.exports = React.createClass({
 		e.preventDefault();
 		Parse.User.logIn(this.refs.email.value, this.refs.password.value, {
 			success: function success(u) {
-				_this.props.router.navigate('blogs', { trigger: true });
+				_this.props.router.navigate('home', { trigger: true });
 			},
 			error: function error(u, _error) {
 				_this.setState({
@@ -31959,7 +32056,7 @@ module.exports = React.createClass({
 			password: this.refs.password.value
 		}, {
 			success: function success(u) {
-				_this2.props.router.navigate('blogs', { trigger: true });
+				_this2.props.router.navigate('home', { trigger: true });
 			},
 			error: function error(u, _error2) {
 				console.log(_error2);
@@ -31971,12 +32068,27 @@ module.exports = React.createClass({
 	}
 });
 
-},{"backbone":1,"react":160}],164:[function(require,module,exports){
+},{"backbone":1,"react":160}],168:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
+var AddCarComponent = require('./AddCarComponent');
+var AddEventComponent = require('./AddEventComponent');
+var EditCarComponent = require('./EditCarComponent');
 
-},{"react":160}],165:[function(require,module,exports){
+module.exports = React.createClass({
+	displayName: 'exports',
+
+	render: function render() {
+		return React.createElement(
+			'div',
+			null,
+			'USER'
+		);
+	}
+});
+
+},{"./AddCarComponent":161,"./AddEventComponent":162,"./EditCarComponent":163,"react":160}],169:[function(require,module,exports){
 'use strict';
 Parse.initialize('u0gLvnJkdRJJehZdZM1yjsdXQ5UBUDpMNYW8XwT2', 'J1ZNtYR0d27pbIEhWIaAE9ZN5OTqwhuqXxaU22QQ');
 var React = require('react');
@@ -31987,15 +32099,21 @@ var NavigationComponent = require('./components/NavigationComponent');
 var HomePageComponent = require('./components/HomePageComponent');
 var RegisterLoginComponent = require('./components/RegisterLoginComponent');
 var UserPageComponent = require('./components/UserPageComponent');
+var LandingPageComponent = require('./components/LandingPageComponent');
 window.$ = require('jquery');
 window.jQuery = $;
 
 var Router = Backbone.Router.extend({
 	routes: {
+		'': 'landing',
 		'home': 'home',
 		'register': 'registerLogin',
-		'login': 'resgisterLogin',
-		'user/:id': 'userPage'
+		'login': 'registerLogin',
+		'user/:id': 'userPage',
+		'logOut': 'logOut'
+	},
+	landing: function landing() {
+		ReactDOM.render(React.createElement(LandingPageComponent, { router: r }), App);
 	},
 	home: function home() {
 		ReactDOM.render(React.createElement(HomePageComponent, { router: r }), App);
@@ -32005,13 +32123,17 @@ var Router = Backbone.Router.extend({
 	},
 	userPage: function userPage(id) {
 		ReactDOM.render(React.createElement(UserPageComponent, { userId: id }), App);
+	},
+	logOut: function logOut() {
+		Parse.User.logOut();
+		this.navigate('', { trigger: true });
 	}
 });
 var r = new Router();
 Backbone.history.start();
 ReactDOM.render(React.createElement(NavigationComponent, { router: r }), document.getElementById('nav'));
 
-},{"./components/HomePageComponent":161,"./components/NavigationComponent":162,"./components/RegisterLoginComponent":163,"./components/UserPageComponent":164,"backbone":1,"jquery":4,"react":160,"react-dom":5}]},{},[165])
+},{"./components/HomePageComponent":164,"./components/LandingPageComponent":165,"./components/NavigationComponent":166,"./components/RegisterLoginComponent":167,"./components/UserPageComponent":168,"backbone":1,"jquery":4,"react":160,"react-dom":5}]},{},[169])
 
 
 //# sourceMappingURL=bundle.js.map
