@@ -57,7 +57,6 @@ module.exports = React.createClass({
 						<label>Rear Tire Size</label>
 						<input type="text" className="form-control" ref="rearTireSize" placeholder="315/30/18" />
 					</div>
-					<input type="filepicker" data-fp-apikey="AttpdoWEyRR2zL1yUKA3Zz" onchange="alert(event.fpfile.url)"/>
 					<button type="submit" className="btn btn-default">Add Car!</button>
 				</form>
 			)

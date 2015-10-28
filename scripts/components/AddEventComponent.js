@@ -5,22 +5,33 @@ var ImageModel = require('../models/ImageModel');
 var TireSetModel = require('../models/TireSetModel');
 
 module.exports = React.createClass({
-	getIntialState: function() {
-		return({
+	getInitialState: function() {
+		return {
 			cars: [],
-			tires: []
-		})
+			tires: null
+		}
 	},
 	componentWillMount: function() {
-		
+		var query = new Parse.Query(CarModel);
+		query.find().then( (cars) => {
+			this.setState({cars: cars});
+			},
+			(err) => {
+				console.log(err);
+		})
 	},
 	render: function() {
+		var carOptions = this.state.cars.map(function(car) {
+			return(
+				<option value={car.id} key={car.id}>{car.get('make')+ ' - '+car.get('model')}</option>
+			)
+		})
 		return(
 			<form className="loginForm" onSubmit={this.addEvent}>
 				<div className="form-group">
 					<label>Select Your Car</label>
-					<select>
-						<option></option>
+					<select className="form-control" onChange={this.getTires} ref="carPick">
+						{carOptions}
 					</select>
 				</div>
 				<div className="form-group">					
@@ -47,15 +58,27 @@ module.exports = React.createClass({
 					<label>Video Link</label>
 					<input type="url" className="form-control" ref="videoLink" placeholder="http://videolink" />
 				</div>
-				<input type="file" ref="tirePic"/>
-				<button type="submit" className="btn btn-default">Add Event!</button>
+				<div className="form-group">
+					<label>Upload Tire Photo</label>
+					<input type="file" ref="tirePic"/>
+				</div>
+					<button type="submit" className="btn btn-default">Add Event!</button>
 			</form>			
 		)
+	},
+	getTires: function() {
+		var car = this.refs.carPick.value;
+		var query = new Parse.Query(TireSetModel);
+		query.equalTo('car', new CarModel({objectId: car}))
+		query.find().then( (tires) => {
+			this.setState({tires: tires});
+		})
 	},
 	addEvent: function(e) {
 		e.preventDefault();
 		var NumberOfRuns = parseInt(this.refs.numberOfRuns.value);
 		var CourseLength = parseInt(this.refs.courseLength.value);
+		var tires = this.state.tires;
 		var image = this.refs.tirePic.files[0];
 		var file = new Parse.File('photo.jpg', image);
 		var imageModel = new ImageModel();
@@ -65,9 +88,10 @@ module.exports = React.createClass({
 			surface: this.refs.surface.value,
 			courseLength: CourseLength,
 			numberOfRuns: NumberOfRuns
-			
 		})
 		imageModel.set('image', file);
+		tires[0].increment('runs', NumberOfRuns);
+		tires[0].save();
 		imageModel.save();
 		Event.save();
 	},

@@ -31838,7 +31838,6 @@ module.exports = React.createClass({
 				),
 				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearTireSize', placeholder: '315/30/18' })
 			),
-			React.createElement('input', { type: 'filepicker', 'data-fp-apikey': 'AttpdoWEyRR2zL1yUKA3Zz', onchange: 'alert(event.fpfile.url)' }),
 			React.createElement(
 				'button',
 				{ type: 'submit', className: 'btn btn-default' },
@@ -31893,14 +31892,30 @@ var TireSetModel = require('../models/TireSetModel');
 module.exports = React.createClass({
 	displayName: 'exports',
 
-	getIntialState: function getIntialState() {
+	getInitialState: function getInitialState() {
 		return {
 			cars: [],
-			tires: []
+			tires: null
 		};
 	},
-	componentWillMount: function componentWillMount() {},
+	componentWillMount: function componentWillMount() {
+		var _this = this;
+
+		var query = new Parse.Query(CarModel);
+		query.find().then(function (cars) {
+			_this.setState({ cars: cars });
+		}, function (err) {
+			console.log(err);
+		});
+	},
 	render: function render() {
+		var carOptions = this.state.cars.map(function (car) {
+			return React.createElement(
+				'option',
+				{ value: car.id, key: car.id },
+				car.get('make') + ' - ' + car.get('model')
+			);
+		});
 		return React.createElement(
 			'form',
 			{ className: 'loginForm', onSubmit: this.addEvent },
@@ -31914,8 +31929,8 @@ module.exports = React.createClass({
 				),
 				React.createElement(
 					'select',
-					null,
-					React.createElement('option', null)
+					{ className: 'form-control', onChange: this.getTires, ref: 'carPick' },
+					carOptions
 				)
 			),
 			React.createElement(
@@ -31978,7 +31993,16 @@ module.exports = React.createClass({
 				),
 				React.createElement('input', { type: 'url', className: 'form-control', ref: 'videoLink', placeholder: 'http://videolink' })
 			),
-			React.createElement('input', { type: 'file', ref: 'tirePic' }),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Upload Tire Photo'
+				),
+				React.createElement('input', { type: 'file', ref: 'tirePic' })
+			),
 			React.createElement(
 				'button',
 				{ type: 'submit', className: 'btn btn-default' },
@@ -31986,10 +32010,21 @@ module.exports = React.createClass({
 			)
 		);
 	},
+	getTires: function getTires() {
+		var _this2 = this;
+
+		var car = this.refs.carPick.value;
+		var query = new Parse.Query(TireSetModel);
+		query.equalTo('car', new CarModel({ objectId: car }));
+		query.find().then(function (tires) {
+			_this2.setState({ tires: tires });
+		});
+	},
 	addEvent: function addEvent(e) {
 		e.preventDefault();
 		var NumberOfRuns = parseInt(this.refs.numberOfRuns.value);
 		var CourseLength = parseInt(this.refs.courseLength.value);
+		var tires = this.state.tires;
 		var image = this.refs.tirePic.files[0];
 		var file = new Parse.File('photo.jpg', image);
 		var imageModel = new ImageModel();
@@ -31999,9 +32034,10 @@ module.exports = React.createClass({
 			surface: this.refs.surface.value,
 			courseLength: CourseLength,
 			numberOfRuns: NumberOfRuns
-
 		});
 		imageModel.set('image', file);
+		tires[0].increment('runs', NumberOfRuns);
+		tires[0].save();
 		imageModel.save();
 		Event.save();
 	}
