@@ -31881,20 +31881,43 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/CarModel":170,"../models/TireSetModel":172,"react":160}],162:[function(require,module,exports){
+},{"../models/CarModel":170,"../models/TireSetModel":173,"react":160}],162:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var EventModel = require('../models/EventModel');
 var CarModel = require('../models/CarModel');
+var ImageModel = require('../models/ImageModel');
+var TireSetModel = require('../models/TireSetModel');
 
 module.exports = React.createClass({
 	displayName: 'exports',
 
+	getIntialState: function getIntialState() {
+		return {
+			cars: [],
+			tires: []
+		};
+	},
+	componentWillMount: function componentWillMount() {},
 	render: function render() {
 		return React.createElement(
 			'form',
 			{ className: 'loginForm', onSubmit: this.addEvent },
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Select Your Car'
+				),
+				React.createElement(
+					'select',
+					null,
+					React.createElement('option', null)
+				)
+			),
 			React.createElement(
 				'div',
 				{ className: 'form-group' },
@@ -31915,7 +31938,47 @@ module.exports = React.createClass({
 				),
 				React.createElement('input', { type: 'text', className: 'form-control', ref: 'weather', placeholder: '80 degrees and sunny' })
 			),
-			React.createElement('input', { type: 'filepicker', 'data-fp-apikey': 'AttpdoWEyRR2zL1yUKA3Zz', onchange: 'alert(event.fpfile.url)' }),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Surface Type'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'surface', placeholder: 'Concrete' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Course Length'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'courseLength', placeholder: '56 seconds' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Number Of Runs'
+				),
+				React.createElement('input', { type: 'number', className: 'form-control', ref: 'numberOfRuns', placeholder: '5' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Video Link'
+				),
+				React.createElement('input', { type: 'url', className: 'form-control', ref: 'videoLink', placeholder: 'http://videolink' })
+			),
+			React.createElement('input', { type: 'file', ref: 'tirePic' }),
 			React.createElement(
 				'button',
 				{ type: 'submit', className: 'btn btn-default' },
@@ -31925,15 +31988,27 @@ module.exports = React.createClass({
 	},
 	addEvent: function addEvent(e) {
 		e.preventDefault();
+		var NumberOfRuns = parseInt(this.refs.numberOfRuns.value);
+		var CourseLength = parseInt(this.refs.courseLength.value);
+		var image = this.refs.tirePic.files[0];
+		var file = new Parse.File('photo.jpg', image);
+		var imageModel = new ImageModel();
 		var Event = new EventModel({
 			location: this.refs.location.value,
-			weather: this.refs.weather.value
+			weather: this.refs.weather.value,
+			surface: this.refs.surface.value,
+			courseLength: CourseLength,
+			numberOfRuns: NumberOfRuns
+
 		});
+		imageModel.set('image', file);
+		imageModel.save();
 		Event.save();
 	}
+
 });
 
-},{"../models/CarModel":170,"../models/EventModel":171,"react":160}],163:[function(require,module,exports){
+},{"../models/CarModel":170,"../models/EventModel":171,"../models/ImageModel":172,"../models/TireSetModel":173,"react":160}],163:[function(require,module,exports){
 "use strict";
 
 },{}],164:[function(require,module,exports){
@@ -32358,6 +32433,13 @@ module.exports = Parse.Object.extend({
 });
 
 },{}],172:[function(require,module,exports){
+'use strict';
+
+module.exports = Parse.Object.extend({
+	className: 'Image'
+});
+
+},{}],173:[function(require,module,exports){
 'use strict';
 
 module.exports = Parse.Object.extend({
