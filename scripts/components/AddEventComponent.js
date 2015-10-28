@@ -60,15 +60,16 @@ module.exports = React.createClass({
 				</div>
 				<div className="form-group">
 					<label>Upload Tire Photo</label>
-					<input type="file" ref="tirePic"/>
+					<input type="file" className="form-control" ref="tirePic"/>
 				</div>
 					<button type="submit" className="btn btn-default">Add Event!</button>
 			</form>			
 		)
 	},
 	getTires: function() {
-		var car = this.refs.carPick.value;
+		var car = (this.refs.carPick.value);
 		var query = new Parse.Query(TireSetModel);
+		query.include('car');
 		query.equalTo('car', new CarModel({objectId: car}))
 		query.find().then( (tires) => {
 			this.setState({tires: tires});
@@ -79,23 +80,28 @@ module.exports = React.createClass({
 		var NumberOfRuns = parseInt(this.refs.numberOfRuns.value);
 		var CourseLength = parseInt(this.refs.courseLength.value);
 		var tires = this.state.tires;
+		var car = tires[0].get('car');
 		var image = this.refs.tirePic.files[0];
 		var file = new Parse.File('photo.jpg', image);
-		var imageModel = new ImageModel();
+		var imageModel = new ImageModel({
+			image: file,
+			tires: tires[0]
+		})
 		var Event = new EventModel({
 			location: this.refs.location.value,
 			weather: this.refs.weather.value,
 			surface: this.refs.surface.value,
 			courseLength: CourseLength,
-			numberOfRuns: NumberOfRuns
+			numberOfRuns: NumberOfRuns,
+			car: car,
+			tires: tires[0]
 		})
-		imageModel.set('image', file);
-		tires[0].increment('runs', NumberOfRuns);
-		tires[0].save();
+		console.log(tires)
 		imageModel.save();
 		Event.save();
-	},
-
+		tires[0].increment('runs', NumberOfRuns);
+		tires[0].save();
+	}
 })
 
 
