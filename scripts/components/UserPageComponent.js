@@ -2,6 +2,7 @@ var React = require('react');
 var AddCarComponent = require('./AddCarComponent');
 var AddEventComponent = require('./AddEventComponent');
 var EditCarComponent = require('./EditCarComponent');
+var AddUpdateTireComponent = require('./AddUpdateTireComponent');
 var Backbone = require('backbone');
 var _ = require('../../node_modules/backbone/node_modules/underscore/underscore-min.js');
 
@@ -52,6 +53,17 @@ module.exports = React.createClass({
                         </div>
                     </div>     
 		        </div>
+		          <div className="col-xs-6 col-sm-3 col-md-4">
+		            <h3></h3>
+		            <button type="button" className="btn btn-primary" onClick={this.onAddTireModal}>Add/Update Tire Info</button>
+                    <div ref="addTireBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                        <div className="modal-dialog modal-lg">
+                            <div className="modal-content">
+                                <AddUpdateTireComponent dispatcher={this.dispatcher} userId={this.props.userId}/>
+                            </div>
+                        </div>
+                    </div>     
+		        </div>
 		    </div>
 		)
 	},
@@ -63,6 +75,9 @@ module.exports = React.createClass({
     },
     onEditCarModal: function() {
         $(this.refs.editCarBox).modal('show');       
+    },
+    onAddTireModal: function() {
+    	$(this.refs.addTireBox).modal('show'); 
     },
     onCarAdded: function() {
     	$(this.refs.addCarBox).modal('hide');

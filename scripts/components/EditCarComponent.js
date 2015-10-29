@@ -66,60 +66,26 @@ module.exports = React.createClass({
 						<label>Rear Wheel Size</label>
 						<input type="text" className="form-control" ref="rearWheelSize" placeholder="18X12" />
 					</div>
-					<div className="form-group">					
-						<label>Tire Brand</label>
-						<input type="text" className="form-control" ref="brand" placeholder="Hoosier" />
-					</div>
-					<div className="form-group">					
-						<label>Tire Model</label>
-						<input type="text" className="form-control" ref="tireModel" placeholder="A7" />
-					</div>
-					<div className="form-group">					
-						<label>Front Tire Size</label>
-						<input type="text" className="form-control" ref="frontTireSize" placeholder="295/35/18" />
-					</div>
-					<div className="form-group">					
-						<label>Rear Tire Size</label>
-						<input type="text" className="form-control" ref="rearTireSize" placeholder="315/30/18" />
-					</div>
-					<div className="form-group">					
-						<label>Tire Set Condition</label>
-						<input type="text" className="form-control" ref="tireCondition" placeholder="Scuffed" />
-					</div>
-					<div className="form-group">					
-						<label>Tread Depth</label>
-						<input type="text" className="form-control" ref="treadDepth" placeholder="5/32" />
-					</div>
 					<button type="submit" className="btn btn-default">Save Car Info!</button>
 				</form>
 			)
 	},
 	getCarInfo: function() {
-		var car = this.refs.carPick.value;
-		var query = new Parse.Query(TireSetModel);
-		query.include('car');
-		query.equalTo('car', new CarModel({objectId: car}))
-		query.find().then( (tires) => {
-			this.setState({tires: tires});
-		}).then( () => {
-			var tires = this.state.tires[0];
-			var car = this.state.tires[0].get('car');
-			this.refs.make.value = car.get('make');
-			this.refs.model.value = car.get('model');
-			this.refs.year.value = car.get('year');
-			this.refs.carClass.value = car.get('carClass');
-			this.refs.weight.value = car.get('weight');
-			this.refs.color.value = car.get('color');
-			this.refs.frontWheelSize.value = car.get('frontWheelSize');
-			this.refs.rearWheelSize.value = car.get('rearWheelSize');
-			this.refs.brand.value = tires.get('brand');
-			this.refs.tireModel.value = tires.get('tireModel');
-			this.refs.frontTireSize.value = tires.get('frontTireSize');
-			this.refs.rearTireSize.value = tires.get('rearTireSize');
-			this.refs.tireCondition.value = tires.get('tireCondition');
-			this.refs.treadDepth.value = tires.get('treadDepth');
-		})
-
+		var carId = this.refs.carPick.value;
+		var car = null;
+		this.state.cars.map(function(Car) {
+			if(carId === Car.id) {
+				car = Car;
+			}
+		})	
+		this.refs.make.value = car.get('make');
+		this.refs.model.value = car.get('model');
+		this.refs.year.value = car.get('year');
+		this.refs.carClass.value = car.get('carClass');
+		this.refs.weight.value = car.get('weight');
+		this.refs.color.value = car.get('color');
+		this.refs.frontWheelSize.value = car.get('frontWheelSize');
+		this.refs.rearWheelSize.value = car.get('rearWheelSize');
 	},
 	saveCarInfo: function() {
 

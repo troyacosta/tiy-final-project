@@ -31806,66 +31806,6 @@ module.exports = React.createClass({
 				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearWheelSize', placeholder: '18X12' })
 			),
 			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Tire Brand'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'brand', placeholder: 'Hoosier' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Tire Model'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'tireModel', placeholder: 'A7' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Front Tire Size'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'frontTireSize', placeholder: '295/35/18' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Rear Tire Size'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearTireSize', placeholder: '315/30/18' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Tire Set Condition'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'tireCondition', placeholder: 'Scuffed' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Tread Depth'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'treadDepth', placeholder: '5/32' })
-			),
-			React.createElement(
 				'button',
 				{ type: 'submit', className: 'btn btn-default' },
 				'Add Car!'
@@ -31889,29 +31829,13 @@ module.exports = React.createClass({
 			rearWheelSize: this.refs.rearWheelSize.value,
 			user: Parse.User.current()
 		});
-		Car.save(null, {
-			success: function success(Car) {
-				var Tires = new TireSetModel({
-					brand: _this.refs.brand.value,
-					model: _this.refs.tireModel.value,
-					frontTireSize: _this.refs.frontTireSize.value,
-					rearTireSize: _this.refs.rearTireSize.value,
-					treadDepth: _this.refs.treadDepth.value,
-					startingCondition: _this.refs.tireCondition.value,
-					car: Car
-				});
-				Tires.save().then(function () {
-					return _this.props.dispatcher.trigger('carAdded');
-				});
-			},
-			error: function error(Car, _error) {
-				console.log(_error);
-			}
+		Car.save().then(function () {
+			return _this.props.dispatcher.trigger('carAdded');
 		});
 	}
 });
 
-},{"../models/CarModel":171,"../models/TireSetModel":174,"react":161}],163:[function(require,module,exports){
+},{"../models/CarModel":172,"../models/TireSetModel":175,"react":161}],163:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -32086,7 +32010,147 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/CarModel":171,"../models/EventModel":172,"../models/ImageModel":173,"../models/TireSetModel":174,"react":161}],164:[function(require,module,exports){
+},{"../models/CarModel":172,"../models/EventModel":173,"../models/ImageModel":174,"../models/TireSetModel":175,"react":161}],164:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var CarModel = require('../models/CarModel');
+var TireSetModel = require('../models/TireSetModel');
+
+module.exports = React.createClass({
+	displayName: 'exports',
+
+	getInitialState: function getInitialState() {
+		return {
+			cars: []
+		};
+	},
+	componentWillMount: function componentWillMount() {
+		var _this = this;
+
+		var query = new Parse.Query(CarModel);
+		query.equalTo('user', new Parse.User({ objectId: this.props.userId }));
+		query.find().then(function (cars) {
+			_this.setState({ cars: cars });
+		}, function (err) {
+			console.log(err);
+		});
+	},
+	render: function render() {
+		var carOptions = this.state.cars.map(function (car) {
+			return React.createElement(
+				'option',
+				{ value: car.id, key: car.id },
+				car.get('make') + ' - ' + car.get('model')
+			);
+		});
+		return React.createElement(
+			'form',
+			{ className: 'addTireForm', onSubmit: this.saveTireInfo },
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Select Your Car'
+				),
+				React.createElement(
+					'select',
+					{ className: 'form-control', onChange: this.getCarTireInfo, ref: 'carPick' },
+					carOptions
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Tire Brand'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'brand', placeholder: 'Hoosier' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Tire Model'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'tireModel', placeholder: 'A7' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Front Tire Size'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'frontTireSize', placeholder: '295/35/18' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Rear Tire Size'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearTireSize', placeholder: '315/30/18' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Tire Set Condition'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'tireCondition', placeholder: 'Scuffed' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Tread Depth'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'treadDepth', placeholder: '5/32' })
+			),
+			React.createElement(
+				'button',
+				{ type: 'submit', className: 'btn btn-default' },
+				'Save Tire Info!'
+			)
+		);
+	},
+	getCarTireInfo: function getCarTireInfo(e) {
+		var _this2 = this;
+
+		e.preventDefault();
+		var car = this.refs.carPick.value;
+		var query = new Parse.Query(TireSetModel);
+		query.include('car');
+		query.equalTo('car', new CarModel({ objectId: car }));
+		query.find().then(function (tires) {
+			_this2.setState({ tires: tires });
+		}).then(function () {
+			var tires = _this2.state.tires[0];
+			_this2.refs.brand.value = tires.get('brand');
+			_this2.refs.tireModel.value = tires.get('model');
+			_this2.refs.frontTireSize.value = tires.get('frontTireSize');
+			_this2.refs.rearTireSize.value = tires.get('rearTireSize');
+			_this2.refs.tireCondition.value = tires.get('tireCondition');
+			_this2.refs.treadDepth.value = tires.get('treadDepth');
+		});
+	}
+});
+
+},{"../models/CarModel":172,"../models/TireSetModel":175,"react":161}],165:[function(require,module,exports){
 //this component will give the user the ability to edit information about their cars and then save
 //those changes.
 'use strict';
@@ -32220,66 +32284,6 @@ module.exports = React.createClass({
 				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearWheelSize', placeholder: '18X12' })
 			),
 			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Tire Brand'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'brand', placeholder: 'Hoosier' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Tire Model'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'tireModel', placeholder: 'A7' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Front Tire Size'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'frontTireSize', placeholder: '295/35/18' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Rear Tire Size'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearTireSize', placeholder: '315/30/18' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Tire Set Condition'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'tireCondition', placeholder: 'Scuffed' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Tread Depth'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'treadDepth', placeholder: '5/32' })
-			),
-			React.createElement(
 				'button',
 				{ type: 'submit', className: 'btn btn-default' },
 				'Save Car Info!'
@@ -32287,37 +32291,26 @@ module.exports = React.createClass({
 		);
 	},
 	getCarInfo: function getCarInfo() {
-		var _this2 = this;
-
-		var car = this.refs.carPick.value;
-		var query = new Parse.Query(TireSetModel);
-		query.include('car');
-		query.equalTo('car', new CarModel({ objectId: car }));
-		query.find().then(function (tires) {
-			_this2.setState({ tires: tires });
-		}).then(function () {
-			var tires = _this2.state.tires[0];
-			var car = _this2.state.tires[0].get('car');
-			_this2.refs.make.value = car.get('make');
-			_this2.refs.model.value = car.get('model');
-			_this2.refs.year.value = car.get('year');
-			_this2.refs.carClass.value = car.get('carClass');
-			_this2.refs.weight.value = car.get('weight');
-			_this2.refs.color.value = car.get('color');
-			_this2.refs.frontWheelSize.value = car.get('frontWheelSize');
-			_this2.refs.rearWheelSize.value = car.get('rearWheelSize');
-			_this2.refs.brand.value = tires.get('brand');
-			_this2.refs.tireModel.value = tires.get('tireModel');
-			_this2.refs.frontTireSize.value = tires.get('frontTireSize');
-			_this2.refs.rearTireSize.value = tires.get('rearTireSize');
-			_this2.refs.tireCondition.value = tires.get('tireCondition');
-			_this2.refs.treadDepth.value = tires.get('treadDepth');
+		var carId = this.refs.carPick.value;
+		var car = null;
+		this.state.cars.map(function (Car) {
+			if (carId === Car.id) {
+				car = Car;
+			}
 		});
+		this.refs.make.value = car.get('make');
+		this.refs.model.value = car.get('model');
+		this.refs.year.value = car.get('year');
+		this.refs.carClass.value = car.get('carClass');
+		this.refs.weight.value = car.get('weight');
+		this.refs.color.value = car.get('color');
+		this.refs.frontWheelSize.value = car.get('frontWheelSize');
+		this.refs.rearWheelSize.value = car.get('rearWheelSize');
 	},
 	saveCarInfo: function saveCarInfo() {}
 });
 
-},{"../models/CarModel":171,"../models/TireSetModel":174,"react":161}],165:[function(require,module,exports){
+},{"../models/CarModel":172,"../models/TireSetModel":175,"react":161}],166:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -32334,7 +32327,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":161}],166:[function(require,module,exports){
+},{"react":161}],167:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -32351,7 +32344,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":161}],167:[function(require,module,exports){
+},{"react":161}],168:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -32462,7 +32455,7 @@ module.exports = React.createClass({
 
 });
 
-},{"backbone":1,"react":161}],168:[function(require,module,exports){
+},{"backbone":1,"react":161}],169:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -32607,125 +32600,152 @@ module.exports = React.createClass({
 	}
 });
 
-},{"backbone":1,"react":161}],169:[function(require,module,exports){
+},{"backbone":1,"react":161}],170:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var AddCarComponent = require('./AddCarComponent');
 var AddEventComponent = require('./AddEventComponent');
 var EditCarComponent = require('./EditCarComponent');
+var AddUpdateTireComponent = require('./AddUpdateTireComponent');
 var Backbone = require('backbone');
 var _ = require('../../node_modules/backbone/node_modules/underscore/underscore-min.js');
 
 module.exports = React.createClass({
-				displayName: 'exports',
+    displayName: 'exports',
 
-				componentWillMount: function componentWillMount() {
-								var _this = this;
+    componentWillMount: function componentWillMount() {
+        var _this = this;
 
-								this.dispatcher = {};
-								_.extend(this.dispatcher, Backbone.Events);
-								this.dispatcher.on('carAdded', function () {
-												_this.onCarAdded();
-								});
-								this.dispatcher.on('eventAdded', function () {
-												_this.onEventAdded();
-								});
-				},
-				render: function render() {
-								return React.createElement(
-												'div',
-												null,
-												React.createElement(
-																'div',
-																{ className: 'col-xs-6 col-sm-3 col-md-4' },
-																React.createElement('h3', null),
-																React.createElement(
-																				'button',
-																				{ type: 'button', className: 'btn btn-primary', onClick: this.onAddCarModal },
-																				'Add Car'
-																),
-																React.createElement(
-																				'div',
-																				{ ref: 'addCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-																				React.createElement(
-																								'div',
-																								{ className: 'modal-dialog modal-lg' },
-																								React.createElement(
-																												'div',
-																												{ className: 'modal-content' },
-																												React.createElement(AddCarComponent, { dispatcher: this.dispatcher })
-																								)
-																				)
-																)
-												),
-												React.createElement(
-																'div',
-																{ className: 'col-xs-6 col-sm-3 col-md-4' },
-																React.createElement('h3', null),
-																React.createElement(
-																				'button',
-																				{ type: 'button', className: 'btn btn-primary', onClick: this.onAddEventModal },
-																				'Add Event'
-																),
-																React.createElement(
-																				'div',
-																				{ ref: 'addEventBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-																				React.createElement(
-																								'div',
-																								{ className: 'modal-dialog modal-lg' },
-																								React.createElement(
-																												'div',
-																												{ className: 'modal-content' },
-																												React.createElement(AddEventComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
-																								)
-																				)
-																)
-												),
-												React.createElement(
-																'div',
-																{ className: 'col-xs-6 col-sm-3 col-md-4' },
-																React.createElement('h3', null),
-																React.createElement(
-																				'button',
-																				{ type: 'button', className: 'btn btn-primary', onClick: this.onEditCarModal },
-																				'Edit Car Info'
-																),
-																React.createElement(
-																				'div',
-																				{ ref: 'editCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-																				React.createElement(
-																								'div',
-																								{ className: 'modal-dialog modal-lg' },
-																								React.createElement(
-																												'div',
-																												{ className: 'modal-content' },
-																												React.createElement(EditCarComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
-																								)
-																				)
-																)
-												)
-								);
-				},
-				onAddCarModal: function onAddCarModal() {
-								$(this.refs.addCarBox).modal('show');
-				},
-				onAddEventModal: function onAddEventModal() {
-								$(this.refs.addEventBox).modal('show');
-				},
-				onEditCarModal: function onEditCarModal() {
-								$(this.refs.editCarBox).modal('show');
-				},
-				onCarAdded: function onCarAdded() {
-								$(this.refs.addCarBox).modal('hide');
-				},
-				onEventAdded: function onEventAdded() {
-								$(this.refs.addEventBox).modal('hide');
-				}
+        this.dispatcher = {};
+        _.extend(this.dispatcher, Backbone.Events);
+        this.dispatcher.on('carAdded', function () {
+            _this.onCarAdded();
+        });
+        this.dispatcher.on('eventAdded', function () {
+            _this.onEventAdded();
+        });
+    },
+    render: function render() {
+        return React.createElement(
+            'div',
+            null,
+            React.createElement(
+                'div',
+                { className: 'col-xs-6 col-sm-3 col-md-4' },
+                React.createElement('h3', null),
+                React.createElement(
+                    'button',
+                    { type: 'button', className: 'btn btn-primary', onClick: this.onAddCarModal },
+                    'Add Car'
+                ),
+                React.createElement(
+                    'div',
+                    { ref: 'addCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+                    React.createElement(
+                        'div',
+                        { className: 'modal-dialog modal-lg' },
+                        React.createElement(
+                            'div',
+                            { className: 'modal-content' },
+                            React.createElement(AddCarComponent, { dispatcher: this.dispatcher })
+                        )
+                    )
+                )
+            ),
+            React.createElement(
+                'div',
+                { className: 'col-xs-6 col-sm-3 col-md-4' },
+                React.createElement('h3', null),
+                React.createElement(
+                    'button',
+                    { type: 'button', className: 'btn btn-primary', onClick: this.onAddEventModal },
+                    'Add Event'
+                ),
+                React.createElement(
+                    'div',
+                    { ref: 'addEventBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+                    React.createElement(
+                        'div',
+                        { className: 'modal-dialog modal-lg' },
+                        React.createElement(
+                            'div',
+                            { className: 'modal-content' },
+                            React.createElement(AddEventComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
+                        )
+                    )
+                )
+            ),
+            React.createElement(
+                'div',
+                { className: 'col-xs-6 col-sm-3 col-md-4' },
+                React.createElement('h3', null),
+                React.createElement(
+                    'button',
+                    { type: 'button', className: 'btn btn-primary', onClick: this.onEditCarModal },
+                    'Edit Car Info'
+                ),
+                React.createElement(
+                    'div',
+                    { ref: 'editCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+                    React.createElement(
+                        'div',
+                        { className: 'modal-dialog modal-lg' },
+                        React.createElement(
+                            'div',
+                            { className: 'modal-content' },
+                            React.createElement(EditCarComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
+                        )
+                    )
+                )
+            ),
+            React.createElement(
+                'div',
+                { className: 'col-xs-6 col-sm-3 col-md-4' },
+                React.createElement('h3', null),
+                React.createElement(
+                    'button',
+                    { type: 'button', className: 'btn btn-primary', onClick: this.onAddTireModal },
+                    'Add/Update Tire Info'
+                ),
+                React.createElement(
+                    'div',
+                    { ref: 'addTireBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+                    React.createElement(
+                        'div',
+                        { className: 'modal-dialog modal-lg' },
+                        React.createElement(
+                            'div',
+                            { className: 'modal-content' },
+                            React.createElement(AddUpdateTireComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
+                        )
+                    )
+                )
+            )
+        );
+    },
+    onAddCarModal: function onAddCarModal() {
+        $(this.refs.addCarBox).modal('show');
+    },
+    onAddEventModal: function onAddEventModal() {
+        $(this.refs.addEventBox).modal('show');
+    },
+    onEditCarModal: function onEditCarModal() {
+        $(this.refs.editCarBox).modal('show');
+    },
+    onAddTireModal: function onAddTireModal() {
+        $(this.refs.addTireBox).modal('show');
+    },
+    onCarAdded: function onCarAdded() {
+        $(this.refs.addCarBox).modal('hide');
+    },
+    onEventAdded: function onEventAdded() {
+        $(this.refs.addEventBox).modal('hide');
+    }
 
 });
 
-},{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"./AddCarComponent":162,"./AddEventComponent":163,"./EditCarComponent":164,"backbone":1,"react":161}],170:[function(require,module,exports){
+},{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"./AddCarComponent":162,"./AddEventComponent":163,"./AddUpdateTireComponent":164,"./EditCarComponent":165,"backbone":1,"react":161}],171:[function(require,module,exports){
 'use strict';
 Parse.initialize('u0gLvnJkdRJJehZdZM1yjsdXQ5UBUDpMNYW8XwT2', 'J1ZNtYR0d27pbIEhWIaAE9ZN5OTqwhuqXxaU22QQ');
 var React = require('react');
@@ -32770,35 +32790,35 @@ var r = new Router();
 Backbone.history.start();
 ReactDOM.render(React.createElement(NavigationComponent, { router: r }), document.getElementById('nav'));
 
-},{"./components/HomePageComponent":165,"./components/LandingPageComponent":166,"./components/NavigationComponent":167,"./components/RegisterLoginComponent":168,"./components/UserPageComponent":169,"backbone":1,"jquery":5,"react":161,"react-dom":6}],171:[function(require,module,exports){
+},{"./components/HomePageComponent":166,"./components/LandingPageComponent":167,"./components/NavigationComponent":168,"./components/RegisterLoginComponent":169,"./components/UserPageComponent":170,"backbone":1,"jquery":5,"react":161,"react-dom":6}],172:[function(require,module,exports){
 'use strict';
 
 module.exports = Parse.Object.extend({
 	className: 'Car'
 });
 
-},{}],172:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 'use strict';
 
 module.exports = Parse.Object.extend({
 	className: 'Event'
 });
 
-},{}],173:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 'use strict';
 
 module.exports = Parse.Object.extend({
 	className: 'Image'
 });
 
-},{}],174:[function(require,module,exports){
+},{}],175:[function(require,module,exports){
 'use strict';
 
 module.exports = Parse.Object.extend({
 	className: 'Tires'
 });
 
-},{}]},{},[170])
+},{}]},{},[171])
 
 
 //# sourceMappingURL=bundle.js.map
