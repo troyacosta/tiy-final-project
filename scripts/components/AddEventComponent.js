@@ -13,6 +13,7 @@ module.exports = React.createClass({
 	},
 	componentWillMount: function() {
 		var query = new Parse.Query(CarModel);
+		query.equalTo('user', new Parse.User({objectId: this.props.userId}));
 		query.find().then( (cars) => {
 			this.setState({cars: cars});
 			},
@@ -96,7 +97,6 @@ module.exports = React.createClass({
 			car: car,
 			tires: tires[0]
 		})
-		console.log(tires)
 		imageModel.save();
 		Event.save();
 		tires[0].increment('runs', NumberOfRuns);

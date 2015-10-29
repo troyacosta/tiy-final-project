@@ -11,13 +11,13 @@ module.exports = React.createClass({
 		var currentUser = Parse.User.current();
 		var links = [];         
 		if(currentUser) {
-			links.push(<li><a href="#home">Home</a></li>);
-			links.push(<li><a href="#logOut">Log Out</a></li>);
-			links.push(<li><a href={'#user/'+currentUser.id}>{currentUser.get('firstName')} {currentUser.get('lastName')}</a></li>);
+			links.push(<li key="home"><a href="#home">Home</a></li>);
+			links.push(<li key="logOut"><a href="#logOut">Log Out</a></li>);
+			links.push(<li key="userName"><a href={'#user/'+currentUser.id}>{currentUser.get('firstName')} {currentUser.get('lastName')}</a></li>);
 		}
 		else {
-			links.push(<li><a href="#register">Register</a></li>);
-            links.push(<li><a href="#login">Log In</a></li>);
+			links.push(<li key="register"><a href="#register">Register</a></li>);
+            links.push(<li key="logIn"><a href="#login">Log In</a></li>);
 		}
 		return(
 			<nav className="navbar navbar-default navbar-custom navbar-fixed-top">

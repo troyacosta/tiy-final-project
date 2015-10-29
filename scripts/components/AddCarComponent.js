@@ -57,6 +57,14 @@ module.exports = React.createClass({
 						<label>Rear Tire Size</label>
 						<input type="text" className="form-control" ref="rearTireSize" placeholder="315/30/18" />
 					</div>
+					<div className="form-group">					
+						<label>Tire Set Condition</label>
+						<input type="text" className="form-control" ref="tireCondition" placeholder="Scuffed" />
+					</div>
+					<div className="form-group">					
+						<label>Tread Depth</label>
+						<input type="text" className="form-control" ref="treadDepth" placeholder="5/32" />
+					</div>
 					<button type="submit" className="btn btn-default">Add Car!</button>
 				</form>
 			)
@@ -83,6 +91,8 @@ module.exports = React.createClass({
 					model: this.refs.tireModel.value,
 					frontTireSize: this.refs.frontTireSize.value,
 					rearTireSize: this.refs.rearTireSize.value,
+					treadDepth: this.refs.treadDepth.value,
+					startingCondition: this.refs.tireCondition.value,
 					car: Car
 				});
 				Tires.save();			

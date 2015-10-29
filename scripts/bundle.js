@@ -31839,6 +31839,26 @@ module.exports = React.createClass({
 				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearTireSize', placeholder: '315/30/18' })
 			),
 			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Tire Set Condition'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'tireCondition', placeholder: 'Scuffed' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Tread Depth'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'treadDepth', placeholder: '5/32' })
+			),
+			React.createElement(
 				'button',
 				{ type: 'submit', className: 'btn btn-default' },
 				'Add Car!'
@@ -31869,6 +31889,8 @@ module.exports = React.createClass({
 					model: _this.refs.tireModel.value,
 					frontTireSize: _this.refs.frontTireSize.value,
 					rearTireSize: _this.refs.rearTireSize.value,
+					treadDepth: _this.refs.treadDepth.value,
+					startingCondition: _this.refs.tireCondition.value,
 					car: Car
 				});
 				Tires.save();
@@ -31902,6 +31924,7 @@ module.exports = React.createClass({
 		var _this = this;
 
 		var query = new Parse.Query(CarModel);
+		query.equalTo('user', new Parse.User({ objectId: this.props.userId }));
 		query.find().then(function (cars) {
 			_this.setState({ cars: cars });
 		}, function (err) {
@@ -32042,7 +32065,6 @@ module.exports = React.createClass({
 			car: car,
 			tires: tires[0]
 		});
-		console.log(tires);
 		imageModel.save();
 		Event.save();
 		tires[0].increment('runs', NumberOfRuns);
@@ -32109,7 +32131,7 @@ module.exports = React.createClass({
     if (currentUser) {
       links.push(React.createElement(
         'li',
-        null,
+        { key: 'home' },
         React.createElement(
           'a',
           { href: '#home' },
@@ -32118,7 +32140,7 @@ module.exports = React.createClass({
       ));
       links.push(React.createElement(
         'li',
-        null,
+        { key: 'logOut' },
         React.createElement(
           'a',
           { href: '#logOut' },
@@ -32127,7 +32149,7 @@ module.exports = React.createClass({
       ));
       links.push(React.createElement(
         'li',
-        null,
+        { key: 'userName' },
         React.createElement(
           'a',
           { href: '#user/' + currentUser.id },
@@ -32139,7 +32161,7 @@ module.exports = React.createClass({
     } else {
       links.push(React.createElement(
         'li',
-        null,
+        { key: 'register' },
         React.createElement(
           'a',
           { href: '#register' },
@@ -32148,7 +32170,7 @@ module.exports = React.createClass({
       ));
       links.push(React.createElement(
         'li',
-        null,
+        { key: 'logIn' },
         React.createElement(
           'a',
           { href: '#login' },
@@ -32369,7 +32391,7 @@ module.exports = React.createClass({
 																),
 																React.createElement(
 																				'div',
-																				{ ref: 'addCarBox', className: 'modal fade bs-example-modal-lg', tabindex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+																				{ ref: 'addCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
 																				React.createElement(
 																								'div',
 																								{ className: 'modal-dialog modal-lg' },
@@ -32392,14 +32414,14 @@ module.exports = React.createClass({
 																),
 																React.createElement(
 																				'div',
-																				{ ref: 'addEventBox', className: 'modal fade bs-example-modal-lg', tabindex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+																				{ ref: 'addEventBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
 																				React.createElement(
 																								'div',
 																								{ className: 'modal-dialog modal-lg' },
 																								React.createElement(
 																												'div',
 																												{ className: 'modal-content' },
-																												React.createElement(AddEventComponent, null)
+																												React.createElement(AddEventComponent, { userId: this.props.userId })
 																								)
 																				)
 																)
