@@ -94,13 +94,14 @@ module.exports = React.createClass({
 			surface: this.refs.surface.value,
 			courseLength: CourseLength,
 			numberOfRuns: NumberOfRuns,
+			videolink: this.refs.videolink.value,
 			car: car,
 			tires: tires[0]
 		})
 		imageModel.save();
 		Event.save();
 		tires[0].increment('runs', NumberOfRuns);
-		tires[0].save();
+		tires[0].save().then( () => this.props.dispatcher.trigger('eventAdded'));
 	}
 })
 

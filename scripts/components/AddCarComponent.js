@@ -95,7 +95,7 @@ module.exports = React.createClass({
 					startingCondition: this.refs.tireCondition.value,
 					car: Car
 				});
-				Tires.save();			
+				Tires.save().then(() => this.props.dispatcher.trigger('carAdded'));			
 			},
 			error: (Car, error) => {
 				console.log(error);
