@@ -1,5 +1,8 @@
 // this component has several other components passed into it for rendering. It will also display most of the user's information.
 var React = require('react');
+var EventModel = require('../models/EventModel');
+var CarModel = require('../models/CarModel');
+var TireSetModel = require('../models/TireSetModel')
 var AddCarComponent = require('./AddCarComponent');
 var AddEventComponent = require('./AddEventComponent');
 var EditCarComponent = require('./EditCarComponent');
@@ -8,7 +11,20 @@ var Backbone = require('backbone');
 var _ = require('../../node_modules/backbone/node_modules/underscore/underscore-min.js');
 
 module.exports = React.createClass({
+	getInitialState: function() {
+	    return ({
+	    	cars: [],
+	        events: []
+	    });
+	},
 	componentWillMount: function() {
+		var query = new Parse.Query(CarModel);
+		query.include('user');
+		query.equalTo('user', new Parse.User({objectId: this.props.userId}));
+		query.find().then( (cars) => {
+			this.setState({cars: cars});
+			console.log(this.state.cars)
+		})
 		this.dispatcher = {};
 		_.extend(this.dispatcher, Backbone.Events);
 		this.dispatcher.on('carAdded', () => {
@@ -25,8 +41,19 @@ module.exports = React.createClass({
 		})
 	},
 	render: function() {
+		console.log(this.state.cars);
+		var cars = this.state.cars.map( (car) => {
+			return(
+				<div className="col-xs-6 col-sm-3 col-md-4">
+					<div>{car.get('make')}</div>
+					<div>{car.get('model')}</div>
+				</div>)
+		})
 		return(
 			<div>
+				<div className="col-xs-6 col-sm-3 col-md-4">
+					{cars}
+				</div>
 				<div className="col-xs-6 col-sm-3 col-md-4">
 					<h3></h3>
 	                <button type="button" className="btn btn-primary" onClick={this.onAddCarModal}>Add Car</button>

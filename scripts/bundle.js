@@ -31855,6 +31855,7 @@ module.exports = React.createClass({
 			tires: null
 		};
 	},
+	//query to get all the cars that belong to the current user.
 	componentWillMount: function componentWillMount() {
 		var _this = this;
 
@@ -31978,6 +31979,8 @@ module.exports = React.createClass({
 			)
 		);
 	},
+	//function that gets the tires that are tied to the car that was selected, then sets the state to the
+	//correct set of tires.
 	getTires: function getTires() {
 		var _this2 = this;
 
@@ -31989,6 +31992,8 @@ module.exports = React.createClass({
 			_this2.setState({ tires: tires });
 		});
 	},
+	//function that collects all the information that was added from the event form and stores it in the
+	//appropriate models. This includes the event model, tire model, and image model
 	addEvent: function addEvent(e) {
 		var _this3 = this;
 
@@ -32649,6 +32654,9 @@ module.exports = React.createClass({
 'use strict';
 
 var React = require('react');
+var EventModel = require('../models/EventModel');
+var CarModel = require('../models/CarModel');
+var TireSetModel = require('../models/TireSetModel');
 var AddCarComponent = require('./AddCarComponent');
 var AddEventComponent = require('./AddEventComponent');
 var EditCarComponent = require('./EditCarComponent');
@@ -32657,151 +32665,186 @@ var Backbone = require('backbone');
 var _ = require('../../node_modules/backbone/node_modules/underscore/underscore-min.js');
 
 module.exports = React.createClass({
-    displayName: 'exports',
+				displayName: 'exports',
 
-    componentWillMount: function componentWillMount() {
-        var _this = this;
+				getInitialState: function getInitialState() {
+								return {
+												cars: [],
+												events: []
+								};
+				},
+				componentWillMount: function componentWillMount() {
+								var _this = this;
 
-        this.dispatcher = {};
-        _.extend(this.dispatcher, Backbone.Events);
-        this.dispatcher.on('carAdded', function () {
-            _this.onCarAdded();
-        });
-        this.dispatcher.on('eventAdded', function () {
-            _this.onEventAdded();
-        });
-        this.dispatcher.on('carEdited', function () {
-            _this.onCarEdited();
-        });
-        this.dispatcher.on('tiresUpdated', function () {
-            _this.onTiresUpdated();
-        });
-    },
-    render: function render() {
-        return React.createElement(
-            'div',
-            null,
-            React.createElement(
-                'div',
-                { className: 'col-xs-6 col-sm-3 col-md-4' },
-                React.createElement('h3', null),
-                React.createElement(
-                    'button',
-                    { type: 'button', className: 'btn btn-primary', onClick: this.onAddCarModal },
-                    'Add Car'
-                ),
-                React.createElement(
-                    'div',
-                    { ref: 'addCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-                    React.createElement(
-                        'div',
-                        { className: 'modal-dialog modal-lg' },
-                        React.createElement(
-                            'div',
-                            { className: 'modal-content' },
-                            React.createElement(AddCarComponent, { dispatcher: this.dispatcher })
-                        )
-                    )
-                )
-            ),
-            React.createElement(
-                'div',
-                { className: 'col-xs-6 col-sm-3 col-md-4' },
-                React.createElement('h3', null),
-                React.createElement(
-                    'button',
-                    { type: 'button', className: 'btn btn-primary', onClick: this.onAddEventModal },
-                    'Add Event'
-                ),
-                React.createElement(
-                    'div',
-                    { ref: 'addEventBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-                    React.createElement(
-                        'div',
-                        { className: 'modal-dialog modal-lg' },
-                        React.createElement(
-                            'div',
-                            { className: 'modal-content' },
-                            React.createElement(AddEventComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
-                        )
-                    )
-                )
-            ),
-            React.createElement(
-                'div',
-                { className: 'col-xs-6 col-sm-3 col-md-4' },
-                React.createElement('h3', null),
-                React.createElement(
-                    'button',
-                    { type: 'button', className: 'btn btn-primary', onClick: this.onEditCarModal },
-                    'Edit Car Info'
-                ),
-                React.createElement(
-                    'div',
-                    { ref: 'editCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-                    React.createElement(
-                        'div',
-                        { className: 'modal-dialog modal-lg' },
-                        React.createElement(
-                            'div',
-                            { className: 'modal-content' },
-                            React.createElement(EditCarComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
-                        )
-                    )
-                )
-            ),
-            React.createElement(
-                'div',
-                { className: 'col-xs-6 col-sm-3 col-md-4' },
-                React.createElement('h3', null),
-                React.createElement(
-                    'button',
-                    { type: 'button', className: 'btn btn-primary', onClick: this.onUpdateTiresModal },
-                    'Add/Update Tire Info'
-                ),
-                React.createElement(
-                    'div',
-                    { ref: 'updateTiresBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-                    React.createElement(
-                        'div',
-                        { className: 'modal-dialog modal-lg' },
-                        React.createElement(
-                            'div',
-                            { className: 'modal-content' },
-                            React.createElement(AddUpdateTireComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
-                        )
-                    )
-                )
-            )
-        );
-    },
-    onAddCarModal: function onAddCarModal() {
-        $(this.refs.addCarBox).modal('show');
-    },
-    onAddEventModal: function onAddEventModal() {
-        $(this.refs.addEventBox).modal('show');
-    },
-    onEditCarModal: function onEditCarModal() {
-        $(this.refs.editCarBox).modal('show');
-    },
-    onUpdateTiresModal: function onUpdateTiresModal() {
-        $(this.refs.updateTiresBox).modal('show');
-    },
-    onCarAdded: function onCarAdded() {
-        $(this.refs.addCarBox).modal('hide');
-    },
-    onEventAdded: function onEventAdded() {
-        $(this.refs.addEventBox).modal('hide');
-    },
-    onCarEdited: function onCarEdited() {
-        $(this.refs.editCarBox).modal('hide');
-    },
-    onTiresUpdated: function onTiresUpdated() {
-        $(this.refs.updateTiresBox).modal('hide');
-    }
+								var query = new Parse.Query(CarModel);
+								query.include('user');
+								query.equalTo('user', new Parse.User({ objectId: this.props.userId }));
+								query.find().then(function (cars) {
+												_this.setState({ cars: cars });
+												console.log(_this.state.cars);
+								});
+								this.dispatcher = {};
+								_.extend(this.dispatcher, Backbone.Events);
+								this.dispatcher.on('carAdded', function () {
+												_this.onCarAdded();
+								});
+								this.dispatcher.on('eventAdded', function () {
+												_this.onEventAdded();
+								});
+								this.dispatcher.on('carEdited', function () {
+												_this.onCarEdited();
+								});
+								this.dispatcher.on('tiresUpdated', function () {
+												_this.onTiresUpdated();
+								});
+				},
+				render: function render() {
+								console.log(this.state.cars);
+								var cars = this.state.cars.map(function (car) {
+												return React.createElement(
+																'div',
+																{ className: 'col-xs-6 col-sm-3 col-md-4' },
+																React.createElement(
+																				'div',
+																				null,
+																				car.get('make')
+																),
+																React.createElement(
+																				'div',
+																				null,
+																				car.get('model')
+																)
+												);
+								});
+								return React.createElement(
+												'div',
+												null,
+												React.createElement(
+																'div',
+																{ className: 'col-xs-6 col-sm-3 col-md-4' },
+																cars
+												),
+												React.createElement(
+																'div',
+																{ className: 'col-xs-6 col-sm-3 col-md-4' },
+																React.createElement('h3', null),
+																React.createElement(
+																				'button',
+																				{ type: 'button', className: 'btn btn-primary', onClick: this.onAddCarModal },
+																				'Add Car'
+																),
+																React.createElement(
+																				'div',
+																				{ ref: 'addCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+																				React.createElement(
+																								'div',
+																								{ className: 'modal-dialog modal-lg' },
+																								React.createElement(
+																												'div',
+																												{ className: 'modal-content' },
+																												React.createElement(AddCarComponent, { dispatcher: this.dispatcher })
+																								)
+																				)
+																)
+												),
+												React.createElement(
+																'div',
+																{ className: 'col-xs-6 col-sm-3 col-md-4' },
+																React.createElement('h3', null),
+																React.createElement(
+																				'button',
+																				{ type: 'button', className: 'btn btn-primary', onClick: this.onAddEventModal },
+																				'Add Event'
+																),
+																React.createElement(
+																				'div',
+																				{ ref: 'addEventBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+																				React.createElement(
+																								'div',
+																								{ className: 'modal-dialog modal-lg' },
+																								React.createElement(
+																												'div',
+																												{ className: 'modal-content' },
+																												React.createElement(AddEventComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
+																								)
+																				)
+																)
+												),
+												React.createElement(
+																'div',
+																{ className: 'col-xs-6 col-sm-3 col-md-4' },
+																React.createElement('h3', null),
+																React.createElement(
+																				'button',
+																				{ type: 'button', className: 'btn btn-primary', onClick: this.onEditCarModal },
+																				'Edit Car Info'
+																),
+																React.createElement(
+																				'div',
+																				{ ref: 'editCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+																				React.createElement(
+																								'div',
+																								{ className: 'modal-dialog modal-lg' },
+																								React.createElement(
+																												'div',
+																												{ className: 'modal-content' },
+																												React.createElement(EditCarComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
+																								)
+																				)
+																)
+												),
+												React.createElement(
+																'div',
+																{ className: 'col-xs-6 col-sm-3 col-md-4' },
+																React.createElement('h3', null),
+																React.createElement(
+																				'button',
+																				{ type: 'button', className: 'btn btn-primary', onClick: this.onUpdateTiresModal },
+																				'Add/Update Tire Info'
+																),
+																React.createElement(
+																				'div',
+																				{ ref: 'updateTiresBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+																				React.createElement(
+																								'div',
+																								{ className: 'modal-dialog modal-lg' },
+																								React.createElement(
+																												'div',
+																												{ className: 'modal-content' },
+																												React.createElement(AddUpdateTireComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
+																								)
+																				)
+																)
+												)
+								);
+				},
+				onAddCarModal: function onAddCarModal() {
+								$(this.refs.addCarBox).modal('show');
+				},
+				onAddEventModal: function onAddEventModal() {
+								$(this.refs.addEventBox).modal('show');
+				},
+				onEditCarModal: function onEditCarModal() {
+								$(this.refs.editCarBox).modal('show');
+				},
+				onUpdateTiresModal: function onUpdateTiresModal() {
+								$(this.refs.updateTiresBox).modal('show');
+				},
+				onCarAdded: function onCarAdded() {
+								$(this.refs.addCarBox).modal('hide');
+				},
+				onEventAdded: function onEventAdded() {
+								$(this.refs.addEventBox).modal('hide');
+				},
+				onCarEdited: function onCarEdited() {
+								$(this.refs.editCarBox).modal('hide');
+				},
+				onTiresUpdated: function onTiresUpdated() {
+								$(this.refs.updateTiresBox).modal('hide');
+				}
 });
 
-},{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"./AddCarComponent":162,"./AddEventComponent":163,"./AddUpdateTireComponent":164,"./EditCarComponent":165,"backbone":1,"react":161}],171:[function(require,module,exports){
+},{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/CarModel":172,"../models/EventModel":173,"../models/TireSetModel":175,"./AddCarComponent":162,"./AddEventComponent":163,"./AddUpdateTireComponent":164,"./EditCarComponent":165,"backbone":1,"react":161}],171:[function(require,module,exports){
 'use strict';
 Parse.initialize('u0gLvnJkdRJJehZdZM1yjsdXQ5UBUDpMNYW8XwT2', 'J1ZNtYR0d27pbIEhWIaAE9ZN5OTqwhuqXxaU22QQ');
 var React = require('react');
