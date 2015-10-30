@@ -13,6 +13,7 @@ module.exports = React.createClass({
 			tires: null
 		}
 	},
+	//query to get all the cars that belong to the current user.
 	componentWillMount: function() {
 		var query = new Parse.Query(CarModel);
 		query.equalTo('user', new Parse.User({objectId: this.props.userId}));
@@ -58,17 +59,23 @@ module.exports = React.createClass({
 					<input type="number" className="form-control" ref="numberOfRuns" placeholder="Required" />
 				</div>
 				<div className="form-group">
+					<label>Event Notes</label>
+					<textarea type="text" className="form-control" ref="eventComments" placeholder="Optional"></textarea>
+				</div>
+				<div className="form-group">
 					<label>Video Link</label>
 					<input type="url" className="form-control" ref="videoLink" placeholder="Optional" />
 				</div>
 				<div className="form-group">
 					<label>Upload Tire Photo</label>
-					<input type="file" className="form-control" ref="Optional"/>
+					<input type="file" className="form-control" ref="tirePic"/>
 				</div>
 					<button type="submit" className="btn btn-default">Add Event!</button>
 			</form>			
 		)
 	},
+	//function that gets the tires that are tied to the car that was selected, then sets the state to the 
+	//correct set of tires.
 	getTires: function() {
 		var car = (this.refs.carPick.value);
 		var query = new Parse.Query(TireSetModel);
@@ -78,6 +85,8 @@ module.exports = React.createClass({
 			this.setState({tires: tires});
 		})
 	},
+	//function that collects all the information that was added from the event form and stores it in the 
+	//appropriate models. This includes the event model, tire model, and image model
 	addEvent: function(e) {
 		e.preventDefault();
 		var NumberOfRuns = parseInt(this.refs.numberOfRuns.value);
@@ -94,9 +103,10 @@ module.exports = React.createClass({
 			location: this.refs.location.value,
 			weather: this.refs.weather.value,
 			surface: this.refs.surface.value,
+			eventComments: this.refs.eventComments.value,
 			courseLength: CourseLength,
 			numberOfRuns: NumberOfRuns,
-			videolink: this.refs.videolink.value,
+			videoLink: this.refs.videoLink.value,
 			car: car,
 			tires: tires[0]
 		})

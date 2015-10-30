@@ -31947,6 +31947,16 @@ module.exports = React.createClass({
 				React.createElement(
 					'label',
 					null,
+					'Event Notes'
+				),
+				React.createElement('textarea', { type: 'text', className: 'form-control', ref: 'eventComments', placeholder: 'Optional' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
 					'Video Link'
 				),
 				React.createElement('input', { type: 'url', className: 'form-control', ref: 'videoLink', placeholder: 'Optional' })
@@ -31959,7 +31969,7 @@ module.exports = React.createClass({
 					null,
 					'Upload Tire Photo'
 				),
-				React.createElement('input', { type: 'file', className: 'form-control', ref: 'Optional' })
+				React.createElement('input', { type: 'file', className: 'form-control', ref: 'tirePic' })
 			),
 			React.createElement(
 				'button',
@@ -31997,9 +32007,10 @@ module.exports = React.createClass({
 			location: this.refs.location.value,
 			weather: this.refs.weather.value,
 			surface: this.refs.surface.value,
+			eventComments: this.refs.eventComments.value,
 			courseLength: CourseLength,
 			numberOfRuns: NumberOfRuns,
-			videolink: this.refs.videolink.value,
+			videoLink: this.refs.videoLink.value,
 			car: car,
 			tires: tires[0]
 		});
