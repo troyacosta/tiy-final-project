@@ -11,35 +11,35 @@ module.exports = React.createClass({
 			<form className="addCarForm" onSubmit={this.addCar}>
 				<div className="form-group">					
 					<label>Make</label>
-					<input type="text" className="form-control" ref="make" placeholder="Ford" />
+					<input type="text" className="form-control" ref="make" placeholder="Required" />
 				</div>
 				<div className="form-group">
 					<label>Model</label>
-					<input type="text" className="form-control" ref="model" placeholder="Mustang" />
+					<input type="text" className="form-control" ref="model" placeholder="Required" />
 				</div>
 				<div className="form-group">					
 					<label>Year</label>
-					<input type="number" className="form-control" ref="year" placeholder="2015" />
+					<input type="number" className="form-control" ref="year" placeholder="Required" />
 				</div>
 				<div className="form-group">					
 					<label>Car Class</label>
-					<input type="text" className="form-control" ref="carClass" placeholder="SSM" />
+					<input type="text" className="form-control" ref="carClass" placeholder="Required" />
 				</div>
 				<div className="form-group">					
 					<label>Weight</label>
-					<input type="number" className="form-control" ref="weight" placeholder="3250" />
+					<input type="number" className="form-control" ref="weight" placeholder="Optional" />
 				</div>
 				<div className="form-group">					
 					<label>Color</label>
-					<input type="text" className="form-control" ref="color" placeholder="White" />
+					<input type="text" className="form-control" ref="color" placeholder="Optional" />
 				</div>
 				<div className="form-group">					
 					<label>Front Wheel Size</label>
-					<input type="text" className="form-control" ref="frontWheelSize" placeholder="17X10" />
+					<input type="text" className="form-control" ref="frontWheelSize" placeholder="Required" />
 				</div>
 				<div className="form-group">					
 					<label>Rear Wheel Size</label>
-					<input type="text" className="form-control" ref="rearWheelSize" placeholder="18X12" />
+					<input type="text" className="form-control" ref="rearWheelSize" placeholder="Required" />
 				</div>
 				<button type="submit" className="btn btn-default">Add Car!</button>
 			</form>

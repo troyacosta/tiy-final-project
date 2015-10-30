@@ -1,3 +1,5 @@
+//this component is used to allow the user to create a new event. It takes in several data fields and stores that data
+//in the appropriate models. It is passed into the UserPageComponent for rendering.
 var React = require('react');
 var EventModel = require('../models/EventModel');
 var CarModel = require('../models/CarModel');
@@ -37,31 +39,31 @@ module.exports = React.createClass({
 				</div>
 				<div className="form-group">					
 					<label>Event Location</label>
-					<input type="text" className="form-control" ref="location" placeholder="Location" />
+					<input type="text" className="form-control" ref="location" placeholder="Required" />
 				</div>
 				<div className="form-group">
 					<label>Weather Conditions</label>
-					<input type="text" className="form-control" ref="weather" placeholder="80 degrees and sunny" />
+					<input type="text" className="form-control" ref="weather" placeholder="Required" />
 				</div>
 				<div className="form-group">
 					<label>Surface Type</label>
-					<input type="text" className="form-control" ref="surface" placeholder="Concrete" />
+					<input type="text" className="form-control" ref="surface" placeholder="Required" />
 				</div>
 				<div className="form-group">
 					<label>Course Length</label>
-					<input type="text" className="form-control" ref="courseLength" placeholder="56 seconds" />
+					<input type="text" className="form-control" ref="courseLength" placeholder="Required" />
 				</div>
 				<div className="form-group">
 					<label>Number Of Runs</label>
-					<input type="number" className="form-control" ref="numberOfRuns" placeholder="5" />
+					<input type="number" className="form-control" ref="numberOfRuns" placeholder="Required" />
 				</div>
 				<div className="form-group">
 					<label>Video Link</label>
-					<input type="url" className="form-control" ref="videoLink" placeholder="http://videolink" />
+					<input type="url" className="form-control" ref="videoLink" placeholder="Optional" />
 				</div>
 				<div className="form-group">
 					<label>Upload Tire Photo</label>
-					<input type="file" className="form-control" ref="tirePic"/>
+					<input type="file" className="form-control" ref="Optional"/>
 				</div>
 					<button type="submit" className="btn btn-default">Add Event!</button>
 			</form>			

@@ -35,42 +35,31 @@ module.exports = React.createClass({
 						</select>
 					</div>
 					<div className="form-group">					
-						<label>Make</label>
-						<input type="text" className="form-control" ref="make" placeholder="Ford" />
-					</div>
-					<div className="form-group">
-						<label>Model</label>
-						<input type="text" className="form-control" ref="model" placeholder="Mustang" />
-					</div>
-					<div className="form-group">					
-						<label>Year</label>
-						<input type="number" className="form-control" ref="year" placeholder="2015" />
-					</div>
-					<div className="form-group">					
 						<label>Car Class</label>
-						<input type="text" className="form-control" ref="carClass" placeholder="SSM" />
+						<input type="text" className="form-control" ref="carClass" placeholder="Required" />
 					</div>
 					<div className="form-group">					
 						<label>Weight</label>
-						<input type="number" className="form-control" ref="weight" placeholder="3250" />
+						<input type="number" className="form-control" ref="weight" placeholder="Optional" />
 					</div>
 					<div className="form-group">					
 						<label>Color</label>
-						<input type="text" className="form-control" ref="color" placeholder="White" />
+						<input type="text" className="form-control" ref="color" placeholder="Optional" />
 					</div>
 					<div className="form-group">					
 						<label>Front Wheel Size</label>
-						<input type="text" className="form-control" ref="frontWheelSize" placeholder="17X10" />
+						<input type="text" className="form-control" ref="frontWheelSize" placeholder="Required" />
 					</div>
 					<div className="form-group">					
 						<label>Rear Wheel Size</label>
-						<input type="text" className="form-control" ref="rearWheelSize" placeholder="18X12" />
+						<input type="text" className="form-control" ref="rearWheelSize" placeholder="Required" />
 					</div>
 					<button type="submit" className="btn btn-default">Save Car Info!</button>
 				</form>
 			)
 	},
-	getCarInfo: function() {
+	getCarInfo: function(e) {
+		e.preventDefault();
 		var carId = this.refs.carPick.value;
 		var car = null;
 		this.state.cars.map(function(Car) {
@@ -78,16 +67,27 @@ module.exports = React.createClass({
 				car = Car;
 			}
 		})	
-		this.refs.make.value = car.get('make');
-		this.refs.model.value = car.get('model');
-		this.refs.year.value = car.get('year');
 		this.refs.carClass.value = car.get('carClass');
 		this.refs.weight.value = car.get('weight');
 		this.refs.color.value = car.get('color');
 		this.refs.frontWheelSize.value = car.get('frontWheelSize');
 		this.refs.rearWheelSize.value = car.get('rearWheelSize');
 	},
-	saveCarInfo: function() {
-
+	saveCarInfo: function(e) {
+		e.preventDefault();
+		var carId = this.refs.carPick.value;
+		var carWeight = parseInt(this.refs.weight.value);
+		var car = null;
+		this.state.cars.map(function(Car) {
+			if(carId === Car.id) {
+				car = Car;
+			}
+		})
+		car.set('carClass', this.refs.carClass.value);
+		car.set('weight', carWeight);
+		car.set('color', this.refs.color.value);	
+		car.set('frontWheelSize', this.refs.frontWheelSize.value);	
+		car.set('rearWheelSize', this.refs.rearWheelSize.value);
+		car.save().then(() => this.props.dispatcher.trigger('carEdited'));		
 	}
 })

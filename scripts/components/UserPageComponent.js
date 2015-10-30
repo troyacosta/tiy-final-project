@@ -1,3 +1,4 @@
+// this component has several other components passed into it for rendering. It will also display most of the user's information.
 var React = require('react');
 var AddCarComponent = require('./AddCarComponent');
 var AddEventComponent = require('./AddEventComponent');
@@ -12,10 +13,16 @@ module.exports = React.createClass({
 		_.extend(this.dispatcher, Backbone.Events);
 		this.dispatcher.on('carAdded', () => {
 			this.onCarAdded();
-		});
+		})
 		this.dispatcher.on('eventAdded', () => {
 			this.onEventAdded();
-		});
+		})
+		this.dispatcher.on('carEdited', () => {
+			this.onCarEdited();
+		})
+		this.dispatcher.on('tiresUpdated', () => {
+			this.onTiresUpdated();
+		})
 	},
 	render: function() {
 		return(
@@ -55,8 +62,8 @@ module.exports = React.createClass({
 		        </div>
 		          <div className="col-xs-6 col-sm-3 col-md-4">
 		            <h3></h3>
-		            <button type="button" className="btn btn-primary" onClick={this.onAddTireModal}>Add/Update Tire Info</button>
-                    <div ref="addTireBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		            <button type="button" className="btn btn-primary" onClick={this.onUpdateTiresModal}>Add/Update Tire Info</button>
+                    <div ref="updateTiresBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
                                 <AddUpdateTireComponent dispatcher={this.dispatcher} userId={this.props.userId}/>
@@ -76,14 +83,19 @@ module.exports = React.createClass({
     onEditCarModal: function() {
         $(this.refs.editCarBox).modal('show');       
     },
-    onAddTireModal: function() {
-    	$(this.refs.addTireBox).modal('show'); 
+    onUpdateTiresModal: function() {
+    	$(this.refs.updateTiresBox).modal('show'); 
     },
     onCarAdded: function() {
     	$(this.refs.addCarBox).modal('hide');
     },
     onEventAdded: function() {
     	$(this.refs.addEventBox).modal('hide');
+    },
+    onCarEdited: function() {
+    	$(this.refs.editCarBox).modal('hide');
+    },
+    onTiresUpdated: function() {
+    	$(this.refs.updateTiresBox).modal('hide');
     }
-    
 })

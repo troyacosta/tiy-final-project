@@ -31733,7 +31733,7 @@ module.exports = React.createClass({
 					null,
 					'Make'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'make', placeholder: 'Ford' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'make', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -31743,7 +31743,7 @@ module.exports = React.createClass({
 					null,
 					'Model'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'model', placeholder: 'Mustang' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'model', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -31753,7 +31753,7 @@ module.exports = React.createClass({
 					null,
 					'Year'
 				),
-				React.createElement('input', { type: 'number', className: 'form-control', ref: 'year', placeholder: '2015' })
+				React.createElement('input', { type: 'number', className: 'form-control', ref: 'year', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -31763,7 +31763,7 @@ module.exports = React.createClass({
 					null,
 					'Car Class'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'carClass', placeholder: 'SSM' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'carClass', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -31773,7 +31773,7 @@ module.exports = React.createClass({
 					null,
 					'Weight'
 				),
-				React.createElement('input', { type: 'number', className: 'form-control', ref: 'weight', placeholder: '3250' })
+				React.createElement('input', { type: 'number', className: 'form-control', ref: 'weight', placeholder: 'Optional' })
 			),
 			React.createElement(
 				'div',
@@ -31783,7 +31783,7 @@ module.exports = React.createClass({
 					null,
 					'Color'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'color', placeholder: 'White' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'color', placeholder: 'Optional' })
 			),
 			React.createElement(
 				'div',
@@ -31793,7 +31793,7 @@ module.exports = React.createClass({
 					null,
 					'Front Wheel Size'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'frontWheelSize', placeholder: '17X10' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'frontWheelSize', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -31803,7 +31803,7 @@ module.exports = React.createClass({
 					null,
 					'Rear Wheel Size'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearWheelSize', placeholder: '18X12' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearWheelSize', placeholder: 'Required' })
 			),
 			React.createElement(
 				'button',
@@ -31836,6 +31836,8 @@ module.exports = React.createClass({
 });
 
 },{"../models/CarModel":172,"../models/TireSetModel":175,"react":161}],163:[function(require,module,exports){
+//this component is used to allow the user to create a new event. It takes in several data fields and stores that data
+//in the appropriate models. It is passed into the UserPageComponent for rendering.
 'use strict';
 
 var React = require('react');
@@ -31897,7 +31899,7 @@ module.exports = React.createClass({
 					null,
 					'Event Location'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'location', placeholder: 'Location' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'location', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -31907,7 +31909,7 @@ module.exports = React.createClass({
 					null,
 					'Weather Conditions'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'weather', placeholder: '80 degrees and sunny' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'weather', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -31917,7 +31919,7 @@ module.exports = React.createClass({
 					null,
 					'Surface Type'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'surface', placeholder: 'Concrete' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'surface', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -31927,7 +31929,7 @@ module.exports = React.createClass({
 					null,
 					'Course Length'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'courseLength', placeholder: '56 seconds' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'courseLength', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -31937,7 +31939,7 @@ module.exports = React.createClass({
 					null,
 					'Number Of Runs'
 				),
-				React.createElement('input', { type: 'number', className: 'form-control', ref: 'numberOfRuns', placeholder: '5' })
+				React.createElement('input', { type: 'number', className: 'form-control', ref: 'numberOfRuns', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -31947,7 +31949,7 @@ module.exports = React.createClass({
 					null,
 					'Video Link'
 				),
-				React.createElement('input', { type: 'url', className: 'form-control', ref: 'videoLink', placeholder: 'http://videolink' })
+				React.createElement('input', { type: 'url', className: 'form-control', ref: 'videoLink', placeholder: 'Optional' })
 			),
 			React.createElement(
 				'div',
@@ -31957,7 +31959,7 @@ module.exports = React.createClass({
 					null,
 					'Upload Tire Photo'
 				),
-				React.createElement('input', { type: 'file', className: 'form-control', ref: 'tirePic' })
+				React.createElement('input', { type: 'file', className: 'form-control', ref: 'Optional' })
 			),
 			React.createElement(
 				'button',
@@ -32011,6 +32013,8 @@ module.exports = React.createClass({
 });
 
 },{"../models/CarModel":172,"../models/EventModel":173,"../models/ImageModel":174,"../models/TireSetModel":175,"react":161}],164:[function(require,module,exports){
+//this component passes into the UserPageComponent and is used to add new tires to a new car or replace old tires
+//from an existing car
 'use strict';
 
 var React = require('react');
@@ -32022,9 +32026,11 @@ module.exports = React.createClass({
 
 	getInitialState: function getInitialState() {
 		return {
-			cars: []
+			cars: [],
+			tires: null
 		};
 	},
+	//query to get set the state to all the cars the current user has in their garage
 	componentWillMount: function componentWillMount() {
 		var _this = this;
 
@@ -32036,6 +32042,7 @@ module.exports = React.createClass({
 			console.log(err);
 		});
 	},
+	//displays the form that allows the user to enter their information
 	render: function render() {
 		var carOptions = this.state.cars.map(function (car) {
 			return React.createElement(
@@ -32069,7 +32076,7 @@ module.exports = React.createClass({
 					null,
 					'Tire Brand'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'brand', placeholder: 'Hoosier' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'brand', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -32079,7 +32086,7 @@ module.exports = React.createClass({
 					null,
 					'Tire Model'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'tireModel', placeholder: 'A7' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'model', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -32089,7 +32096,7 @@ module.exports = React.createClass({
 					null,
 					'Front Tire Size'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'frontTireSize', placeholder: '295/35/18' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'frontTireSize', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -32099,7 +32106,7 @@ module.exports = React.createClass({
 					null,
 					'Rear Tire Size'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearTireSize', placeholder: '315/30/18' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearTireSize', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -32109,7 +32116,7 @@ module.exports = React.createClass({
 					null,
 					'Tire Set Condition'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'tireCondition', placeholder: 'Scuffed' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'startingCondition', placeholder: 'Optional' })
 			),
 			React.createElement(
 				'div',
@@ -32119,15 +32126,18 @@ module.exports = React.createClass({
 					null,
 					'Tread Depth'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'treadDepth', placeholder: '5/32' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'treadDepth', placeholder: 'Optional' })
 			),
 			React.createElement(
 				'button',
 				{ type: 'submit', className: 'btn btn-default' },
-				'Save Tire Info!'
+				'Add Tire Info!'
 			)
 		);
 	},
+	//function that runs when the user picks the car that they would like to add/change the tire info
+	//for that car. This will populate the fields with the current tire info for the car if the car
+	//already has tire info, otherwise the fields will be blank.
 	getCarTireInfo: function getCarTireInfo(e) {
 		var _this2 = this;
 
@@ -32139,13 +32149,48 @@ module.exports = React.createClass({
 		query.find().then(function (tires) {
 			_this2.setState({ tires: tires });
 		}).then(function () {
-			var tires = _this2.state.tires[0];
-			_this2.refs.brand.value = tires.get('brand');
-			_this2.refs.tireModel.value = tires.get('model');
-			_this2.refs.frontTireSize.value = tires.get('frontTireSize');
-			_this2.refs.rearTireSize.value = tires.get('rearTireSize');
-			_this2.refs.tireCondition.value = tires.get('tireCondition');
-			_this2.refs.treadDepth.value = tires.get('treadDepth');
+			var tires = _this2.state.tires[0] ? _this2.state.tires[0] : null;
+			_this2.refs.brand.value = tires !== null ? tires.get('brand') : '';
+			_this2.refs.model.value = tires !== null ? tires.get('model') : '';
+			_this2.refs.frontTireSize.value = tires !== null ? tires.get('frontTireSize') : '';
+			_this2.refs.rearTireSize.value = tires !== null ? tires.get('rearTireSize') : '';
+			_this2.refs.startingCondition.value = tires !== null ? tires.get('startingCondition') : '';
+			_this2.refs.treadDepth.value = tires !== null ? tires.get('treadDepth') : '';
+		});
+	},
+	//function that saves the tire information that was entered. This function will also set the "retired" property
+	//to true on the old set of tires if the car is not new.
+	saveTireInfo: function saveTireInfo(e) {
+		var _this3 = this;
+
+		e.preventDefault();
+		var oldTires = this.state.tires[0] ? this.state.tires[0] : null;
+		var carId = this.refs.carPick.value;
+		var car = null;
+		this.state.cars.map(function (Car) {
+			if (carId === Car.id) {
+				car = Car;
+			}
+		});
+		var Tires = new TireSetModel({
+			brand: this.refs.brand.value,
+			model: this.refs.model.value,
+			frontTireSize: this.refs.frontTireSize.value,
+			rearTireSize: this.refs.rearTireSize.value,
+			startingCondition: this.refs.startingCondition.value,
+			treadDepth: this.refs.treadDepth.value,
+			retired: false,
+			car: car
+		});
+		Tires.save(null, {
+			success: function success() {
+				if (oldTires !== null) {
+					oldTires.set('retired', true);
+					oldTires.save();
+				}
+			}
+		}).then(function () {
+			return _this3.props.dispatcher.trigger('tiresUpdated');
 		});
 	}
 });
@@ -32209,39 +32254,9 @@ module.exports = React.createClass({
 				React.createElement(
 					'label',
 					null,
-					'Make'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'make', placeholder: 'Ford' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Model'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'model', placeholder: 'Mustang' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Year'
-				),
-				React.createElement('input', { type: 'number', className: 'form-control', ref: 'year', placeholder: '2015' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
 					'Car Class'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'carClass', placeholder: 'SSM' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'carClass', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -32251,7 +32266,7 @@ module.exports = React.createClass({
 					null,
 					'Weight'
 				),
-				React.createElement('input', { type: 'number', className: 'form-control', ref: 'weight', placeholder: '3250' })
+				React.createElement('input', { type: 'number', className: 'form-control', ref: 'weight', placeholder: 'Optional' })
 			),
 			React.createElement(
 				'div',
@@ -32261,7 +32276,7 @@ module.exports = React.createClass({
 					null,
 					'Color'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'color', placeholder: 'White' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'color', placeholder: 'Optional' })
 			),
 			React.createElement(
 				'div',
@@ -32271,7 +32286,7 @@ module.exports = React.createClass({
 					null,
 					'Front Wheel Size'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'frontWheelSize', placeholder: '17X10' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'frontWheelSize', placeholder: 'Required' })
 			),
 			React.createElement(
 				'div',
@@ -32281,7 +32296,7 @@ module.exports = React.createClass({
 					null,
 					'Rear Wheel Size'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearWheelSize', placeholder: '18X12' })
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearWheelSize', placeholder: 'Required' })
 			),
 			React.createElement(
 				'button',
@@ -32290,7 +32305,8 @@ module.exports = React.createClass({
 			)
 		);
 	},
-	getCarInfo: function getCarInfo() {
+	getCarInfo: function getCarInfo(e) {
+		e.preventDefault();
 		var carId = this.refs.carPick.value;
 		var car = null;
 		this.state.cars.map(function (Car) {
@@ -32298,16 +32314,33 @@ module.exports = React.createClass({
 				car = Car;
 			}
 		});
-		this.refs.make.value = car.get('make');
-		this.refs.model.value = car.get('model');
-		this.refs.year.value = car.get('year');
 		this.refs.carClass.value = car.get('carClass');
 		this.refs.weight.value = car.get('weight');
 		this.refs.color.value = car.get('color');
 		this.refs.frontWheelSize.value = car.get('frontWheelSize');
 		this.refs.rearWheelSize.value = car.get('rearWheelSize');
 	},
-	saveCarInfo: function saveCarInfo() {}
+	saveCarInfo: function saveCarInfo(e) {
+		var _this2 = this;
+
+		e.preventDefault();
+		var carId = this.refs.carPick.value;
+		var carWeight = parseInt(this.refs.weight.value);
+		var car = null;
+		this.state.cars.map(function (Car) {
+			if (carId === Car.id) {
+				car = Car;
+			}
+		});
+		car.set('carClass', this.refs.carClass.value);
+		car.set('weight', carWeight);
+		car.set('color', this.refs.color.value);
+		car.set('frontWheelSize', this.refs.frontWheelSize.value);
+		car.set('rearWheelSize', this.refs.rearWheelSize.value);
+		car.save().then(function () {
+			return _this2.props.dispatcher.trigger('carEdited');
+		});
+	}
 });
 
 },{"../models/CarModel":172,"../models/TireSetModel":175,"react":161}],166:[function(require,module,exports){
@@ -32601,6 +32634,7 @@ module.exports = React.createClass({
 });
 
 },{"backbone":1,"react":161}],170:[function(require,module,exports){
+// this component has several other components passed into it for rendering. It will also display most of the user's information.
 'use strict';
 
 var React = require('react');
@@ -32624,6 +32658,12 @@ module.exports = React.createClass({
         });
         this.dispatcher.on('eventAdded', function () {
             _this.onEventAdded();
+        });
+        this.dispatcher.on('carEdited', function () {
+            _this.onCarEdited();
+        });
+        this.dispatcher.on('tiresUpdated', function () {
+            _this.onTiresUpdated();
         });
     },
     render: function render() {
@@ -32705,12 +32745,12 @@ module.exports = React.createClass({
                 React.createElement('h3', null),
                 React.createElement(
                     'button',
-                    { type: 'button', className: 'btn btn-primary', onClick: this.onAddTireModal },
+                    { type: 'button', className: 'btn btn-primary', onClick: this.onUpdateTiresModal },
                     'Add/Update Tire Info'
                 ),
                 React.createElement(
                     'div',
-                    { ref: 'addTireBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+                    { ref: 'updateTiresBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
                     React.createElement(
                         'div',
                         { className: 'modal-dialog modal-lg' },
@@ -32733,16 +32773,21 @@ module.exports = React.createClass({
     onEditCarModal: function onEditCarModal() {
         $(this.refs.editCarBox).modal('show');
     },
-    onAddTireModal: function onAddTireModal() {
-        $(this.refs.addTireBox).modal('show');
+    onUpdateTiresModal: function onUpdateTiresModal() {
+        $(this.refs.updateTiresBox).modal('show');
     },
     onCarAdded: function onCarAdded() {
         $(this.refs.addCarBox).modal('hide');
     },
     onEventAdded: function onEventAdded() {
         $(this.refs.addEventBox).modal('hide');
+    },
+    onCarEdited: function onCarEdited() {
+        $(this.refs.editCarBox).modal('hide');
+    },
+    onTiresUpdated: function onTiresUpdated() {
+        $(this.refs.updateTiresBox).modal('hide');
     }
-
 });
 
 },{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"./AddCarComponent":162,"./AddEventComponent":163,"./AddUpdateTireComponent":164,"./EditCarComponent":165,"backbone":1,"react":161}],171:[function(require,module,exports){
