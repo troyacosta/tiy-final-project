@@ -32360,23 +32360,57 @@ module.exports = React.createClass({
 });
 
 },{"../models/CarModel":172,"../models/TireSetModel":175,"react":161}],166:[function(require,module,exports){
+//this component will be the home page for users once they're logged in. It will display the latest
+//events that have been added, regardless of who added them.
 'use strict';
 
 var React = require('react');
+var EventModel = require('../models/EventModel');
 
 module.exports = React.createClass({
 	displayName: 'exports',
 
+	getInitialState: function getInitialState() {
+		return {
+			cars: [],
+			events: [],
+			tires: []
+		};
+	},
+	//queries all the events that have been saved and includes the cars and tires that were part of each event.
+	componentWillMount: function componentWillMount() {
+		var _this = this;
+
+		var query = new Parse.Query(EventModel);
+		query.include('car');
+		query.include('tires');
+		query.find().then(function (events) {
+			_this.setState({ events: events });
+		});
+	},
 	render: function render() {
+		var eventInfo = this.state.events.map(function (Event) {
+			var car = Event.get('car');
+			var tires = Event.get('tires');
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'div',
+					null,
+					Event.get('location') + ' ' + car.get('make') + ' ' + tires.get('model')
+				)
+			);
+		});
 		return React.createElement(
 			'div',
 			null,
-			'HOME'
+			eventInfo
 		);
 	}
 });
 
-},{"react":161}],167:[function(require,module,exports){
+},{"../models/EventModel":173,"react":161}],167:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -32681,7 +32715,6 @@ module.exports = React.createClass({
 								query.equalTo('user', new Parse.User({ objectId: this.props.userId }));
 								query.find().then(function (cars) {
 												_this.setState({ cars: cars });
-												console.log(_this.state.cars);
 								});
 								this.dispatcher = {};
 								_.extend(this.dispatcher, Backbone.Events);
@@ -32699,7 +32732,6 @@ module.exports = React.createClass({
 								});
 				},
 				render: function render() {
-								console.log(this.state.cars);
 								var cars = this.state.cars.map(function (car) {
 												return React.createElement(
 																'div',
@@ -32707,12 +32739,11 @@ module.exports = React.createClass({
 																React.createElement(
 																				'div',
 																				null,
-																				car.get('make')
-																),
-																React.createElement(
-																				'div',
-																				null,
-																				car.get('model')
+																				React.createElement(
+																								'a',
+																								{ href: '#' },
+																								car.get('make') + ' ' + car.get('model')
+																				)
 																)
 												);
 								});

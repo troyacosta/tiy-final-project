@@ -23,7 +23,6 @@ module.exports = React.createClass({
 		query.equalTo('user', new Parse.User({objectId: this.props.userId}));
 		query.find().then( (cars) => {
 			this.setState({cars: cars});
-			console.log(this.state.cars)
 		})
 		this.dispatcher = {};
 		_.extend(this.dispatcher, Backbone.Events);
@@ -41,12 +40,10 @@ module.exports = React.createClass({
 		})
 	},
 	render: function() {
-		console.log(this.state.cars);
 		var cars = this.state.cars.map( (car) => {
 			return(
 				<div className="col-xs-6 col-sm-3 col-md-4">
-					<div>{car.get('make')}</div>
-					<div>{car.get('model')}</div>
+					<div><a href="#">{car.get('make')+' '+car.get('model')}</a></div>
 				</div>)
 		})
 		return(
