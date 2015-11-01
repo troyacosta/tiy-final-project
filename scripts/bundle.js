@@ -32411,18 +32411,38 @@ module.exports = React.createClass({
 });
 
 },{"../models/EventModel":173,"react":161}],167:[function(require,module,exports){
-'use strict';
+"use strict";
 
 var React = require('react');
 
 module.exports = React.createClass({
-	displayName: 'exports',
+	displayName: "exports",
 
 	render: function render() {
 		return React.createElement(
-			'div',
-			null,
-			'LANDING'
+			"div",
+			{ "class": "intro-header" },
+			React.createElement(
+				"div",
+				{ "class": "container" },
+				React.createElement(
+					"div",
+					{ "class": "row" },
+					React.createElement(
+						"div",
+						{ "class": "col-lg-12" },
+						React.createElement(
+							"div",
+							{ "class": "intro-message" },
+							React.createElement(
+								"h1",
+								null,
+								"Track It!"
+							)
+						)
+					)
+				)
+			)
 		);
 	}
 });
