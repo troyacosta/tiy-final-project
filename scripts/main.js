@@ -6,7 +6,6 @@ var Backbone = require('backbone');
 var App = document.getElementById('app');
 var NavigationComponent = require('./components/NavigationComponent');
 var HomePageComponent = require('./components/HomePageComponent');
-var RegisterLoginComponent = require('./components/RegisterLoginComponent');
 var UserPageComponent = require('./components/UserPageComponent');
 var LandingPageComponent = require('./components/LandingPageComponent');
 window.$ = require('jquery');
@@ -16,8 +15,6 @@ var Router = Backbone.Router.extend({
 	routes: {
 		'': 'landing',
 		'home': 'home',
-		'register': 'registerLogin',
-		'login': 'registerLogin',
 		'user/:id': 'userPage',
 		'logOut': 'logOut'
 	},
@@ -30,12 +27,6 @@ var Router = Backbone.Router.extend({
 	home: function() {
 		ReactDOM.render(
 			<HomePageComponent router={r}/>,
-			App
-		)
-	},
-	registerLogin: function() {
-		ReactDOM.render(
-			<RegisterLoginComponent router={r}/>,
 			App
 		)
 	},

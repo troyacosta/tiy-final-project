@@ -1,6 +1,13 @@
-@import 'navigation',
+@import
+		'navigation',
 		'registrationLogin',
-		'userPage'
+		'landingPage',
+		'userPage',
+		'editCar';
 body {
 	padding-top: 5em;
+}
+form {
+	margin: 1.5em;
+	color: blue;
 }

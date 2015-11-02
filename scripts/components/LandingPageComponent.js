@@ -3,17 +3,15 @@ var React = require('react');
 module.exports = React.createClass({
 	render: function() {
 		return(
-			<div class="intro-header">
-				<div class="container">
-				 	<div class="row">
-						<div class="col-lg-12">
-							<div class="intro-message">
-								<h1>Track It!</h1>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<section className="container-fluid landing">
+        		<div className="container text-center">
+           			<div className="row">
+                		<div className="col-sm-12">
+                    		<h1>Track it</h1>
+                		</div>
+            		</div>
+        		</div>
+    		</section>
 		)
 	}
 })

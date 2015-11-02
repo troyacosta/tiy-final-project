@@ -55,7 +55,7 @@ module.exports = React.createClass({
 					<h3></h3>
 	                <button type="button" className="btn btn-primary" onClick={this.onAddCarModal}>Add Car</button>
 	                <div ref="addCarBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-	                    <div className="modal-dialog modal-lg">
+	                    <div className="modal-dialog modal-sm">
                             <div className="modal-content">
                                 <AddCarComponent dispatcher={this.dispatcher}/>
                             </div>
@@ -77,7 +77,7 @@ module.exports = React.createClass({
 		            <h3></h3>
 		            <button type="button" className="btn btn-primary" onClick={this.onEditCarModal}>Edit Car Info</button>
                     <div ref="editCarBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                        <div className="modal-dialog modal-lg">
+                        <div className="modal-dialog modal-sm">
                             <div className="modal-content">
                                 <EditCarComponent dispatcher={this.dispatcher} userId={this.props.userId}/>
                             </div>
@@ -88,7 +88,7 @@ module.exports = React.createClass({
 		            <h3></h3>
 		            <button type="button" className="btn btn-primary" onClick={this.onUpdateTiresModal}>Add/Update Tire Info</button>
                     <div ref="updateTiresBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                        <div className="modal-dialog modal-lg">
+                        <div className="modal-dialog modal-sm">
                             <div className="modal-content">
                                 <AddUpdateTireComponent dispatcher={this.dispatcher} userId={this.props.userId}/>
                             </div>

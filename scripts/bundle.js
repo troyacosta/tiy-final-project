@@ -31835,7 +31835,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/CarModel":172,"../models/TireSetModel":175,"react":161}],163:[function(require,module,exports){
+},{"../models/CarModel":173,"../models/TireSetModel":176,"react":161}],163:[function(require,module,exports){
 //this component is used to allow the user to create a new event. It takes in several data fields and stores that data
 //in the appropriate models. It is passed into the UserPageComponent for rendering.
 'use strict';
@@ -32028,7 +32028,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/CarModel":172,"../models/EventModel":173,"../models/ImageModel":174,"../models/TireSetModel":175,"react":161}],164:[function(require,module,exports){
+},{"../models/CarModel":173,"../models/EventModel":174,"../models/ImageModel":175,"../models/TireSetModel":176,"react":161}],164:[function(require,module,exports){
 //this component passes into the UserPageComponent and is used to add new tires to a new car or replace old tires
 //from an existing car
 'use strict';
@@ -32211,7 +32211,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/CarModel":172,"../models/TireSetModel":175,"react":161}],165:[function(require,module,exports){
+},{"../models/CarModel":173,"../models/TireSetModel":176,"react":161}],165:[function(require,module,exports){
 //this component will give the user the ability to edit information about their cars and then save
 //those changes.
 'use strict';
@@ -32359,7 +32359,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/CarModel":172,"../models/TireSetModel":175,"react":161}],166:[function(require,module,exports){
+},{"../models/CarModel":173,"../models/TireSetModel":176,"react":161}],166:[function(require,module,exports){
 //this component will be the home page for users once they're logged in. It will display the latest
 //events that have been added, regardless of who added them.
 'use strict';
@@ -32410,155 +32410,40 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/EventModel":173,"react":161}],167:[function(require,module,exports){
+},{"../models/EventModel":174,"react":161}],167:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
 
 module.exports = React.createClass({
-	displayName: "exports",
+  displayName: "exports",
 
-	render: function render() {
-		return React.createElement(
-			"div",
-			{ "class": "intro-header" },
-			React.createElement(
-				"div",
-				{ "class": "container" },
-				React.createElement(
-					"div",
-					{ "class": "row" },
-					React.createElement(
-						"div",
-						{ "class": "col-lg-12" },
-						React.createElement(
-							"div",
-							{ "class": "intro-message" },
-							React.createElement(
-								"h1",
-								null,
-								"Track It!"
-							)
-						)
-					)
-				)
-			)
-		);
-	}
-});
-
-},{"react":161}],168:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var Backbone = require('backbone');
-
-module.exports = React.createClass({
-  displayName: 'exports',
-
-  componentWillMount: function componentWillMount() {
-    var _this = this;
-
-    this.props.router.on('route', function () {
-      _this.forceUpdate();
-    });
-  },
   render: function render() {
-    var currentUser = Parse.User.current();
-    var links = [];
-    if (currentUser) {
-      links.push(React.createElement(
-        'li',
-        { key: 'home' },
-        React.createElement(
-          'a',
-          { href: '#home' },
-          'Home'
-        )
-      ));
-      links.push(React.createElement(
-        'li',
-        { key: 'logOut' },
-        React.createElement(
-          'a',
-          { href: '#logOut' },
-          'Log Out'
-        )
-      ));
-      links.push(React.createElement(
-        'li',
-        { key: 'userName' },
-        React.createElement(
-          'a',
-          { href: '#user/' + currentUser.id },
-          currentUser.get('firstName'),
-          ' ',
-          currentUser.get('lastName')
-        )
-      ));
-    } else {
-      links.push(React.createElement(
-        'li',
-        { key: 'register' },
-        React.createElement(
-          'a',
-          { href: '#register' },
-          'Register'
-        )
-      ));
-      links.push(React.createElement(
-        'li',
-        { key: 'logIn' },
-        React.createElement(
-          'a',
-          { href: '#login' },
-          'Log In'
-        )
-      ));
-    }
     return React.createElement(
-      'nav',
-      { className: 'navbar navbar-default navbar-custom navbar-fixed-top' },
+      "section",
+      { className: "container-fluid landing" },
       React.createElement(
-        'div',
-        { className: 'container-fluid' },
+        "div",
+        { className: "container text-center" },
         React.createElement(
-          'div',
-          { className: 'navbar-header page-scroll' },
+          "div",
+          { className: "row" },
           React.createElement(
-            'button',
-            { type: 'button', className: 'navbar-toggle', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1' },
+            "div",
+            { className: "col-sm-12" },
             React.createElement(
-              'span',
-              { className: 'sr-only' },
-              'Toggle navigation'
-            ),
-            React.createElement('span', { className: 'icon-bar' }),
-            React.createElement('span', { className: 'icon-bar' }),
-            React.createElement('span', { className: 'icon-bar' })
-          ),
-          React.createElement(
-            'a',
-            { className: 'navbar-brand', href: '#home' },
-            'HOME'
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'collapse navbar-collapse' },
-          React.createElement(
-            'ul',
-            { className: 'nav navbar-nav navbar-right' },
-            links
+              "h1",
+              null,
+              "Track it"
+            )
           )
         )
       )
     );
   }
-
 });
 
-},{"backbone":1,"react":161}],169:[function(require,module,exports){
+},{"react":161}],168:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -32572,7 +32457,6 @@ module.exports = React.createClass({
 	},
 	render: function render() {
 		var errorElement = null;
-		var url = Backbone.history.getFragment();
 		if (this.state.error) {
 			errorElement = React.createElement(
 				'p',
@@ -32580,89 +32464,36 @@ module.exports = React.createClass({
 				this.state.error
 			);
 		}
-		if (url == 'login') {
-			return React.createElement(
-				'form',
-				{ className: 'loginForm', onSubmit: this.onLogin },
+		return React.createElement(
+			'form',
+			{ className: 'loginForm', onSubmit: this.onLogin },
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
 				React.createElement(
-					'div',
-					{ className: 'form-group' },
-					React.createElement(
-						'label',
-						null,
-						'Email address'
-					),
-					React.createElement('input', { type: 'email', className: 'form-control', ref: 'email', placeholder: 'Email' })
+					'label',
+					null,
+					'Email address'
 				),
+				React.createElement('input', { type: 'email', className: 'form-control', ref: 'email', placeholder: 'Email' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
 				React.createElement(
-					'div',
-					{ className: 'form-group' },
-					React.createElement(
-						'label',
-						null,
-						'Password'
-					),
-					React.createElement('input', { type: 'password', className: 'form-control', ref: 'password', placeholder: 'Password' })
+					'label',
+					null,
+					'Password'
 				),
-				errorElement,
-				React.createElement(
-					'button',
-					{ type: 'submit', className: 'btn btn-default' },
-					'Log On!'
-				)
-			);
-		} else {
-			return React.createElement(
-				'form',
-				{ className: 'registerForm', onSubmit: this.onRegister },
-				React.createElement(
-					'div',
-					{ className: 'form-group' },
-					React.createElement(
-						'label',
-						null,
-						'First Name'
-					),
-					React.createElement('input', { type: 'text', className: 'form-control', ref: 'firstName', placeholder: 'First Name' })
-				),
-				React.createElement(
-					'div',
-					{ className: 'form-group' },
-					React.createElement(
-						'label',
-						null,
-						'Last Name'
-					),
-					React.createElement('input', { type: 'text', className: 'form-control', ref: 'lastName', placeholder: 'Last Name' })
-				),
-				React.createElement(
-					'div',
-					{ className: 'form-group' },
-					React.createElement(
-						'label',
-						null,
-						'Email'
-					),
-					React.createElement('input', { type: 'email', className: 'form-control', ref: 'email', placeholder: 'yourEmail@you.com' })
-				),
-				React.createElement(
-					'div',
-					{ className: 'form-group' },
-					React.createElement(
-						'label',
-						null,
-						'Password'
-					),
-					React.createElement('input', { type: 'password', className: 'form-control', ref: 'password', placeholder: 'Password' })
-				),
-				errorElement,
-				React.createElement(
-					'button',
-					{ type: 'submit', className: 'btn btn-default' },
-					'Register!'
-				)
-			);
-		}
+				React.createElement('input', { type: 'password', className: 'form-control', ref: 'password', placeholder: 'Password' })
+			),
+			errorElement,
+			React.createElement(
+				'button',
+				{ type: 'submit', className: 'btn btn-default' },
+				'Log On!'
+			)
+		);
 	},
 	onLogin: function onLogin(e) {
 		var _this = this;
@@ -32678,9 +32509,246 @@ module.exports = React.createClass({
 				});
 			}
 		});
+	}
+});
+
+},{"backbone":1,"react":161}],169:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var Backbone = require('backbone');
+var RegisterComponent = require('./RegisterComponent');
+var LoginComponent = require('./LoginComponent');
+var _ = require('../../node_modules/backbone/node_modules/underscore/underscore-min.js');
+
+module.exports = React.createClass({
+    displayName: 'exports',
+
+    componentWillMount: function componentWillMount() {
+        var _this = this;
+
+        this.props.router.on('route', function () {
+            _this.forceUpdate();
+        });
+        this.dispatcher = {};
+        _.extend(this.dispatcher, Backbone.Events);
+        this.dispatcher.on('userRegistered', function () {
+            _this.onRegister();
+        });
+    },
+    render: function render() {
+        var currentUser = Parse.User.current();
+        var links = [];
+        if (currentUser) {
+            links.push(React.createElement(
+                'li',
+                { key: 'home' },
+                React.createElement(
+                    'a',
+                    { href: '#home' },
+                    'Home'
+                )
+            ));
+            links.push(React.createElement(
+                'li',
+                { key: 'logOut' },
+                React.createElement(
+                    'a',
+                    { href: '#logOut' },
+                    'Log Out'
+                )
+            ));
+            links.push(React.createElement(
+                'li',
+                { key: 'userName' },
+                React.createElement(
+                    'a',
+                    { href: '#user/' + currentUser.id },
+                    currentUser.get('firstName'),
+                    ' ',
+                    currentUser.get('lastName')
+                )
+            ));
+        } else {
+            links.push(React.createElement(
+                'li',
+                { key: 'register', onClick: this.onRegisterModal },
+                React.createElement(
+                    'a',
+                    { href: '#' },
+                    'Register'
+                )
+            ));
+            links.push(React.createElement(
+                'li',
+                { key: 'logIn', onClick: this.onLogInModal },
+                React.createElement(
+                    'a',
+                    { href: '#' },
+                    'Log In'
+                )
+            ));
+        }
+        return React.createElement(
+            'section',
+            null,
+            React.createElement(
+                'nav',
+                { className: 'navbar navbar-default navbar-custom navbar-fixed-top' },
+                React.createElement(
+                    'div',
+                    { className: 'container-fluid' },
+                    React.createElement(
+                        'div',
+                        { className: 'navbar-header page-scroll' },
+                        React.createElement(
+                            'button',
+                            { type: 'button', className: 'navbar-toggle', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1' },
+                            React.createElement(
+                                'span',
+                                { className: 'sr-only' },
+                                'Toggle navigation'
+                            ),
+                            React.createElement('span', { className: 'icon-bar' }),
+                            React.createElement('span', { className: 'icon-bar' }),
+                            React.createElement('span', { className: 'icon-bar' })
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'collapse navbar-collapse' },
+                        React.createElement(
+                            'ul',
+                            { className: 'nav navbar-nav navbar-right' },
+                            links
+                        )
+                    )
+                )
+            ),
+            React.createElement(
+                'div',
+                { className: 'col-xs-6 col-sm-3 col-md-4' },
+                React.createElement(
+                    'div',
+                    { ref: 'register', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+                    React.createElement(
+                        'div',
+                        { className: 'modal-dialog modal-sm' },
+                        React.createElement(
+                            'div',
+                            { className: 'modal-content' },
+                            React.createElement(RegisterComponent, { dispatcher: this.dispatcher })
+                        )
+                    )
+                )
+            ),
+            React.createElement(
+                'div',
+                { className: 'col-xs-6 col-sm-3 col-md-4' },
+                React.createElement(
+                    'div',
+                    { ref: 'login', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+                    React.createElement(
+                        'div',
+                        { className: 'modal-dialog modal-sm' },
+                        React.createElement(
+                            'div',
+                            { className: 'modal-content' },
+                            React.createElement(LoginComponent, { dispatcher: this.dispatcher })
+                        )
+                    )
+                )
+            )
+        );
+    },
+    onRegisterModal: function onRegisterModal() {
+        $(this.refs.register).modal('show');
+    },
+    onLogInModal: function onLogInModal() {
+        $(this.refs.login).modal('show');
+    },
+    onRegister: function onRegister() {
+        $(this.refs.register).modal('hide');
+    },
+    onLogIn: function onLogIn() {
+        $(this.refs.login).modal('hide');
+    }
+});
+
+},{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"./LoginComponent":168,"./RegisterComponent":170,"backbone":1,"react":161}],170:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var Backbone = require('backbone');
+
+module.exports = React.createClass({
+	displayName: 'exports',
+
+	getInitialState: function getInitialState() {
+		return { error: null };
+	},
+	render: function render() {
+		var errorElement = null;
+		if (this.state.error) {
+			errorElement = React.createElement(
+				'p',
+				{ className: 'red' },
+				this.state.error
+			);
+		}
+		return React.createElement(
+			'form',
+			{ className: 'registerForm', onSubmit: this.onRegister },
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'First Name'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'firstName', placeholder: 'First Name' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Last Name'
+				),
+				React.createElement('input', { type: 'text', className: 'form-control', ref: 'lastName', placeholder: 'Last Name' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Email'
+				),
+				React.createElement('input', { type: 'email', className: 'form-control', ref: 'email', placeholder: 'yourEmail@you.com' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
+					'Password'
+				),
+				React.createElement('input', { type: 'password', className: 'form-control', ref: 'password', placeholder: 'Password' })
+			),
+			errorElement,
+			React.createElement(
+				'button',
+				{ type: 'submit', className: 'btn btn-default' },
+				'Register!'
+			)
+		);
 	},
 	onRegister: function onRegister(e) {
-		var _this2 = this;
+		var _this = this;
 
 		e.preventDefault();
 		var user = new Parse.User();
@@ -32691,19 +32759,19 @@ module.exports = React.createClass({
 			password: this.refs.password.value
 		}, {
 			success: function success(u) {
-				_this2.props.router.navigate('home', { trigger: true });
+				_this.props.dispatcher.trigger('userRegistered');
 			},
-			error: function error(u, _error2) {
-				console.log(_error2);
-				_this2.setState({
-					error: _error2.message
+			error: function error(u, _error) {
+				console.log(_error);
+				_this.setState({
+					error: _error.message
 				});
 			}
 		});
 	}
 });
 
-},{"backbone":1,"react":161}],170:[function(require,module,exports){
+},{"backbone":1,"react":161}],171:[function(require,module,exports){
 // this component has several other components passed into it for rendering. It will also display most of the user's information.
 'use strict';
 
@@ -32789,7 +32857,7 @@ module.exports = React.createClass({
 																				{ ref: 'addCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
 																				React.createElement(
 																								'div',
-																								{ className: 'modal-dialog modal-lg' },
+																								{ className: 'modal-dialog modal-sm' },
 																								React.createElement(
 																												'div',
 																												{ className: 'modal-content' },
@@ -32835,7 +32903,7 @@ module.exports = React.createClass({
 																				{ ref: 'editCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
 																				React.createElement(
 																								'div',
-																								{ className: 'modal-dialog modal-lg' },
+																								{ className: 'modal-dialog modal-sm' },
 																								React.createElement(
 																												'div',
 																												{ className: 'modal-content' },
@@ -32858,7 +32926,7 @@ module.exports = React.createClass({
 																				{ ref: 'updateTiresBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
 																				React.createElement(
 																								'div',
-																								{ className: 'modal-dialog modal-lg' },
+																								{ className: 'modal-dialog modal-sm' },
 																								React.createElement(
 																												'div',
 																												{ className: 'modal-content' },
@@ -32895,7 +32963,7 @@ module.exports = React.createClass({
 				}
 });
 
-},{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/CarModel":172,"../models/EventModel":173,"../models/TireSetModel":175,"./AddCarComponent":162,"./AddEventComponent":163,"./AddUpdateTireComponent":164,"./EditCarComponent":165,"backbone":1,"react":161}],171:[function(require,module,exports){
+},{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/CarModel":173,"../models/EventModel":174,"../models/TireSetModel":176,"./AddCarComponent":162,"./AddEventComponent":163,"./AddUpdateTireComponent":164,"./EditCarComponent":165,"backbone":1,"react":161}],172:[function(require,module,exports){
 'use strict';
 Parse.initialize('u0gLvnJkdRJJehZdZM1yjsdXQ5UBUDpMNYW8XwT2', 'J1ZNtYR0d27pbIEhWIaAE9ZN5OTqwhuqXxaU22QQ');
 var React = require('react');
@@ -32904,7 +32972,6 @@ var Backbone = require('backbone');
 var App = document.getElementById('app');
 var NavigationComponent = require('./components/NavigationComponent');
 var HomePageComponent = require('./components/HomePageComponent');
-var RegisterLoginComponent = require('./components/RegisterLoginComponent');
 var UserPageComponent = require('./components/UserPageComponent');
 var LandingPageComponent = require('./components/LandingPageComponent');
 window.$ = require('jquery');
@@ -32914,8 +32981,6 @@ var Router = Backbone.Router.extend({
 	routes: {
 		'': 'landing',
 		'home': 'home',
-		'register': 'registerLogin',
-		'login': 'registerLogin',
 		'user/:id': 'userPage',
 		'logOut': 'logOut'
 	},
@@ -32924,9 +32989,6 @@ var Router = Backbone.Router.extend({
 	},
 	home: function home() {
 		ReactDOM.render(React.createElement(HomePageComponent, { router: r }), App);
-	},
-	registerLogin: function registerLogin() {
-		ReactDOM.render(React.createElement(RegisterLoginComponent, { router: r }), App);
 	},
 	userPage: function userPage(id) {
 		ReactDOM.render(React.createElement(UserPageComponent, { userId: id }), App);
@@ -32940,35 +33002,35 @@ var r = new Router();
 Backbone.history.start();
 ReactDOM.render(React.createElement(NavigationComponent, { router: r }), document.getElementById('nav'));
 
-},{"./components/HomePageComponent":166,"./components/LandingPageComponent":167,"./components/NavigationComponent":168,"./components/RegisterLoginComponent":169,"./components/UserPageComponent":170,"backbone":1,"jquery":5,"react":161,"react-dom":6}],172:[function(require,module,exports){
+},{"./components/HomePageComponent":166,"./components/LandingPageComponent":167,"./components/NavigationComponent":169,"./components/UserPageComponent":171,"backbone":1,"jquery":5,"react":161,"react-dom":6}],173:[function(require,module,exports){
 'use strict';
 
 module.exports = Parse.Object.extend({
 	className: 'Car'
 });
 
-},{}],173:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 'use strict';
 
 module.exports = Parse.Object.extend({
 	className: 'Event'
 });
 
-},{}],174:[function(require,module,exports){
+},{}],175:[function(require,module,exports){
 'use strict';
 
 module.exports = Parse.Object.extend({
 	className: 'Image'
 });
 
-},{}],175:[function(require,module,exports){
+},{}],176:[function(require,module,exports){
 'use strict';
 
 module.exports = Parse.Object.extend({
 	className: 'Tires'
 });
 
-},{}]},{},[171])
+},{}]},{},[172])
 
 
 //# sourceMappingURL=bundle.js.map

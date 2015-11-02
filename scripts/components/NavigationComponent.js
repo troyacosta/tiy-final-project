@@ -1,10 +1,18 @@
 var React = require('react');
 var Backbone = require('backbone');
+var RegisterComponent = require('./RegisterComponent');
+var LoginComponent = require('./LoginComponent');
+var _ = require('../../node_modules/backbone/node_modules/underscore/underscore-min.js');
 
 module.exports = React.createClass({
 	componentWillMount: function() {
 		this.props.router.on('route', () => {
 			this.forceUpdate();
+		})
+		this.dispatcher = {};
+		_.extend(this.dispatcher, Backbone.Events);
+		this.dispatcher.on('userRegistered', () => {
+			this.onRegister();
 		})
 	},
 	render: function() {
@@ -16,10 +24,11 @@ module.exports = React.createClass({
 			links.push(<li key="userName"><a href={'#user/'+currentUser.id}>{currentUser.get('firstName')} {currentUser.get('lastName')}</a></li>);
 		}
 		else {
-			links.push(<li key="register"><a href="#register">Register</a></li>);
-            links.push(<li key="logIn"><a href="#login">Log In</a></li>);
+			links.push(<li key="register" onClick={this.onRegisterModal}><a href="#">Register</a></li>);
+            links.push(<li key="logIn" onClick={this.onLogInModal}><a href="#">Log In</a></li>);
 		}
 		return(
+			<section>
 			<nav className="navbar navbar-default navbar-custom navbar-fixed-top">
         		<div className="container-fluid">
         			<div className="navbar-header page-scroll">
@@ -28,8 +37,7 @@ module.exports = React.createClass({
                     		<span className="icon-bar"></span>
                     		<span className="icon-bar"></span>
                     		<span className="icon-bar"></span>
-                		</button>
-                		<a className="navbar-brand" href="#home">HOME</a>
+                		</button>    		
             		</div>
             		<div className="collapse navbar-collapse">
                	 		<ul className="nav navbar-nav navbar-right">
@@ -38,7 +46,37 @@ module.exports = React.createClass({
             		</div>
         		</div>
     		</nav>
+    		<div className="col-xs-6 col-sm-3 col-md-4">
+                    <div ref="register" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                        <div className="modal-dialog modal-sm">
+                            <div className="modal-content">
+                                <RegisterComponent dispatcher={this.dispatcher}/>
+                            </div>
+                        </div>
+                    </div>     
+		        </div>
+		        <div className="col-xs-6 col-sm-3 col-md-4">
+                    <div ref="login" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                        <div className="modal-dialog modal-sm">
+                            <div className="modal-content">
+                                <LoginComponent dispatcher={this.dispatcher}/>
+                            </div>
+                        </div>
+                    </div>     
+		        </div>
+		        </section>
 		)
+    },
+    onRegisterModal: function() {
+    	$(this.refs.register).modal('show'); 
+    },
+    onLogInModal: function() {
+    	$(this.refs.login).modal('show');
+    },
+    onRegister: function() {
+    	$(this.refs.register).modal('hide'); 
+    },
+    onLogIn: function() {
+    	$(this.refs.login).modal('hide');
     }
-
 });
