@@ -34,7 +34,7 @@ module.exports = React.createClass({
 			this.refs.password.value,
 			{
 				success: (u) => {
-					this.props.router.navigate('home', {trigger: true});
+					this.props.dispatcher.trigger('userLoggedIn');
 				},
 				error: (u, error) => {
 					this.setState({

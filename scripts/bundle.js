@@ -31889,6 +31889,11 @@ module.exports = React.createClass({
 				React.createElement(
 					'select',
 					{ className: 'form-control', onChange: this.getTires, ref: 'carPick' },
+					React.createElement(
+						'option',
+						{ selected: true },
+						'Cars'
+					),
 					carOptions
 				)
 			),
@@ -32019,7 +32024,9 @@ module.exports = React.createClass({
 			car: car,
 			tires: tires[0]
 		});
-		imageModel.save();
+		if (this.refs.tirePic.value !== '') {
+			imageModel.save();
+		}
 		Event.save();
 		tires[0].increment('runs', NumberOfRuns);
 		tires[0].save().then(function () {
@@ -32081,6 +32088,11 @@ module.exports = React.createClass({
 				React.createElement(
 					'select',
 					{ className: 'form-control', onChange: this.getCarTireInfo, ref: 'carPick' },
+					React.createElement(
+						'option',
+						{ selected: true },
+						'Cars'
+					),
 					carOptions
 				)
 			),
@@ -32261,6 +32273,11 @@ module.exports = React.createClass({
 				React.createElement(
 					'select',
 					{ className: 'form-control', onChange: this.getCarInfo, ref: 'carPick' },
+					React.createElement(
+						'option',
+						{ selected: true },
+						'Cars'
+					),
 					carOptions
 				)
 			),
@@ -32394,11 +32411,15 @@ module.exports = React.createClass({
 			var tires = Event.get('tires');
 			return React.createElement(
 				'div',
-				null,
+				{ className: 'container-fluid' },
 				React.createElement(
 					'div',
-					null,
-					Event.get('location') + ' ' + car.get('make') + ' ' + tires.get('model')
+					{ className: 'row' },
+					React.createElement(
+						'div',
+						{ className: 'col-sm-12' },
+						Event.get('location') + ' ' + car.get('make') + ' ' + tires.get('model')
+					)
 				)
 			);
 		});
@@ -32501,7 +32522,7 @@ module.exports = React.createClass({
 		e.preventDefault();
 		Parse.User.logIn(this.refs.email.value, this.refs.password.value, {
 			success: function success(u) {
-				_this.props.router.navigate('home', { trigger: true });
+				_this.props.dispatcher.trigger('userLoggedIn');
 			},
 			error: function error(u, _error) {
 				_this.setState({
@@ -32522,157 +32543,162 @@ var LoginComponent = require('./LoginComponent');
 var _ = require('../../node_modules/backbone/node_modules/underscore/underscore-min.js');
 
 module.exports = React.createClass({
-    displayName: 'exports',
+  displayName: 'exports',
 
-    componentWillMount: function componentWillMount() {
-        var _this = this;
+  componentWillMount: function componentWillMount() {
+    var _this = this;
 
-        this.props.router.on('route', function () {
-            _this.forceUpdate();
-        });
-        this.dispatcher = {};
-        _.extend(this.dispatcher, Backbone.Events);
-        this.dispatcher.on('userRegistered', function () {
-            _this.onRegister();
-        });
-    },
-    render: function render() {
-        var currentUser = Parse.User.current();
-        var links = [];
-        if (currentUser) {
-            links.push(React.createElement(
-                'li',
-                { key: 'home' },
-                React.createElement(
-                    'a',
-                    { href: '#home' },
-                    'Home'
-                )
-            ));
-            links.push(React.createElement(
-                'li',
-                { key: 'logOut' },
-                React.createElement(
-                    'a',
-                    { href: '#logOut' },
-                    'Log Out'
-                )
-            ));
-            links.push(React.createElement(
-                'li',
-                { key: 'userName' },
-                React.createElement(
-                    'a',
-                    { href: '#user/' + currentUser.id },
-                    currentUser.get('firstName'),
-                    ' ',
-                    currentUser.get('lastName')
-                )
-            ));
-        } else {
-            links.push(React.createElement(
-                'li',
-                { key: 'register', onClick: this.onRegisterModal },
-                React.createElement(
-                    'a',
-                    { href: '#' },
-                    'Register'
-                )
-            ));
-            links.push(React.createElement(
-                'li',
-                { key: 'logIn', onClick: this.onLogInModal },
-                React.createElement(
-                    'a',
-                    { href: '#' },
-                    'Log In'
-                )
-            ));
-        }
-        return React.createElement(
-            'section',
-            null,
-            React.createElement(
-                'nav',
-                { className: 'navbar navbar-default navbar-custom navbar-fixed-top' },
-                React.createElement(
-                    'div',
-                    { className: 'container-fluid' },
-                    React.createElement(
-                        'div',
-                        { className: 'navbar-header page-scroll' },
-                        React.createElement(
-                            'button',
-                            { type: 'button', className: 'navbar-toggle', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1' },
-                            React.createElement(
-                                'span',
-                                { className: 'sr-only' },
-                                'Toggle navigation'
-                            ),
-                            React.createElement('span', { className: 'icon-bar' }),
-                            React.createElement('span', { className: 'icon-bar' }),
-                            React.createElement('span', { className: 'icon-bar' })
-                        )
-                    ),
-                    React.createElement(
-                        'div',
-                        { className: 'collapse navbar-collapse' },
-                        React.createElement(
-                            'ul',
-                            { className: 'nav navbar-nav navbar-right' },
-                            links
-                        )
-                    )
-                )
-            ),
-            React.createElement(
-                'div',
-                { className: 'col-xs-6 col-sm-3 col-md-4' },
-                React.createElement(
-                    'div',
-                    { ref: 'register', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-                    React.createElement(
-                        'div',
-                        { className: 'modal-dialog modal-sm' },
-                        React.createElement(
-                            'div',
-                            { className: 'modal-content' },
-                            React.createElement(RegisterComponent, { dispatcher: this.dispatcher })
-                        )
-                    )
-                )
-            ),
-            React.createElement(
-                'div',
-                { className: 'col-xs-6 col-sm-3 col-md-4' },
-                React.createElement(
-                    'div',
-                    { ref: 'login', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-                    React.createElement(
-                        'div',
-                        { className: 'modal-dialog modal-sm' },
-                        React.createElement(
-                            'div',
-                            { className: 'modal-content' },
-                            React.createElement(LoginComponent, { dispatcher: this.dispatcher })
-                        )
-                    )
-                )
-            )
-        );
-    },
-    onRegisterModal: function onRegisterModal() {
-        $(this.refs.register).modal('show');
-    },
-    onLogInModal: function onLogInModal() {
-        $(this.refs.login).modal('show');
-    },
-    onRegister: function onRegister() {
-        $(this.refs.register).modal('hide');
-    },
-    onLogIn: function onLogIn() {
-        $(this.refs.login).modal('hide');
+    this.props.router.on('route', function () {
+      _this.forceUpdate();
+    });
+    this.dispatcher = {};
+    _.extend(this.dispatcher, Backbone.Events);
+    this.dispatcher.on('userRegistered', function () {
+      _this.onRegistered();
+    });
+    this.dispatcher.on('userLoggedIn', function () {
+      _this.onLoggedIn();
+    });
+  },
+  render: function render() {
+    var currentUser = Parse.User.current();
+    var links = [];
+    if (currentUser) {
+      links.push(React.createElement(
+        'li',
+        { key: 'home' },
+        React.createElement(
+          'a',
+          { href: '#home' },
+          'Home'
+        )
+      ));
+      links.push(React.createElement(
+        'li',
+        { key: 'logOut' },
+        React.createElement(
+          'a',
+          { href: '#logOut' },
+          'Log Out'
+        )
+      ));
+      links.push(React.createElement(
+        'li',
+        { key: 'userName' },
+        React.createElement(
+          'a',
+          { href: '#user/' + currentUser.id },
+          currentUser.get('firstName'),
+          ' ',
+          currentUser.get('lastName')
+        )
+      ));
+    } else {
+      links.push(React.createElement(
+        'li',
+        { key: 'register', onClick: this.onRegisterModal },
+        React.createElement(
+          'a',
+          { href: '#' },
+          'Register'
+        )
+      ));
+      links.push(React.createElement(
+        'li',
+        { key: 'logIn', onClick: this.onLogInModal },
+        React.createElement(
+          'a',
+          { href: '#' },
+          'Log In'
+        )
+      ));
     }
+    return React.createElement(
+      'section',
+      null,
+      React.createElement(
+        'nav',
+        { className: 'navbar navbar-default navbar-custom navbar-fixed-top' },
+        React.createElement(
+          'div',
+          { className: 'container-fluid' },
+          React.createElement(
+            'div',
+            { className: 'navbar-header page-scroll' },
+            React.createElement(
+              'button',
+              { type: 'button', className: 'navbar-toggle', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1' },
+              React.createElement(
+                'span',
+                { className: 'sr-only' },
+                'Toggle navigation'
+              ),
+              React.createElement('span', { className: 'icon-bar' }),
+              React.createElement('span', { className: 'icon-bar' }),
+              React.createElement('span', { className: 'icon-bar' })
+            )
+          ),
+          React.createElement(
+            'div',
+            { className: 'collapse navbar-collapse' },
+            React.createElement(
+              'ul',
+              { className: 'nav navbar-nav navbar-right' },
+              links
+            )
+          )
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'col-xs-6 col-sm-3 col-md-4' },
+        React.createElement(
+          'div',
+          { ref: 'register', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+          React.createElement(
+            'div',
+            { className: 'modal-dialog modal-sm' },
+            React.createElement(
+              'div',
+              { className: 'modal-content' },
+              React.createElement(RegisterComponent, { dispatcher: this.dispatcher, router: this.props.router })
+            )
+          )
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'col-xs-6 col-sm-3 col-md-4' },
+        React.createElement(
+          'div',
+          { ref: 'login', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+          React.createElement(
+            'div',
+            { className: 'modal-dialog modal-sm' },
+            React.createElement(
+              'div',
+              { className: 'modal-content' },
+              React.createElement(LoginComponent, { dispatcher: this.dispatcher, router: this.props.router })
+            )
+          )
+        )
+      )
+    );
+  },
+  onRegisterModal: function onRegisterModal() {
+    $(this.refs.register).modal('show');
+  },
+  onLogInModal: function onLogInModal() {
+    $(this.refs.login).modal('show');
+  },
+  onRegistered: function onRegistered() {
+    $(this.refs.register).modal('hide');
+    this.props.router.navigate('home', { trigger: true });
+  },
+  onLoggedIn: function onLoggedIn() {
+    $(this.refs.login).modal('hide');
+    this.props.router.navigate('home', { trigger: true });
+  }
 });
 
 },{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"./LoginComponent":168,"./RegisterComponent":170,"backbone":1,"react":161}],170:[function(require,module,exports){
@@ -32787,180 +32813,176 @@ var Backbone = require('backbone');
 var _ = require('../../node_modules/backbone/node_modules/underscore/underscore-min.js');
 
 module.exports = React.createClass({
-				displayName: 'exports',
+	displayName: 'exports',
 
-				getInitialState: function getInitialState() {
-								return {
-												cars: [],
-												events: []
-								};
-				},
-				componentWillMount: function componentWillMount() {
-								var _this = this;
+	getInitialState: function getInitialState() {
+		return {
+			cars: [],
+			events: []
+		};
+	},
+	componentWillMount: function componentWillMount() {
+		var _this = this;
 
-								var query = new Parse.Query(CarModel);
-								query.include('user');
-								query.equalTo('user', new Parse.User({ objectId: this.props.userId }));
-								query.find().then(function (cars) {
-												_this.setState({ cars: cars });
-								});
-								this.dispatcher = {};
-								_.extend(this.dispatcher, Backbone.Events);
-								this.dispatcher.on('carAdded', function () {
-												_this.onCarAdded();
-								});
-								this.dispatcher.on('eventAdded', function () {
-												_this.onEventAdded();
-								});
-								this.dispatcher.on('carEdited', function () {
-												_this.onCarEdited();
-								});
-								this.dispatcher.on('tiresUpdated', function () {
-												_this.onTiresUpdated();
-								});
-				},
-				render: function render() {
-								var cars = this.state.cars.map(function (car) {
-												return React.createElement(
-																'div',
-																{ className: 'col-xs-6 col-sm-3 col-md-4' },
-																React.createElement(
-																				'div',
-																				null,
-																				React.createElement(
-																								'a',
-																								{ href: '#' },
-																								car.get('make') + ' ' + car.get('model')
-																				)
-																)
-												);
-								});
-								return React.createElement(
-												'div',
-												null,
-												React.createElement(
-																'div',
-																{ className: 'col-xs-6 col-sm-3 col-md-4' },
-																cars
-												),
-												React.createElement(
-																'div',
-																{ className: 'col-xs-6 col-sm-3 col-md-4' },
-																React.createElement('h3', null),
-																React.createElement(
-																				'button',
-																				{ type: 'button', className: 'btn btn-primary', onClick: this.onAddCarModal },
-																				'Add Car'
-																),
-																React.createElement(
-																				'div',
-																				{ ref: 'addCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-																				React.createElement(
-																								'div',
-																								{ className: 'modal-dialog modal-sm' },
-																								React.createElement(
-																												'div',
-																												{ className: 'modal-content' },
-																												React.createElement(AddCarComponent, { dispatcher: this.dispatcher })
-																								)
-																				)
-																)
-												),
-												React.createElement(
-																'div',
-																{ className: 'col-xs-6 col-sm-3 col-md-4' },
-																React.createElement('h3', null),
-																React.createElement(
-																				'button',
-																				{ type: 'button', className: 'btn btn-primary', onClick: this.onAddEventModal },
-																				'Add Event'
-																),
-																React.createElement(
-																				'div',
-																				{ ref: 'addEventBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-																				React.createElement(
-																								'div',
-																								{ className: 'modal-dialog modal-lg' },
-																								React.createElement(
-																												'div',
-																												{ className: 'modal-content' },
-																												React.createElement(AddEventComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
-																								)
-																				)
-																)
-												),
-												React.createElement(
-																'div',
-																{ className: 'col-xs-6 col-sm-3 col-md-4' },
-																React.createElement('h3', null),
-																React.createElement(
-																				'button',
-																				{ type: 'button', className: 'btn btn-primary', onClick: this.onEditCarModal },
-																				'Edit Car Info'
-																),
-																React.createElement(
-																				'div',
-																				{ ref: 'editCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-																				React.createElement(
-																								'div',
-																								{ className: 'modal-dialog modal-sm' },
-																								React.createElement(
-																												'div',
-																												{ className: 'modal-content' },
-																												React.createElement(EditCarComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
-																								)
-																				)
-																)
-												),
-												React.createElement(
-																'div',
-																{ className: 'col-xs-6 col-sm-3 col-md-4' },
-																React.createElement('h3', null),
-																React.createElement(
-																				'button',
-																				{ type: 'button', className: 'btn btn-primary', onClick: this.onUpdateTiresModal },
-																				'Add/Update Tire Info'
-																),
-																React.createElement(
-																				'div',
-																				{ ref: 'updateTiresBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-																				React.createElement(
-																								'div',
-																								{ className: 'modal-dialog modal-sm' },
-																								React.createElement(
-																												'div',
-																												{ className: 'modal-content' },
-																												React.createElement(AddUpdateTireComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
-																								)
-																				)
-																)
-												)
-								);
-				},
-				onAddCarModal: function onAddCarModal() {
-								$(this.refs.addCarBox).modal('show');
-				},
-				onAddEventModal: function onAddEventModal() {
-								$(this.refs.addEventBox).modal('show');
-				},
-				onEditCarModal: function onEditCarModal() {
-								$(this.refs.editCarBox).modal('show');
-				},
-				onUpdateTiresModal: function onUpdateTiresModal() {
-								$(this.refs.updateTiresBox).modal('show');
-				},
-				onCarAdded: function onCarAdded() {
-								$(this.refs.addCarBox).modal('hide');
-				},
-				onEventAdded: function onEventAdded() {
-								$(this.refs.addEventBox).modal('hide');
-				},
-				onCarEdited: function onCarEdited() {
-								$(this.refs.editCarBox).modal('hide');
-				},
-				onTiresUpdated: function onTiresUpdated() {
-								$(this.refs.updateTiresBox).modal('hide');
-				}
+		var query = new Parse.Query(CarModel);
+		query.include('user');
+		query.equalTo('user', new Parse.User({ objectId: this.props.userId }));
+		query.find().then(function (cars) {
+			_this.setState({ cars: cars });
+		});
+		this.dispatcher = {};
+		_.extend(this.dispatcher, Backbone.Events);
+		this.dispatcher.on('carAdded', function () {
+			_this.onCarAdded();
+		});
+		this.dispatcher.on('eventAdded', function () {
+			_this.onEventAdded();
+		});
+		this.dispatcher.on('carEdited', function () {
+			_this.onCarEdited();
+		});
+		this.dispatcher.on('tiresUpdated', function () {
+			_this.onTiresUpdated();
+		});
+	},
+	render: function render() {
+		var cars = this.state.cars.map(function (car) {
+			return React.createElement(
+				'div',
+				{ className: 'row' },
+				React.createElement(
+					'div',
+					{ className: 'col-xs-12' },
+					React.createElement(
+						'a',
+						{ href: '#' },
+						car.get('make') + ' ' + car.get('model')
+					)
+				)
+			);
+		});
+		return React.createElement(
+			'div',
+			null,
+			React.createElement(
+				'div',
+				{ className: 'container-fluid' },
+				cars
+			),
+			React.createElement(
+				'div',
+				{ className: 'col-xs-12' },
+				React.createElement(
+					'button',
+					{ type: 'button', className: 'btn btn-primary', onClick: this.onAddCarModal },
+					'Add Car'
+				),
+				React.createElement(
+					'div',
+					{ ref: 'addCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+					React.createElement(
+						'div',
+						{ className: 'modal-dialog modal-sm' },
+						React.createElement(
+							'div',
+							{ className: 'modal-content' },
+							React.createElement(AddCarComponent, { dispatcher: this.dispatcher })
+						)
+					)
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'col-xs-12' },
+				React.createElement(
+					'button',
+					{ type: 'button', className: 'btn btn-primary', onClick: this.onAddEventModal },
+					'Add Event'
+				),
+				React.createElement(
+					'div',
+					{ ref: 'addEventBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+					React.createElement(
+						'div',
+						{ className: 'modal-dialog modal-lg' },
+						React.createElement(
+							'div',
+							{ className: 'modal-content' },
+							React.createElement(AddEventComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
+						)
+					)
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'col-xs-12' },
+				React.createElement(
+					'button',
+					{ type: 'button', className: 'btn btn-primary', onClick: this.onEditCarModal },
+					'Edit Car Info'
+				),
+				React.createElement(
+					'div',
+					{ ref: 'editCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+					React.createElement(
+						'div',
+						{ className: 'modal-dialog modal-sm' },
+						React.createElement(
+							'div',
+							{ className: 'modal-content' },
+							React.createElement(EditCarComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
+						)
+					)
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'col-xs-12' },
+				React.createElement(
+					'button',
+					{ type: 'button', className: 'btn btn-primary', onClick: this.onUpdateTiresModal },
+					'Add/Update Tire Info'
+				),
+				React.createElement(
+					'div',
+					{ ref: 'updateTiresBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+					React.createElement(
+						'div',
+						{ className: 'modal-dialog modal-sm' },
+						React.createElement(
+							'div',
+							{ className: 'modal-content' },
+							React.createElement(AddUpdateTireComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
+						)
+					)
+				)
+			)
+		);
+	},
+	onAddCarModal: function onAddCarModal() {
+		$(this.refs.addCarBox).modal('show');
+	},
+	onAddEventModal: function onAddEventModal() {
+		$(this.refs.addEventBox).modal('show');
+	},
+	onEditCarModal: function onEditCarModal() {
+		$(this.refs.editCarBox).modal('show');
+	},
+	onUpdateTiresModal: function onUpdateTiresModal() {
+		$(this.refs.updateTiresBox).modal('show');
+	},
+	onCarAdded: function onCarAdded() {
+		$(this.refs.addCarBox).modal('hide');
+	},
+	onEventAdded: function onEventAdded() {
+		$(this.refs.addEventBox).modal('hide');
+	},
+	onCarEdited: function onCarEdited() {
+		$(this.refs.editCarBox).modal('hide');
+	},
+	onTiresUpdated: function onTiresUpdated() {
+		$(this.refs.updateTiresBox).modal('hide');
+	}
 });
 
 },{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/CarModel":173,"../models/EventModel":174,"../models/TireSetModel":176,"./AddCarComponent":162,"./AddEventComponent":163,"./AddUpdateTireComponent":164,"./EditCarComponent":165,"backbone":1,"react":161}],172:[function(require,module,exports){

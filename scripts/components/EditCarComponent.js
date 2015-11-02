@@ -31,6 +31,7 @@ module.exports = React.createClass({
 					<div className="form-group">
 						<label>Select Your Car</label>
 						<select className="form-control" onChange={this.getCarInfo} ref="carPick">
+							<option selected>Cars</option>
 							{carOptions}
 						</select>
 					</div>

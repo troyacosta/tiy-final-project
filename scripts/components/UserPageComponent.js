@@ -42,17 +42,17 @@ module.exports = React.createClass({
 	render: function() {
 		var cars = this.state.cars.map( (car) => {
 			return(
-				<div className="col-xs-6 col-sm-3 col-md-4">
-					<div><a href="#">{car.get('make')+' '+car.get('model')}</a></div>
-				</div>)
+				<div className="row">
+					<div className="col-xs-12"><a href="#">{car.get('make')+' '+car.get('model')}</a></div>
+				</div>
+			)
 		})
 		return(
 			<div>
-				<div className="col-xs-6 col-sm-3 col-md-4">
+				<div className="container-fluid">
 					{cars}
 				</div>
-				<div className="col-xs-6 col-sm-3 col-md-4">
-					<h3></h3>
+				<div className="col-xs-12">
 	                <button type="button" className="btn btn-primary" onClick={this.onAddCarModal}>Add Car</button>
 	                <div ref="addCarBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 	                    <div className="modal-dialog modal-sm">
@@ -62,8 +62,7 @@ module.exports = React.createClass({
 	                    </div>
 	                </div>      
 		        </div>
-		        <div className="col-xs-6 col-sm-3 col-md-4">
-		            <h3></h3>
+		        <div className="col-xs-12">
 		            <button type="button" className="btn btn-primary" onClick={this.onAddEventModal}>Add Event</button>
                     <div ref="addEventBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                         <div className="modal-dialog modal-lg">
@@ -73,8 +72,7 @@ module.exports = React.createClass({
                         </div>
                     </div>     
 		        </div>
-		        <div className="col-xs-6 col-sm-3 col-md-4">
-		            <h3></h3>
+		        <div className="col-xs-12">
 		            <button type="button" className="btn btn-primary" onClick={this.onEditCarModal}>Edit Car Info</button>
                     <div ref="editCarBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                         <div className="modal-dialog modal-sm">
@@ -84,8 +82,7 @@ module.exports = React.createClass({
                         </div>
                     </div>     
 		        </div>
-		          <div className="col-xs-6 col-sm-3 col-md-4">
-		            <h3></h3>
+		          <div className="col-xs-12">
 		            <button type="button" className="btn btn-primary" onClick={this.onUpdateTiresModal}>Add/Update Tire Info</button>
                     <div ref="updateTiresBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                         <div className="modal-dialog modal-sm">

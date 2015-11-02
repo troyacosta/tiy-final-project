@@ -35,6 +35,7 @@ module.exports = React.createClass({
 				<div className="form-group">
 					<label>Select Your Car</label>
 					<select className="form-control" onChange={this.getTires} ref="carPick">
+						<option selected>Cars</option>
 						{carOptions}
 					</select>
 				</div>
@@ -110,7 +111,9 @@ module.exports = React.createClass({
 			car: car,
 			tires: tires[0]
 		})
-		imageModel.save();
+		if(this.refs.tirePic.value !== '') {
+			imageModel.save();
+		}
 		Event.save();
 		tires[0].increment('runs', NumberOfRuns);
 		tires[0].save().then( () => this.props.dispatcher.trigger('eventAdded'));

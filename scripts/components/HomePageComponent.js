@@ -25,8 +25,10 @@ module.exports = React.createClass({
 			var car = Event.get('car');
 			var tires = Event.get('tires');
 			return(
-				<div>
-					<div>{Event.get('location')+' '+car.get('make')+' '+tires.get('model')}</div>
+				<div className="container-fluid">
+					<div className="row">
+						<div className="col-sm-12">{Event.get('location')+' '+car.get('make')+' '+tires.get('model')}</div>
+					</div>
 				</div>
 			)
 		})

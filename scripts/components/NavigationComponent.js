@@ -12,7 +12,10 @@ module.exports = React.createClass({
 		this.dispatcher = {};
 		_.extend(this.dispatcher, Backbone.Events);
 		this.dispatcher.on('userRegistered', () => {
-			this.onRegister();
+			this.onRegistered();
+		})
+		this.dispatcher.on('userLoggedIn', () => {
+			this.onLoggedIn();
 		})
 	},
 	render: function() {
@@ -50,7 +53,7 @@ module.exports = React.createClass({
                     <div ref="register" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                         <div className="modal-dialog modal-sm">
                             <div className="modal-content">
-                                <RegisterComponent dispatcher={this.dispatcher}/>
+                                <RegisterComponent dispatcher={this.dispatcher} router={this.props.router}/>
                             </div>
                         </div>
                     </div>     
@@ -59,7 +62,7 @@ module.exports = React.createClass({
                     <div ref="login" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                         <div className="modal-dialog modal-sm">
                             <div className="modal-content">
-                                <LoginComponent dispatcher={this.dispatcher}/>
+                                <LoginComponent dispatcher={this.dispatcher} router={this.props.router}/>
                             </div>
                         </div>
                     </div>     
@@ -73,10 +76,12 @@ module.exports = React.createClass({
     onLogInModal: function() {
     	$(this.refs.login).modal('show');
     },
-    onRegister: function() {
-    	$(this.refs.register).modal('hide'); 
+    onRegistered: function() {
+    	$(this.refs.register).modal('hide');
+    	this.props.router.navigate('home', {trigger: true}); 
     },
-    onLogIn: function() {
+    onLoggedIn: function() {
     	$(this.refs.login).modal('hide');
+    	this.props.router.navigate('home', {trigger: true});
     }
 });
