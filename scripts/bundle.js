@@ -32496,12 +32496,16 @@ module.exports = React.createClass({
 					React.createElement(
 						"h1",
 						null,
-						"Track It"
+						React.createElement(
+							"i",
+							null,
+							"Track It!"
+						)
 					),
 					React.createElement(
 						"p",
 						null,
-						"Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+						"Keep track of your autocross events, right here, right now!"
 					),
 					React.createElement("img", { src: "../images/race-track.jpg" }),
 					React.createElement("div", { className: "bar" })

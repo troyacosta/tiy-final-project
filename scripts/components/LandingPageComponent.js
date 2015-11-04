@@ -6,8 +6,8 @@ module.exports = React.createClass({
 			<section>
 				<main>
 					  <div className="hero">
-					    <h1>Track It</h1>
-					    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+					    <h1><i>Track It!</i></h1>
+					    <p>Keep track of your autocross events, right here, right now!</p>
 					    <img src="../images/race-track.jpg"/>
 					     <div className="bar"></div>
 					  </div> 

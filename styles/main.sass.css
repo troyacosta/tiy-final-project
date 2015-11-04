@@ -121,14 +121,14 @@ main {
 .homePage .homePageEvent {
   margin-top: 2em;
   background: #EE3536;
-  border: 5px solid black; }
+  border: 1px solid black; }
 
 .userContainer {
   margin: 0 auto;
   margin-top: 5em;
   box-sizing: border-box; }
   .userContainer .eventBox {
-    border: 5px solid black;
+    border: 1px solid black;
     background: #EE3536;
     padding: 1em;
     margin-top: 2em; }
