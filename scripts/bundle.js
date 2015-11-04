@@ -32022,7 +32022,8 @@ module.exports = React.createClass({
 			numberOfRuns: NumberOfRuns,
 			videoLink: this.refs.videoLink.value,
 			car: car,
-			tires: tires[0]
+			tires: tires[0],
+			user: Parse.User.current()
 		});
 		if (this.refs.tirePic.value !== '') {
 			imageModel.save();
@@ -32401,6 +32402,8 @@ module.exports = React.createClass({
 		var query = new Parse.Query(EventModel);
 		query.include('car');
 		query.include('tires');
+		query.include('user');
+		query.limit(10);
 		query.find().then(function (events) {
 			_this.setState({ events: events });
 		});
@@ -32409,23 +32412,64 @@ module.exports = React.createClass({
 		var eventInfo = this.state.events.map(function (Event) {
 			var car = Event.get('car');
 			var tires = Event.get('tires');
+			var poster = Event.get('user');
+			var date = Event.get('createdAt').toString().slice(0, 15);
 			return React.createElement(
 				'div',
-				{ className: 'container-fluid' },
+				{ className: 'container homePage' },
 				React.createElement(
 					'div',
 					{ className: 'row' },
 					React.createElement(
 						'div',
-						{ className: 'col-sm-12' },
-						Event.get('location') + ' ' + car.get('make') + ' ' + tires.get('model')
+						{ className: 'col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8 homePageEvent' },
+						React.createElement(
+							'h4',
+							null,
+							'Event Location: ',
+							Event.get('location')
+						),
+						React.createElement(
+							'div',
+							null,
+							'Car - ',
+							car.get('carClass') + ' - ' + car.get('make') + ' ' + car.get('model')
+						),
+						React.createElement(
+							'div',
+							null,
+							'Tires - ',
+							tires.get('model')
+						),
+						React.createElement(
+							'div',
+							null,
+							Event.get('eventComments')
+						),
+						React.createElement(
+							'h6',
+							null,
+							React.createElement(
+								'i',
+								null,
+								'Added by ',
+								poster.get('firstName') + ' ' + poster.get('lastName'),
+								' on ',
+								date
+							)
+						)
 					)
 				)
 			);
 		});
 		return React.createElement(
 			'div',
-			null,
+			{ className: 'homePage' },
+			React.createElement(
+				'h2',
+				null,
+				'Events'
+			),
 			eventInfo
 		);
 	}
@@ -32437,31 +32481,87 @@ module.exports = React.createClass({
 var React = require('react');
 
 module.exports = React.createClass({
-  displayName: "exports",
+	displayName: "exports",
 
-  render: function render() {
-    return React.createElement(
-      "section",
-      { className: "container-fluid landing" },
-      React.createElement(
-        "div",
-        { className: "container text-center" },
-        React.createElement(
-          "div",
-          { className: "row" },
-          React.createElement(
-            "div",
-            { className: "col-sm-12" },
-            React.createElement(
-              "h1",
-              null,
-              "Track it"
-            )
-          )
-        )
-      )
-    );
-  }
+	render: function render() {
+		return React.createElement(
+			"section",
+			null,
+			React.createElement(
+				"main",
+				null,
+				React.createElement(
+					"div",
+					{ className: "hero" },
+					React.createElement(
+						"h1",
+						null,
+						"Track It"
+					),
+					React.createElement(
+						"p",
+						null,
+						"Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+					),
+					React.createElement("img", { src: "../images/race-track.jpg" }),
+					React.createElement("div", { className: "bar" })
+				)
+			),
+			React.createElement(
+				"div",
+				{ className: "container-fluid" },
+				React.createElement(
+					"div",
+					{ className: "row" },
+					React.createElement(
+						"div",
+						{ className: "col-md-4 icons" },
+						React.createElement("img", { src: "../images/helmet.png", height: "100px", width: "100px" }),
+						React.createElement(
+							"h3",
+							null,
+							"Lorem Ipsum"
+						),
+						React.createElement(
+							"h4",
+							null,
+							" Let us face it textbooks are not cheap. With PaperBack you can choose to borrow a book then return it when the semester ends."
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "col-md-4 icons" },
+						React.createElement("img", { src: "../images/race-car.png", height: "100px", width: "100px" }),
+						React.createElement(
+							"h3",
+							null,
+							"Auto Cross Ipsum"
+						),
+						React.createElement(
+							"h4",
+							null,
+							"This site is for anyone wanting to learn and explore the beauty of literature."
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "col-md-4 icons" },
+						React.createElement("img", { src: "../images/tire.png", height: "100px", width: "100px" }),
+						React.createElement(
+							"h3",
+							null,
+							"Tire Ipsum"
+						),
+						React.createElement(
+							"h4",
+							null,
+							"Dont have time to go the bookstore. PaperBack is perfect for you."
+						)
+					)
+				)
+			)
+		);
+	}
 });
 
 },{"react":161}],168:[function(require,module,exports){
@@ -32803,6 +32903,7 @@ module.exports = React.createClass({
 
 var React = require('react');
 var EventModel = require('../models/EventModel');
+var ImageModel = require('../models/ImageModel');
 var CarModel = require('../models/CarModel');
 var TireSetModel = require('../models/TireSetModel');
 var AddCarComponent = require('./AddCarComponent');
@@ -32818,17 +32919,23 @@ module.exports = React.createClass({
 	getInitialState: function getInitialState() {
 		return {
 			cars: [],
-			events: []
+			events: [],
+			images: []
 		};
 	},
 	componentWillMount: function componentWillMount() {
 		var _this = this;
 
-		var query = new Parse.Query(CarModel);
-		query.include('user');
-		query.equalTo('user', new Parse.User({ objectId: this.props.userId }));
-		query.find().then(function (cars) {
-			_this.setState({ cars: cars });
+		var eventQuery = new Parse.Query(EventModel);
+		var imageQuery = new Parse.Query(ImageModel);
+		eventQuery.include('tires');
+		eventQuery.include('car');
+		eventQuery.equalTo('user', new Parse.User({ objectId: this.props.userId }));
+		eventQuery.find().then(function (events) {
+			_this.setState({ events: events });
+		});
+		imageQuery.find().then(function (images) {
+			_this.setState({ images: images });
 		});
 		this.dispatcher = {};
 		_.extend(this.dispatcher, Backbone.Events);
@@ -32846,115 +32953,135 @@ module.exports = React.createClass({
 		});
 	},
 	render: function render() {
-		var cars = this.state.cars.map(function (car) {
+		var events = this.state.events.map(function (Event) {
+			var car = Event.get('car');
+			var tires = Event.get('tires');
+			var user = Event.get('user');
+			var date = Event.get('createdAt').toString().slice(0, 15);
 			return React.createElement(
 				'div',
-				{ className: 'row' },
+				{ className: 'eventBox' },
+				React.createElement(
+					'h4',
+					null,
+					'Event Location:',
+					Event.get('location')
+				),
 				React.createElement(
 					'div',
-					{ className: 'col-xs-12' },
-					React.createElement(
-						'a',
-						{ href: '#' },
-						car.get('make') + ' ' + car.get('model')
-					)
+					null,
+					date
+				),
+				React.createElement(
+					'div',
+					null,
+					car.get('carClass') + ' - ' + car.get('make') + ' ' + car.get('model')
+				),
+				React.createElement(
+					'div',
+					null,
+					'Tires - ',
+					tires.get('model')
+				),
+				React.createElement(
+					'div',
+					null,
+					Event.get('eventComments')
 				)
 			);
 		});
 		return React.createElement(
 			'div',
-			null,
+			{ className: 'container userContainer' },
 			React.createElement(
 				'div',
-				{ className: 'container-fluid' },
-				cars
-			),
-			React.createElement(
-				'div',
-				{ className: 'col-xs-12' },
+				{ className: 'row' },
 				React.createElement(
-					'button',
-					{ type: 'button', className: 'btn btn-primary', onClick: this.onAddCarModal },
-					'Add Car'
+					'div',
+					{ className: 'col-md-4' },
+					React.createElement(
+						'button',
+						{ type: 'button', className: 'btn btn-primary userButton', onClick: this.onAddCarModal },
+						'Add Car'
+					),
+					React.createElement(
+						'div',
+						{ ref: 'addCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+						React.createElement(
+							'div',
+							{ className: 'modal-dialog modal-sm' },
+							React.createElement(
+								'div',
+								{ className: 'modal-content' },
+								React.createElement(AddCarComponent, { dispatcher: this.dispatcher })
+							)
+						)
+					),
+					' ',
+					React.createElement('br', null),
+					React.createElement(
+						'button',
+						{ type: 'button', className: 'btn btn-primary userButton', onClick: this.onAddEventModal },
+						'Add Event'
+					),
+					React.createElement(
+						'div',
+						{ ref: 'addEventBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+						React.createElement(
+							'div',
+							{ className: 'modal-dialog modal-lg' },
+							React.createElement(
+								'div',
+								{ className: 'modal-content' },
+								React.createElement(AddEventComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
+							)
+						)
+					),
+					'  ',
+					React.createElement('br', null),
+					React.createElement(
+						'button',
+						{ type: 'button', className: 'btn btn-primary userButton', onClick: this.onEditCarModal },
+						'Edit Car Info'
+					),
+					React.createElement(
+						'div',
+						{ ref: 'editCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+						React.createElement(
+							'div',
+							{ className: 'modal-dialog modal-sm' },
+							React.createElement(
+								'div',
+								{ className: 'modal-content' },
+								React.createElement(EditCarComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
+							)
+						)
+					),
+					'   ',
+					React.createElement('br', null),
+					React.createElement(
+						'button',
+						{ type: 'button', className: 'btn btn-primary userButton', onClick: this.onUpdateTiresModal },
+						'Add Tire Info'
+					),
+					React.createElement(
+						'div',
+						{ ref: 'updateTiresBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+						React.createElement(
+							'div',
+							{ className: 'modal-dialog modal-sm' },
+							React.createElement(
+								'div',
+								{ className: 'modal-content' },
+								React.createElement(AddUpdateTireComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
+							)
+						)
+					)
 				),
 				React.createElement(
 					'div',
-					{ ref: 'addCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-					React.createElement(
-						'div',
-						{ className: 'modal-dialog modal-sm' },
-						React.createElement(
-							'div',
-							{ className: 'modal-content' },
-							React.createElement(AddCarComponent, { dispatcher: this.dispatcher })
-						)
-					)
-				)
-			),
-			React.createElement(
-				'div',
-				{ className: 'col-xs-12' },
-				React.createElement(
-					'button',
-					{ type: 'button', className: 'btn btn-primary', onClick: this.onAddEventModal },
-					'Add Event'
-				),
-				React.createElement(
-					'div',
-					{ ref: 'addEventBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-					React.createElement(
-						'div',
-						{ className: 'modal-dialog modal-lg' },
-						React.createElement(
-							'div',
-							{ className: 'modal-content' },
-							React.createElement(AddEventComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
-						)
-					)
-				)
-			),
-			React.createElement(
-				'div',
-				{ className: 'col-xs-12' },
-				React.createElement(
-					'button',
-					{ type: 'button', className: 'btn btn-primary', onClick: this.onEditCarModal },
-					'Edit Car Info'
-				),
-				React.createElement(
-					'div',
-					{ ref: 'editCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-					React.createElement(
-						'div',
-						{ className: 'modal-dialog modal-sm' },
-						React.createElement(
-							'div',
-							{ className: 'modal-content' },
-							React.createElement(EditCarComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
-						)
-					)
-				)
-			),
-			React.createElement(
-				'div',
-				{ className: 'col-xs-12' },
-				React.createElement(
-					'button',
-					{ type: 'button', className: 'btn btn-primary', onClick: this.onUpdateTiresModal },
-					'Add/Update Tire Info'
-				),
-				React.createElement(
-					'div',
-					{ ref: 'updateTiresBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
-					React.createElement(
-						'div',
-						{ className: 'modal-dialog modal-sm' },
-						React.createElement(
-							'div',
-							{ className: 'modal-content' },
-							React.createElement(AddUpdateTireComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
-						)
-					)
+					{ className: 'col-md-8' },
+					events
 				)
 			)
 		);
@@ -32985,7 +33112,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/CarModel":173,"../models/EventModel":174,"../models/TireSetModel":176,"./AddCarComponent":162,"./AddEventComponent":163,"./AddUpdateTireComponent":164,"./EditCarComponent":165,"backbone":1,"react":161}],172:[function(require,module,exports){
+},{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/CarModel":173,"../models/EventModel":174,"../models/ImageModel":175,"../models/TireSetModel":176,"./AddCarComponent":162,"./AddEventComponent":163,"./AddUpdateTireComponent":164,"./EditCarComponent":165,"backbone":1,"react":161}],172:[function(require,module,exports){
 'use strict';
 Parse.initialize('u0gLvnJkdRJJehZdZM1yjsdXQ5UBUDpMNYW8XwT2', 'J1ZNtYR0d27pbIEhWIaAE9ZN5OTqwhuqXxaU22QQ');
 var React = require('react');

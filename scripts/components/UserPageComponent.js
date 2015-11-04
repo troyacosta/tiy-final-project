@@ -1,6 +1,7 @@
 // this component has several other components passed into it for rendering. It will also display most of the user's information.
 var React = require('react');
 var EventModel = require('../models/EventModel');
+var ImageModel = require('../models/ImageModel');
 var CarModel = require('../models/CarModel');
 var TireSetModel = require('../models/TireSetModel')
 var AddCarComponent = require('./AddCarComponent');
@@ -14,15 +15,21 @@ module.exports = React.createClass({
 	getInitialState: function() {
 	    return ({
 	    	cars: [],
-	        events: []
+	        events: [],
+	        images: []
 	    });
 	},
 	componentWillMount: function() {
-		var query = new Parse.Query(CarModel);
-		query.include('user');
-		query.equalTo('user', new Parse.User({objectId: this.props.userId}));
-		query.find().then( (cars) => {
-			this.setState({cars: cars});
+		var eventQuery = new Parse.Query(EventModel);
+		var imageQuery = new Parse.Query(ImageModel);
+		eventQuery.include('tires');
+		eventQuery.include('car');
+		eventQuery.equalTo('user', new Parse.User({objectId: this.props.userId}));
+		eventQuery.find().then( (events) => {
+			this.setState({events: events});
+		})
+		imageQuery.find().then((images) => {
+			this.setState({images: images});
 		})
 		this.dispatcher = {};
 		_.extend(this.dispatcher, Backbone.Events);
@@ -40,59 +47,63 @@ module.exports = React.createClass({
 		})
 	},
 	render: function() {
-		var cars = this.state.cars.map( (car) => {
+		var events = this.state.events.map((Event) => {
+			var car = Event.get('car');
+			var tires = Event.get('tires');
+			var user = Event.get('user');
+			var date = Event.get('createdAt').toString().slice(0, 15);
 			return(
-				<div className="row">
-					<div className="col-xs-12"><a href="#">{car.get('make')+' '+car.get('model')}</a></div>
+				<div className="eventBox">
+					<h4>Event Location:{Event.get('location')}</h4>
+					<div>{date}</div>
+					<div>{car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</div>
+					<div>Tires - {tires.get('model')}</div>
+					<div>{Event.get('eventComments')}</div>
 				</div>
 			)
 		})
 		return(
-			<div>
-				<div className="container-fluid">
-					{cars}
+			<div className="container userContainer">
+				<div className="row">
+					<div className="col-md-4">
+		                <button type="button" className="btn btn-primary userButton" onClick={this.onAddCarModal}>Add Car</button>
+		                <div ref="addCarBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		                    <div className="modal-dialog modal-sm">
+		                        <div className="modal-content">
+		                            <AddCarComponent dispatcher={this.dispatcher}/>
+		                        </div>
+		                    </div>
+		                </div> <br />    
+			            <button type="button" className="btn btn-primary userButton" onClick={this.onAddEventModal}>Add Event</button>
+		                <div ref="addEventBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		                    <div className="modal-dialog modal-lg">
+		                        <div className="modal-content">
+		                            <AddEventComponent dispatcher={this.dispatcher} userId={this.props.userId}/>
+		                        </div>
+		                    </div> 
+		                </div>  <br />   
+			            <button type="button" className="btn btn-primary userButton" onClick={this.onEditCarModal}>Edit Car Info</button>
+		                <div ref="editCarBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		                    <div className="modal-dialog modal-sm">
+		                        <div className="modal-content">
+		                            <EditCarComponent dispatcher={this.dispatcher} userId={this.props.userId}/>
+		                        </div>
+		                    </div>
+		                </div>   <br /> 
+			            <button type="button" className="btn btn-primary userButton" onClick={this.onUpdateTiresModal}>Add Tire Info</button>
+		                <div ref="updateTiresBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		                    <div className="modal-dialog modal-sm">
+		                        <div className="modal-content">
+		                            <AddUpdateTireComponent dispatcher={this.dispatcher} userId={this.props.userId}/>
+		                        </div>
+		                    </div>
+		                </div>     
+			        </div>
+			        <div className="col-md-8">
+						{events}
+					</div>
 				</div>
-				<div className="col-xs-12">
-	                <button type="button" className="btn btn-primary" onClick={this.onAddCarModal}>Add Car</button>
-	                <div ref="addCarBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-	                    <div className="modal-dialog modal-sm">
-                            <div className="modal-content">
-                                <AddCarComponent dispatcher={this.dispatcher}/>
-                            </div>
-	                    </div>
-	                </div>      
-		        </div>
-		        <div className="col-xs-12">
-		            <button type="button" className="btn btn-primary" onClick={this.onAddEventModal}>Add Event</button>
-                    <div ref="addEventBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                        <div className="modal-dialog modal-lg">
-                            <div className="modal-content">
-                                <AddEventComponent dispatcher={this.dispatcher} userId={this.props.userId}/>
-                            </div>
-                        </div>
-                    </div>     
-		        </div>
-		        <div className="col-xs-12">
-		            <button type="button" className="btn btn-primary" onClick={this.onEditCarModal}>Edit Car Info</button>
-                    <div ref="editCarBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                        <div className="modal-dialog modal-sm">
-                            <div className="modal-content">
-                                <EditCarComponent dispatcher={this.dispatcher} userId={this.props.userId}/>
-                            </div>
-                        </div>
-                    </div>     
-		        </div>
-		          <div className="col-xs-12">
-		            <button type="button" className="btn btn-primary" onClick={this.onUpdateTiresModal}>Add/Update Tire Info</button>
-                    <div ref="updateTiresBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                        <div className="modal-dialog modal-sm">
-                            <div className="modal-content">
-                                <AddUpdateTireComponent dispatcher={this.dispatcher} userId={this.props.userId}/>
-                            </div>
-                        </div>
-                    </div>     
-		        </div>
-		    </div>
+			</div>
 		)
 	},
 	onAddCarModal: function() {

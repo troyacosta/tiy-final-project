@@ -1,0 +1,22 @@
+
+
+.userContainer {
+	margin: 0 auto;
+	margin-top: 5em;
+	box-sizing: border-box;
+	.eventBox {
+		border: 5px solid black;
+		background: #EE3536;
+		padding: 1em;
+		margin-top: 2em;
+	}
+	.userButton {
+		width: 20em;
+		background: #EE3536;
+		color: black;
+		margin-top: 2em;
+		border-radius:  0;
+		outline: none;
+		border: 2px solid black;
+	}
+}

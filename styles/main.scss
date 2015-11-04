@@ -4,10 +4,47 @@
 		'homePage',
 		'userPage',
 		'editCar';
-body {
-	padding-top: 5em;
+html {
+	height: 100em;
 }
-form {
-	margin: 1.5em;
-	color: blue;
+
+form{
+	background: #EE3536;
+	border: .5em solid black;
+	padding-left: 2%;
+	padding-right: 2%;
+	.form-control {
+		border-radius:0;
+	}
+	select.form-control{
+		border-radius: 0;
+	}
+	input {
+		width: 90%;
+		margin-bottom: 1em;
+		background: #EE3536;
+		outline: none;
+		border-radius: none;
+		-webkit-appearance: none;
+	}
+	button {
+		width: 100%;
+		border: .3em solid #fff;
+		background: black;
+		outline: none;
+		-webkit-appearance: none;
+	}
+	.btn {
+		border-radius: 0;
+		margin-bottom: 1em;
+		background: black;
+		color: #EE3536;
+	}
+}
+
+.icons {
+	padding-left: 3%;
+	padding-top: 2em;
+	padding-bottom: 2em;
+	text-align: center;
 }

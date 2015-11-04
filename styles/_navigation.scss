@@ -1,0 +1,12 @@
+.navbar {
+	margin-bottom: 0;
+	border-bottom: black;
+	.container-fluid {
+		background: #EE3536;
+		border-bottom: black;
+	}
+}
+
+.navbar-default .navbar-nav>li>a {
+	color: black;
+}

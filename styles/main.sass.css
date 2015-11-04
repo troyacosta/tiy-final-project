@@ -1,15 +1,179 @@
-.landing {
-  background-image: url("../images/Autocross-Steve.jpg");
-  background-repeat: no-repeat;
-  background-size: 100%;
-  height: 40em; }
+.navbar {
+  margin-bottom: 0;
+  border-bottom: black; }
+  .navbar .container-fluid {
+    background: #EE3536;
+    border-bottom: black; }
 
-h1 {
-  color: #fff; }
+.navbar-default .navbar-nav > li > a {
+  color: black; }
 
-body {
-  padding-top: 5em; }
+/*==========SCALE-IN==========*/
+@-webkit-keyframes scale-in {
+  0% {
+    transform: scale(10, 10);
+    opacity: 0; }
+  100% {
+    transform: scale(1, 1);
+    opacity: 1; } }
+
+@keyframes scale-in {
+  0% {
+    transform: scale(10, 10);
+    opacity: 0; }
+  100% {
+    transform: scale(1, 1);
+    opacity: 1; } }
+
+/*==========ROLL-OUT==========*/
+@-webkit-keyframes roll-out {
+  0% {
+    width: 0; }
+  100% {
+    width: 100%; } }
+
+@keyframes roll-out {
+  0% {
+    width: 0; }
+  100% {
+    width: 100%; } }
+
+main {
+  width: 100%;
+  overflow: hidden; }
+
+.hero {
+  width: 100%;
+  height: 600px;
+  text-align: center;
+  margin: 0 auto;
+  position: relative;
+  color: white; }
+
+.hero h1 {
+  font-size: 4.1em;
+  margin: auto;
+  position: absolute;
+  top: 120px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1; }
+
+.hero p {
+  font-size: 1.5em;
+  margin: auto;
+  position: absolute;
+  top: 220px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1; }
+
+.hero img {
+  width: 100%; }
+
+.bar {
+  width: 100%;
+  height: 200px;
+  background: -moz-linear-gradient(289deg, #c60a09 0%, #f23332 36%, #c60a09 100%);
+  background: -webkit-linear-gradient(289deg, #c60a09 0%, #f23332 36%, #c60a09 100%);
+  background: -ms-linear-gradient(289deg, #c60a09 0%, #f23332 36%, #c60a09 100%);
+  background: linear-gradient(161deg, #c60a09 0%, #f23332 36%, #c60a09 100%);
+  opacity: 0.3;
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  top: 90px;
+  -ms-transform-origin: 100% 0%;
+  -webkit-transform-origin: 100% 0%;
+  transform-origin: 100% 0%;
+  -webkit-animation: roll-out 1.2s ease-out;
+  -moz-animation: roll-out 1.2s ease-out;
+  animation: roll-out 1.2s ease-out; }
+
+.hero h1, .hero p {
+  -webkit-animation: scale-in 1.3s ease-out;
+  -moz-animation: scale-in 1.3s ease-out;
+  animation: scale-in 1.3s ease-out; }
+
+@media all and (max-width: 768px) {
+  .hero {
+    height: 50vw; }
+  .bar {
+    height: 26vw;
+    top: 10vw; }
+  .hero h1 {
+    font-size: 8vw;
+    top: 13vw; }
+  .hero p {
+    font-size: 3vw;
+    top: 27vw; } }
+
+.homePage h2 {
+  color: black;
+  text-align: center; }
+
+.homePage .row {
+  padding-bottom: 3em;
+  margin: 0 auto; }
+
+.homePage .homePageEvent {
+  margin-top: 2em;
+  background: #EE3536;
+  border: 5px solid black; }
+
+.userContainer {
+  margin: 0 auto;
+  margin-top: 5em;
+  box-sizing: border-box; }
+  .userContainer .eventBox {
+    border: 5px solid black;
+    background: #EE3536;
+    padding: 1em;
+    margin-top: 2em; }
+  .userContainer .userButton {
+    width: 20em;
+    background: #EE3536;
+    color: black;
+    margin-top: 2em;
+    border-radius: 0;
+    outline: none;
+    border: 2px solid black; }
+
+html {
+  height: 100em; }
 
 form {
-  margin: 1.5em;
-  color: blue; }
+  background: #EE3536;
+  border: .5em solid black;
+  padding-left: 2%;
+  padding-right: 2%; }
+  form .form-control {
+    border-radius: 0; }
+  form select.form-control {
+    border-radius: 0; }
+  form input {
+    width: 90%;
+    margin-bottom: 1em;
+    background: #EE3536;
+    outline: none;
+    border-radius: none;
+    -webkit-appearance: none; }
+  form button {
+    width: 100%;
+    border: .3em solid #fff;
+    background: black;
+    outline: none;
+    -webkit-appearance: none; }
+  form .btn {
+    border-radius: 0;
+    margin-bottom: 1em;
+    background: black;
+    color: #EE3536; }
+
+.icons {
+  padding-left: 3%;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  text-align: center; }

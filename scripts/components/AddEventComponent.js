@@ -109,7 +109,8 @@ module.exports = React.createClass({
 			numberOfRuns: NumberOfRuns,
 			videoLink: this.refs.videoLink.value,
 			car: car,
-			tires: tires[0]
+			tires: tires[0],
+			user: Parse.User.current()
 		})
 		if(this.refs.tirePic.value !== '') {
 			imageModel.save();
