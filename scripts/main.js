@@ -8,6 +8,7 @@ var NavigationComponent = require('./components/NavigationComponent');
 var HomePageComponent = require('./components/HomePageComponent');
 var UserPageComponent = require('./components/UserPageComponent');
 var LandingPageComponent = require('./components/LandingPageComponent');
+var TireInfoComponent = require('./components/TireInfoComponent');
 window.$ = require('jquery');
 window.jQuery = $;
 
@@ -15,6 +16,7 @@ var Router = Backbone.Router.extend({
 	routes: {
 		'': 'landing',
 		'home': 'home',
+		'tireInfo/:id': 'tireInfo',
 		'user/:id': 'userPage',
 		'logOut': 'logOut'
 	},
@@ -28,6 +30,11 @@ var Router = Backbone.Router.extend({
 		ReactDOM.render(
 			<HomePageComponent router={r}/>,
 			App
+		)
+	},
+	tireInfo: function() {
+		ReactDOM.render(
+			<TireInfoComponent />
 		)
 	},
 	userPage: function(id) {

@@ -2,28 +2,51 @@
 //events that have been added, regardless of who added them.
 var React = require('react');
 var EventModel = require('../models/EventModel');
+var ImageModel = require('../models/ImageModel');
+var TireSetModel = require('../models/TireSetModel')
 
 module.exports = React.createClass({
 	getInitialState: function() {
 	    return ({
-	    	cars: [],
 	        events: [],
-	        tires: [],
+	        tires:[]
 	    });
 	},
 	//queries all the events that have been saved and includes the cars and tires that were part of each event.
 	componentWillMount: function() {
-		var query = new Parse.Query(EventModel);
-		query.include('car');
-		query.include('tires');
-		query.include('user');
-		query.limit(10);
-		query.find().then( (events) => {
+		var eventQuery = new Parse.Query(EventModel);
+		var tireSetQuery = new Parse.Query(TireSetModel);
+		eventQuery.include('car');
+		eventQuery.include('tires');
+		eventQuery.include('user');
+		eventQuery.limit(10);
+		eventQuery.find().then((events) => {
 			this.setState({events: events});
+		})
+		tireSetQuery.find().then((tires) => {
+			this.setState({tires: tires});
 		})
 	},
 	render: function() {
-		var eventInfo = this.state.events.map( (Event) => {
+		var activeTires = this.state.tires.map((tireSet) => {
+			if(tireSet.get('retired') === false) {
+				return(
+					<div>
+						<a href="#">{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
+					</div>
+				)
+			}
+		})
+		var retiredTires = this.state.tires.map((tireSet) => {
+			if(tireSet.get('retired') === true) {
+				return(
+					<div>
+						<a href="#">{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
+					</div>
+				)
+			}
+		})
+		var eventInfo = this.state.events.map((Event) => {
 			var car = Event.get('car');
 			var tires = Event.get('tires');
 			var poster = Event.get('user');
@@ -44,6 +67,10 @@ module.exports = React.createClass({
 		})
 		return(
 			<div className="homePage">
+				<h4>Active Tire Sets</h4>
+				{activeTires}
+				<h4>Retired Tire Sets</h4>
+				{retiredTires}
 				<h2>Events</h2>
 				{eventInfo}
 			</div>

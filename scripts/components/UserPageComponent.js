@@ -1,7 +1,6 @@
 // this component has several other components passed into it for rendering. It will also display most of the user's information.
 var React = require('react');
 var EventModel = require('../models/EventModel');
-var ImageModel = require('../models/ImageModel');
 var CarModel = require('../models/CarModel');
 var TireSetModel = require('../models/TireSetModel')
 var AddCarComponent = require('./AddCarComponent');
@@ -15,21 +14,16 @@ module.exports = React.createClass({
 	getInitialState: function() {
 	    return ({
 	    	cars: [],
-	        events: [],
-	        images: []
+	        events: []
 	    });
 	},
 	componentWillMount: function() {
 		var eventQuery = new Parse.Query(EventModel);
-		var imageQuery = new Parse.Query(ImageModel);
 		eventQuery.include('tires');
 		eventQuery.include('car');
 		eventQuery.equalTo('user', new Parse.User({objectId: this.props.userId}));
 		eventQuery.find().then( (events) => {
 			this.setState({events: events});
-		})
-		imageQuery.find().then((images) => {
-			this.setState({images: images});
 		})
 		this.dispatcher = {};
 		_.extend(this.dispatcher, Backbone.Events);
