@@ -77,7 +77,12 @@ main{
   -moz-animation: scale-in 1.3s  ease-out;
     animation: scale-in 1.3s ease-out; 
 }
-
+.icons {
+  padding-left: 3%;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  text-align: center;
+}
 
 @media all and (max-width: 768px) {
   .hero{

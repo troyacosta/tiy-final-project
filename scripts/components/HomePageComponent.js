@@ -2,7 +2,6 @@
 //events that have been added, regardless of who added them.
 var React = require('react');
 var EventModel = require('../models/EventModel');
-var ImageModel = require('../models/ImageModel');
 var TireSetModel = require('../models/TireSetModel')
 
 module.exports = React.createClass({
@@ -31,18 +30,14 @@ module.exports = React.createClass({
 		var activeTires = this.state.tires.map((tireSet) => {
 			if(tireSet.get('retired') === false) {
 				return(
-					<div>
-						<a href="#">{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
-					</div>
+					<a href={'#tireInfo/'+tireSet.id}>{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
 				)
 			}
 		})
 		var retiredTires = this.state.tires.map((tireSet) => {
 			if(tireSet.get('retired') === true) {
 				return(
-					<div>
-						<a href="#">{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
-					</div>
+					<a href={'#tireInfo/'+tireSet.id}>{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
 				)
 			}
 		})
@@ -52,27 +47,31 @@ module.exports = React.createClass({
 			var poster = Event.get('user');
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return(
-					<div className="container homePage">
-						<div className="row">
-							<div className="col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8 homePageEvent">
-								<h4>Event Location: {Event.get('location')}</h4>
-								<div>Car - {car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</div>
-								<div>Tires - {tires.get('model')}</div>
-								<div>{Event.get('eventComments')}</div>
-								<h6><i>Added by {poster.get('firstName')+' '+poster.get('lastName')} on {date}</i></h6>
-							</div>
+				<div className="container homePage">
+					<div className="row">
+						<div className="homePageEvent col-md-9">
+							<h4>Event Location: {Event.get('location')}</h4>
+							<div>Car - {car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</div>
+							<div>Tires - {tires.get('model')}</div>
+							<div>{Event.get('eventComments')}</div>
+							<h6><i>Added by {poster.get('firstName')+' '+poster.get('lastName')} on {date}</i></h6>
 						</div>
 					</div>
+				</div>
 			)
 		})
 		return(
 			<div className="homePage">
-				<h4>Active Tire Sets</h4>
-				{activeTires}
-				<h4>Retired Tire Sets</h4>
-				{retiredTires}
-				<h2>Events</h2>
-				{eventInfo}
+				<div className="col-md-2">
+					<h4>Active Tire Sets</h4>
+					{activeTires}
+					<h4>Retired Tire Sets</h4>
+					{retiredTires}
+				</div>
+				<div className="col-md-8">
+					<h2>Events</h2>
+					{eventInfo}
+				</div>
 			</div>
 		)
 	}

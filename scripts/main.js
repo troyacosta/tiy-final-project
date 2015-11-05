@@ -11,6 +11,7 @@ var LandingPageComponent = require('./components/LandingPageComponent');
 var TireInfoComponent = require('./components/TireInfoComponent');
 window.$ = require('jquery');
 window.jQuery = $;
+require('bootstrap');
 
 var Router = Backbone.Router.extend({
 	routes: {
@@ -22,7 +23,7 @@ var Router = Backbone.Router.extend({
 	},
 	landing: function() {
 		ReactDOM.render(
-			<LandingPageComponent router={r}/>,
+			<LandingPageComponent />,
 			App
 		)
 	},
@@ -32,14 +33,15 @@ var Router = Backbone.Router.extend({
 			App
 		)
 	},
-	tireInfo: function() {
+	tireInfo: function(id) {
 		ReactDOM.render(
-			<TireInfoComponent />
+			<TireInfoComponent tiresId={id}/>,
+			App
 		)
 	},
 	userPage: function(id) {
 		ReactDOM.render(
-			<UserPageComponent userId={id}/>,
+			<UserPageComponent userId={id} router={r}/>,
 			App
 		)
 	},
