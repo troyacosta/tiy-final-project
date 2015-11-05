@@ -34377,14 +34377,11 @@ module.exports = React.createClass({
 		e.preventDefault();
 		var NumberOfRuns = parseInt(this.refs.numberOfRuns.value);
 		var CourseLength = parseInt(this.refs.courseLength.value);
+		var picture = this.refs.tirePic.value;
 		var tires = this.state.tires;
 		var car = tires[0].get('car');
 		var image = this.refs.tirePic.files[0];
 		var file = new Parse.File('photo.jpg', image);
-		var imageModel = new ImageModel({
-			image: file,
-			tires: tires[0]
-		});
 		var Event = new EventModel({
 			location: this.refs.location.value,
 			weather: this.refs.weather.value,
@@ -34397,10 +34394,18 @@ module.exports = React.createClass({
 			tires: tires[0],
 			user: Parse.User.current()
 		});
-		if (this.refs.tirePic.value !== '') {
-			imageModel.save();
-		}
-		Event.save();
+		var imageModel = new ImageModel({
+			image: file,
+			tires: tires[0],
+			event: Event
+		});
+		Event.save(null, {
+			success: function success() {
+				if (picture !== '') {
+					imageModel.save();
+				}
+			}
+		});
 		tires[0].increment('runs', NumberOfRuns);
 		tires[0].save().then(function () {
 			return _this3.props.dispatcher.trigger('eventAdded');
@@ -34581,7 +34586,8 @@ module.exports = React.createClass({
 			startingCondition: this.refs.startingCondition.value,
 			treadDepth: this.refs.treadDepth.value,
 			retired: false,
-			car: car
+			car: car,
+			user: Parse.User.current()
 		});
 		Tires.save(null, {
 			success: function success() {
@@ -34773,6 +34779,7 @@ module.exports = React.createClass({
 
 		var eventQuery = new Parse.Query(EventModel);
 		var tireSetQuery = new Parse.Query(TireSetModel);
+		tireSetQuery.include('user');
 		eventQuery.include('car');
 		eventQuery.include('tires');
 		eventQuery.include('user');
@@ -34788,21 +34795,41 @@ module.exports = React.createClass({
 		var activeTires = this.state.tires.map(function (tireSet) {
 			if (tireSet.get('retired') === false) {
 				return React.createElement(
-					'a',
-					{ href: '#tireInfo/' + tireSet.id },
-					tireSet.get('brand') + ' - ' + tireSet.get('model')
+					'div',
+					null,
+					React.createElement(
+						'p',
+						null,
+						'Owner: ',
+						tireSet.get('user').get('firstName') + ' ' + tireSet.get('user').get('lastName')
+					),
+					React.createElement(
+						'a',
+						{ href: '#tireInfo/' + tireSet.id },
+						tireSet.get('brand') + ' - ' + tireSet.get('model')
+					)
 				);
 			}
-		});
+		}).reverse();
 		var retiredTires = this.state.tires.map(function (tireSet) {
 			if (tireSet.get('retired') === true) {
 				return React.createElement(
-					'a',
-					{ href: '#tireInfo/' + tireSet.id },
-					tireSet.get('brand') + ' - ' + tireSet.get('model')
+					'div',
+					null,
+					React.createElement(
+						'p',
+						null,
+						'Owner: ',
+						tireSet.get('user').get('firstName') + ' ' + tireSet.get('user').get('lastName')
+					),
+					React.createElement(
+						'a',
+						{ href: '#tireInfo/' + tireSet.id },
+						tireSet.get('brand') + ' - ' + tireSet.get('model')
+					)
 				);
 			}
-		});
+		}).reverse();
 		var eventInfo = this.state.events.map(function (Event) {
 			var car = Event.get('car');
 			var tires = Event.get('tires');
@@ -34855,7 +34882,7 @@ module.exports = React.createClass({
 					)
 				)
 			);
-		});
+		}).reverse();
 		return React.createElement(
 			'div',
 			{ className: 'homePage' },
@@ -35434,7 +35461,6 @@ module.exports = React.createClass({
 
 var React = require('react');
 var EventModel = require('../models/EventModel');
-var CarModel = require('../models/CarModel');
 var TireSetModel = require('../models/TireSetModel');
 var AddCarComponent = require('./AddCarComponent');
 var AddEventComponent = require('./AddEventComponent');
@@ -35448,19 +35474,25 @@ module.exports = React.createClass({
 
 	getInitialState: function getInitialState() {
 		return {
-			cars: [],
-			events: []
+			events: [],
+			tires: []
 		};
 	},
 	componentWillMount: function componentWillMount() {
 		var _this = this;
 
 		var eventQuery = new Parse.Query(EventModel);
+		var tireSetQuery = new Parse.Query(TireSetModel);
+		tireSetQuery.equalTo('user', new Parse.User({ objectId: this.props.userId }));
+		eventQuery.limit(10);
 		eventQuery.include('tires');
 		eventQuery.include('car');
 		eventQuery.equalTo('user', new Parse.User({ objectId: this.props.userId }));
 		eventQuery.find().then(function (events) {
 			_this.setState({ events: events });
+		});
+		tireSetQuery.find().then(function (tires) {
+			_this.setState({ tires: tires });
 		});
 		this.dispatcher = {};
 		_.extend(this.dispatcher, Backbone.Events);
@@ -35478,6 +35510,24 @@ module.exports = React.createClass({
 		});
 	},
 	render: function render() {
+		var activeTires = this.state.tires.map(function (tireSet) {
+			if (tireSet.get('retired') === false) {
+				return React.createElement(
+					'a',
+					{ href: '#tireInfo/' + tireSet.id },
+					tireSet.get('brand') + ' - ' + tireSet.get('model')
+				);
+			}
+		}).reverse();
+		var retiredTires = this.state.tires.map(function (tireSet) {
+			if (tireSet.get('retired') === true) {
+				return React.createElement(
+					'a',
+					{ href: '#tireInfo/' + tireSet.id },
+					tireSet.get('brand') + ' - ' + tireSet.get('model')
+				);
+			}
+		}).reverse();
 		var events = this.state.events.map(function (Event) {
 			var car = Event.get('car');
 			var tires = Event.get('tires');
@@ -35489,7 +35539,7 @@ module.exports = React.createClass({
 				React.createElement(
 					'h4',
 					null,
-					'Event Location:',
+					'Event Location: ',
 					Event.get('location')
 				),
 				React.createElement(
@@ -35514,7 +35564,7 @@ module.exports = React.createClass({
 					Event.get('eventComments')
 				)
 			);
-		});
+		}).reverse();
 		return React.createElement(
 			'div',
 			{ className: 'container userContainer' },
@@ -35605,6 +35655,22 @@ module.exports = React.createClass({
 				),
 				React.createElement(
 					'div',
+					{ className: 'col-md-2' },
+					React.createElement(
+						'h4',
+						null,
+						'Active'
+					),
+					activeTires,
+					React.createElement(
+						'h4',
+						null,
+						'Retired'
+					),
+					retiredTires
+				),
+				React.createElement(
+					'div',
 					{ className: 'col-md-8' },
 					events
 				)
@@ -35637,7 +35703,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/CarModel":187,"../models/EventModel":188,"../models/TireSetModel":190,"./AddCarComponent":175,"./AddEventComponent":176,"./AddUpdateTireComponent":177,"./EditCarComponent":178,"backbone":1,"react":174}],186:[function(require,module,exports){
+},{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/EventModel":188,"../models/TireSetModel":190,"./AddCarComponent":175,"./AddEventComponent":176,"./AddUpdateTireComponent":177,"./EditCarComponent":178,"backbone":1,"react":174}],186:[function(require,module,exports){
 'use strict';
 Parse.initialize('u0gLvnJkdRJJehZdZM1yjsdXQ5UBUDpMNYW8XwT2', 'J1ZNtYR0d27pbIEhWIaAE9ZN5OTqwhuqXxaU22QQ');
 var React = require('react');

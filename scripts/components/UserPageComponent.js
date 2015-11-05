@@ -1,8 +1,7 @@
 // this component has several other components passed into it for rendering. It will also display most of the user's information.
 var React = require('react');
 var EventModel = require('../models/EventModel');
-var CarModel = require('../models/CarModel');
-var TireSetModel = require('../models/TireSetModel')
+var TireSetModel = require('../models/TireSetModel');
 var AddCarComponent = require('./AddCarComponent');
 var AddEventComponent = require('./AddEventComponent');
 var EditCarComponent = require('./EditCarComponent');
@@ -13,17 +12,23 @@ var _ = require('../../node_modules/backbone/node_modules/underscore/underscore-
 module.exports = React.createClass({
 	getInitialState: function() {
 	    return ({
-	    	cars: [],
-	        events: []
+	        events: [],
+	        tires: []
 	    });
 	},
 	componentWillMount: function() {
 		var eventQuery = new Parse.Query(EventModel);
+		var tireSetQuery = new Parse.Query(TireSetModel);
+		tireSetQuery.equalTo('user', new Parse.User({objectId: this.props.userId}));
+		eventQuery.limit(10);
 		eventQuery.include('tires');
 		eventQuery.include('car');
 		eventQuery.equalTo('user', new Parse.User({objectId: this.props.userId}));
 		eventQuery.find().then( (events) => {
 			this.setState({events: events});
+		})
+		tireSetQuery.find().then((tires) => {
+			this.setState({tires: tires});
 		})
 		this.dispatcher = {};
 		_.extend(this.dispatcher, Backbone.Events);
@@ -41,6 +46,20 @@ module.exports = React.createClass({
 		})
 	},
 	render: function() {
+		var activeTires = this.state.tires.map((tireSet) => {
+			if(tireSet.get('retired') === false) {
+				return(
+					<a href={'#tireInfo/'+tireSet.id}>{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
+				)
+			}
+		}).reverse();
+		var retiredTires = this.state.tires.map((tireSet) => {
+			if(tireSet.get('retired') === true) {
+				return(
+					<a href={'#tireInfo/'+tireSet.id}>{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
+				)
+			}
+		}).reverse();
 		var events = this.state.events.map((Event) => {
 			var car = Event.get('car');
 			var tires = Event.get('tires');
@@ -48,14 +67,14 @@ module.exports = React.createClass({
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return(
 				<div className="eventBox">
-					<h4>Event Location:{Event.get('location')}</h4>
+					<h4>Event Location: {Event.get('location')}</h4>
 					<div>{date}</div>
 					<div>{car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</div>
 					<div>Tires - {tires.get('model')}</div>
 					<div>{Event.get('eventComments')}</div>
 				</div>
 			)
-		})
+		}).reverse();
 		return(
 			<div className="container userContainer">
 				<div className="row">
@@ -92,6 +111,12 @@ module.exports = React.createClass({
 		                        </div>
 		                    </div>
 		                </div>     
+			        </div>
+			        <div className="col-md-2">
+			        	<h4>Active</h4>
+			        	{activeTires}
+			        	<h4>Retired</h4>
+			        	{retiredTires}
 			        </div>
 			        <div className="col-md-8">
 						{events}

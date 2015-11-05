@@ -107,7 +107,8 @@ module.exports = React.createClass({
 			startingCondition: this.refs.startingCondition.value,
 			treadDepth: this.refs.treadDepth.value,
 			retired: false,
-			car: car
+			car: car,
+			user: Parse.User.current()
 		})
 		Tires.save(null, {
 			success: function() {

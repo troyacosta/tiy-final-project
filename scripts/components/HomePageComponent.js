@@ -15,6 +15,7 @@ module.exports = React.createClass({
 	componentWillMount: function() {
 		var eventQuery = new Parse.Query(EventModel);
 		var tireSetQuery = new Parse.Query(TireSetModel);
+		tireSetQuery.include('user');
 		eventQuery.include('car');
 		eventQuery.include('tires');
 		eventQuery.include('user');
@@ -30,17 +31,23 @@ module.exports = React.createClass({
 		var activeTires = this.state.tires.map((tireSet) => {
 			if(tireSet.get('retired') === false) {
 				return(
-					<a href={'#tireInfo/'+tireSet.id}>{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
+					<div>
+						<p>Owner: {tireSet.get('user').get('firstName')+' '+tireSet.get('user').get('lastName')}</p>
+						<a href={'#tireInfo/'+tireSet.id}>{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
+					</div>
 				)
 			}
-		})
+		}).reverse();
 		var retiredTires = this.state.tires.map((tireSet) => {
 			if(tireSet.get('retired') === true) {
 				return(
-					<a href={'#tireInfo/'+tireSet.id}>{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
+					<div>
+						<p>Owner: {tireSet.get('user').get('firstName')+' '+tireSet.get('user').get('lastName')}</p>
+						<a href={'#tireInfo/'+tireSet.id}>{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
+					</div>
 				)
 			}
-		})
+		}).reverse();
 		var eventInfo = this.state.events.map((Event) => {
 			var car = Event.get('car');
 			var tires = Event.get('tires');
@@ -59,7 +66,7 @@ module.exports = React.createClass({
 					</div>
 				</div>
 			)
-		})
+		}).reverse();
 		return(
 			<div className="homePage">
 				<div className="col-md-2">
