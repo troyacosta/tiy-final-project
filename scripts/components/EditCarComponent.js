@@ -44,10 +44,6 @@ module.exports = React.createClass({
 						<input type="number" className="form-control" ref="weight" placeholder="Optional" />
 					</div>
 					<div className="form-group">					
-						<label>Color</label>
-						<input type="text" className="form-control" ref="color" placeholder="Optional" />
-					</div>
-					<div className="form-group">					
 						<label>Front Wheel Size</label>
 						<input type="text" className="form-control" ref="frontWheelSize" placeholder="Required" />
 					</div>
@@ -70,7 +66,6 @@ module.exports = React.createClass({
 		})	
 		this.refs.carClass.value = car.get('carClass');
 		this.refs.weight.value = car.get('weight');
-		this.refs.color.value = car.get('color');
 		this.refs.frontWheelSize.value = car.get('frontWheelSize');
 		this.refs.rearWheelSize.value = car.get('rearWheelSize');
 	},
@@ -85,10 +80,9 @@ module.exports = React.createClass({
 			}
 		})
 		car.set('carClass', this.refs.carClass.value);
-		car.set('weight', carWeight);
-		car.set('color', this.refs.color.value);	
+		car.set('weight', carWeight);	
 		car.set('frontWheelSize', this.refs.frontWheelSize.value);	
 		car.set('rearWheelSize', this.refs.rearWheelSize.value);
-		car.save().then(() => this.props.dispatcher.trigger('carEdited'));		
+		car.save().then(() => this.props.dispatcher.trigger('carEdited'));	
 	}
 })

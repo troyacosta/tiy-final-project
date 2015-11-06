@@ -34153,16 +34153,6 @@ module.exports = React.createClass({
 				React.createElement(
 					'label',
 					null,
-					'Color'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'color', placeholder: 'Optional' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
 					'Front Wheel Size'
 				),
 				React.createElement('input', { type: 'text', className: 'form-control', ref: 'frontWheelSize', placeholder: 'Required' })
@@ -34196,7 +34186,6 @@ module.exports = React.createClass({
 			year: carYear,
 			carClass: this.refs.carClass.value,
 			weight: carWeight,
-			color: this.refs.color.value,
 			frontWheelSize: this.refs.frontWheelSize.value,
 			rearWheelSize: this.refs.rearWheelSize.value,
 			user: Parse.User.current()
@@ -34520,19 +34509,9 @@ module.exports = React.createClass({
 				React.createElement(
 					'label',
 					null,
-					'Tire Set Condition'
+					'Current Runs On Tires'
 				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'startingCondition', placeholder: 'Optional' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
-					'Tread Depth'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'treadDepth', placeholder: 'Optional' })
+				React.createElement('input', { type: 'number', className: 'form-control', ref: 'runs', placeholder: 'Optional' })
 			),
 			React.createElement(
 				'button',
@@ -34560,8 +34539,7 @@ module.exports = React.createClass({
 			_this2.refs.model.value = tires !== null ? tires.get('model') : '';
 			_this2.refs.frontTireSize.value = tires !== null ? tires.get('frontTireSize') : '';
 			_this2.refs.rearTireSize.value = tires !== null ? tires.get('rearTireSize') : '';
-			_this2.refs.startingCondition.value = tires !== null ? tires.get('startingCondition') : '';
-			_this2.refs.treadDepth.value = tires !== null ? tires.get('treadDepth') : '';
+			_this2.refs.runs.value = tires !== null ? tires.get('runs') : '';
 		});
 	},
 	//function that saves the tire information that was entered. This function will also set the "retired" property
@@ -34570,6 +34548,7 @@ module.exports = React.createClass({
 		var _this3 = this;
 
 		e.preventDefault();
+		var runs = parseInt(this.refs.runs.value);
 		var oldTires = this.state.tires[0] ? this.state.tires[0] : null;
 		var carId = this.refs.carPick.value;
 		var car = null;
@@ -34583,8 +34562,7 @@ module.exports = React.createClass({
 			model: this.refs.model.value,
 			frontTireSize: this.refs.frontTireSize.value,
 			rearTireSize: this.refs.rearTireSize.value,
-			startingCondition: this.refs.startingCondition.value,
-			treadDepth: this.refs.treadDepth.value,
+			runs: runs,
 			retired: false,
 			car: car,
 			user: Parse.User.current()
@@ -34686,16 +34664,6 @@ module.exports = React.createClass({
 				React.createElement(
 					'label',
 					null,
-					'Color'
-				),
-				React.createElement('input', { type: 'text', className: 'form-control', ref: 'color', placeholder: 'Optional' })
-			),
-			React.createElement(
-				'div',
-				{ className: 'form-group' },
-				React.createElement(
-					'label',
-					null,
 					'Front Wheel Size'
 				),
 				React.createElement('input', { type: 'text', className: 'form-control', ref: 'frontWheelSize', placeholder: 'Required' })
@@ -34728,7 +34696,6 @@ module.exports = React.createClass({
 		});
 		this.refs.carClass.value = car.get('carClass');
 		this.refs.weight.value = car.get('weight');
-		this.refs.color.value = car.get('color');
 		this.refs.frontWheelSize.value = car.get('frontWheelSize');
 		this.refs.rearWheelSize.value = car.get('rearWheelSize');
 	},
@@ -34746,7 +34713,6 @@ module.exports = React.createClass({
 		});
 		car.set('carClass', this.refs.carClass.value);
 		car.set('weight', carWeight);
-		car.set('color', this.refs.color.value);
 		car.set('frontWheelSize', this.refs.frontWheelSize.value);
 		car.set('rearWheelSize', this.refs.rearWheelSize.value);
 		car.save().then(function () {
@@ -34792,48 +34758,51 @@ module.exports = React.createClass({
 		});
 	},
 	render: function render() {
+		//grabs the tires sets that are still in use
 		var activeTires = this.state.tires.map(function (tireSet) {
 			if (tireSet.get('retired') === false) {
 				return React.createElement(
 					'div',
 					null,
 					React.createElement(
-						'p',
-						null,
+						'a',
+						{ href: '#tireInfo/' + tireSet.id, className: 'list-group-item' },
+						tireSet.get('brand') + ' - ' + tireSet.get('model'),
+						React.createElement('br', null),
 						'Owner: ',
 						tireSet.get('user').get('firstName') + ' ' + tireSet.get('user').get('lastName')
-					),
-					React.createElement(
-						'a',
-						{ href: '#tireInfo/' + tireSet.id },
-						tireSet.get('brand') + ' - ' + tireSet.get('model')
 					)
 				);
 			}
 		}).reverse();
+		//grabs all the tires that have been marked as retired
 		var retiredTires = this.state.tires.map(function (tireSet) {
 			if (tireSet.get('retired') === true) {
 				return React.createElement(
 					'div',
 					null,
 					React.createElement(
-						'p',
-						null,
+						'a',
+						{ href: '#tireInfo/' + tireSet.id, className: 'list-group-item' },
+						tireSet.get('brand') + ' - ' + tireSet.get('model'),
+						React.createElement('br', null),
 						'Owner: ',
 						tireSet.get('user').get('firstName') + ' ' + tireSet.get('user').get('lastName')
-					),
-					React.createElement(
-						'a',
-						{ href: '#tireInfo/' + tireSet.id },
-						tireSet.get('brand') + ' - ' + tireSet.get('model')
 					)
 				);
 			}
 		}).reverse();
+		//this function grabs all the event info for all the tires. It is then mapped over and then rendered
 		var eventInfo = this.state.events.map(function (Event) {
 			var car = Event.get('car');
 			var tires = Event.get('tires');
 			var poster = Event.get('user');
+			//adds a video link if one has been stored in the model, otherwise it displays nothing
+			var video = Event.get('videoLink') !== '' ? React.createElement(
+				'a',
+				{ href: Event.get('videoLink') },
+				'Video'
+			) : React.createElement('br', null);
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return React.createElement(
 				'div',
@@ -34844,6 +34813,18 @@ module.exports = React.createClass({
 					React.createElement(
 						'div',
 						{ className: 'homePageEvent col-md-9' },
+						React.createElement(
+							'h6',
+							null,
+							React.createElement(
+								'i',
+								null,
+								'Added by: ',
+								poster.get('firstName') + ' ' + poster.get('lastName'),
+								' on ',
+								date
+							)
+						),
 						React.createElement(
 							'h4',
 							null,
@@ -34857,8 +34838,8 @@ module.exports = React.createClass({
 							car.get('carClass') + ' - ' + car.get('make') + ' ' + car.get('model')
 						),
 						React.createElement(
-							'div',
-							null,
+							'a',
+							{ href: '#tireInfo/' + tires.id },
 							'Tires - ',
 							tires.get('model')
 						),
@@ -34867,18 +34848,7 @@ module.exports = React.createClass({
 							null,
 							Event.get('eventComments')
 						),
-						React.createElement(
-							'h6',
-							null,
-							React.createElement(
-								'i',
-								null,
-								'Added by ',
-								poster.get('firstName') + ' ' + poster.get('lastName'),
-								' on ',
-								date
-							)
-						)
+						video
 					)
 				)
 			);
@@ -34888,7 +34858,7 @@ module.exports = React.createClass({
 			{ className: 'homePage' },
 			React.createElement(
 				'div',
-				{ className: 'col-md-2' },
+				{ className: 'col-md-2 list-group' },
 				React.createElement(
 					'h4',
 					null,
@@ -34908,7 +34878,7 @@ module.exports = React.createClass({
 				React.createElement(
 					'h2',
 					null,
-					'Events'
+					'Recents Events'
 				),
 				eventInfo
 			)
@@ -35375,6 +35345,7 @@ module.exports = React.createClass({
 		var imageQuery = new Parse.Query(ImageModel);
 		var tireQuery = new Parse.Query(TireSetModel);
 		tireQuery.include('car');
+		tireQuery.include('user');
 		imageQuery.include('tires');
 		imageQuery.include('event');
 		imageQuery.equalTo('tires', new TireSetModel({ objectId: this.props.tiresId }));
@@ -35386,71 +35357,85 @@ module.exports = React.createClass({
 		});
 	},
 	render: function render() {
-		var _this2 = this;
-
+		var tires = this.state.tires ? this.state.tires.get('brand') + ' ' + this.state.tires.get('model') : 'loading';
+		var user = this.state.tires ? this.state.tires.get('user').get('firstName') + ' ' + this.state.tires.get('user').get('lastName') : 'loading';
+		var car = this.state.tires ? this.state.tires.get('car').get('carClass') + ' ' + this.state.tires.get('car').get('model') : 'loading';
 		var pic = this.state.pictures.map(function (picture) {
 			return React.createElement(
-				'div',
+				'li',
 				{ className: 'col-md-4' },
 				React.createElement(
-					'ul',
-					null,
+					'div',
+					{ className: 'panel panel-default' },
 					React.createElement(
-						'li',
-						null,
-						'Car:  ',
-						_this2.state.tires.get('car').get('carClass') + ' ' + _this2.state.tires.get('car').get('model')
-					),
-					React.createElement(
-						'li',
-						null,
-						'Tires:  ',
-						picture.get('tires').get('brand') + ' ' + picture.get('tires').get('model')
-					),
-					React.createElement(
-						'li',
-						null,
-						'Event Location:  ',
-						picture.get('event').get('location')
-					),
-					React.createElement(
-						'li',
-						null,
-						'Surface:  ',
-						picture.get('event').get('surface')
-					),
-					React.createElement(
-						'li',
-						null,
-						'Course Length:  ',
-						picture.get('event').get('courseLength'),
-						' seconds'
-					),
-					React.createElement(
-						'li',
-						null,
-						'Number Of Runs:  ',
-						picture.get('event').get('numberOfRuns')
-					),
-					React.createElement(
-						'li',
-						null,
-						'Total Runs On Tire:  ',
-						picture.get('tires').get('runs')
+						'div',
+						{ className: 'panel-body' },
+						React.createElement(
+							'div',
+							{ className: 'panel-info' },
+							React.createElement(
+								'p',
+								null,
+								'Event Location:  ',
+								picture.get('event').get('location')
+							),
+							React.createElement(
+								'p',
+								null,
+								'Surface:  ',
+								picture.get('event').get('surface')
+							),
+							React.createElement(
+								'p',
+								null,
+								'Course Length:  ',
+								picture.get('event').get('courseLength'),
+								' seconds'
+							),
+							React.createElement(
+								'p',
+								null,
+								'Event Runs:  ',
+								picture.get('event').get('numberOfRuns')
+							),
+							React.createElement(
+								'p',
+								null,
+								'Total Runs On Tire:  ',
+								picture.get('tires').get('runs')
+							)
+						),
+						React.createElement(
+							'div',
+							{ className: 'panel-more1 imageContainer' },
+							React.createElement('img', { className: 'tireImage', src: picture.get('image').url() })
+						)
 					)
-				),
-				React.createElement('img', { className: 'tireImage', src: picture.get('image').url() })
+				)
 			);
 		});
 		return React.createElement(
 			'div',
 			{ className: 'container-fluid' },
 			React.createElement(
-				'h2',
+				'h4',
 				null,
-				'Tire Data Page'
+				'History and event data for the ',
+				tires,
+				' tire set on ',
+				user,
+				' ',
+				car
 			),
-			pic
+			React.createElement(
+				'div',
+				{ className: 'container' },
+				React.createElement(
+					'ul',
+					{ className: 'list-group' },
+					pic
+				)
+			)
 		);
 	}
 });
@@ -35573,7 +35558,7 @@ module.exports = React.createClass({
 				{ className: 'row' },
 				React.createElement(
 					'div',
-					{ className: 'col-md-4' },
+					{ className: 'col-md-3' },
 					React.createElement(
 						'button',
 						{ type: 'button', className: 'btn btn-primary userButton', onClick: this.onAddCarModal },
@@ -35651,23 +35636,23 @@ module.exports = React.createClass({
 								React.createElement(AddUpdateTireComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
 							)
 						)
+					),
+					React.createElement(
+						'div',
+						null,
+						React.createElement(
+							'h4',
+							null,
+							'Active'
+						),
+						activeTires,
+						React.createElement(
+							'h4',
+							null,
+							'Retired'
+						),
+						retiredTires
 					)
-				),
-				React.createElement(
-					'div',
-					{ className: 'col-md-2' },
-					React.createElement(
-						'h4',
-						null,
-						'Active'
-					),
-					activeTires,
-					React.createElement(
-						'h4',
-						null,
-						'Retired'
-					),
-					retiredTires
 				),
 				React.createElement(
 					'div',
@@ -35697,6 +35682,7 @@ module.exports = React.createClass({
 	},
 	onCarEdited: function onCarEdited() {
 		$(this.refs.editCarBox).modal('hide');
+		this.updateState;
 	},
 	onTiresUpdated: function onTiresUpdated() {
 		$(this.refs.updateTiresBox).modal('hide');

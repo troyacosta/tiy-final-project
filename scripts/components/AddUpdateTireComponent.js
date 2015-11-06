@@ -55,12 +55,8 @@ module.exports = React.createClass({
 					<input type="text" className="form-control" ref="rearTireSize" placeholder="Required" />
 				</div>
 				<div className="form-group">					
-					<label>Tire Set Condition</label>
-					<input type="text" className="form-control" ref="startingCondition" placeholder="Optional" />
-				</div>
-				<div className="form-group">					
-					<label>Tread Depth</label>
-					<input type="text" className="form-control" ref="treadDepth" placeholder="Optional" />
+					<label>Current Runs On Tires</label>
+					<input type="number" className="form-control" ref="runs" placeholder="Optional" />
 				</div>
 				<button type="submit" className="btn btn-default">Add Tire Info!</button>
 			</form>
@@ -83,14 +79,14 @@ module.exports = React.createClass({
 			this.refs.model.value = (tires !== null) ? tires.get('model'): '';
 			this.refs.frontTireSize.value = (tires !== null) ? tires.get('frontTireSize'): '';
 			this.refs.rearTireSize.value = (tires !== null) ? tires.get('rearTireSize'): '';
-			this.refs.startingCondition.value = (tires !== null) ? tires.get('startingCondition'): '';
-			this.refs.treadDepth.value = (tires !== null) ? tires.get('treadDepth'): '';
+			this.refs.runs.value = (tires !== null) ? tires.get('runs'): '';
 		})		
 	},
 	//function that saves the tire information that was entered. This function will also set the "retired" property 
 	//to true on the old set of tires if the car is not new.
 	saveTireInfo: function(e) {
 		e.preventDefault();
+		var runs = parseInt(this.refs.runs.value);
 		var oldTires = (this.state.tires[0]) ? this.state.tires[0] : null;
 		var carId = this.refs.carPick.value;
 		var car = null;
@@ -104,8 +100,7 @@ module.exports = React.createClass({
 			model: this.refs.model.value,
 			frontTireSize: this.refs.frontTireSize.value,
 			rearTireSize: this.refs.rearTireSize.value,
-			startingCondition: this.refs.startingCondition.value,
-			treadDepth: this.refs.treadDepth.value,
+			runs: runs,
 			retired: false,
 			car: car,
 			user: Parse.User.current()

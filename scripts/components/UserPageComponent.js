@@ -78,7 +78,7 @@ module.exports = React.createClass({
 		return(
 			<div className="container userContainer">
 				<div className="row">
-					<div className="col-md-4">
+					<div className="col-md-3">
 		                <button type="button" className="btn btn-primary userButton" onClick={this.onAddCarModal}>Add Car</button>
 		                <div ref="addCarBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 		                    <div className="modal-dialog modal-sm">
@@ -110,13 +110,13 @@ module.exports = React.createClass({
 		                            <AddUpdateTireComponent dispatcher={this.dispatcher} userId={this.props.userId}/>
 		                        </div>
 		                    </div>
-		                </div>     
-			        </div>
-			        <div className="col-md-2">
-			        	<h4>Active</h4>
-			        	{activeTires}
-			        	<h4>Retired</h4>
-			        	{retiredTires}
+		                </div> 
+		                <div>
+				        	<h4>Active</h4>
+				        	{activeTires}
+				        	<h4>Retired</h4>
+				        	{retiredTires}
+			        	</div>    
 			        </div>
 			        <div className="col-md-8">
 						{events}
@@ -145,6 +145,7 @@ module.exports = React.createClass({
     },
     onCarEdited: function() {
     	$(this.refs.editCarBox).modal('hide');
+    	this.updateState;
     },
     onTiresUpdated: function() {
     	$(this.refs.updateTiresBox).modal('hide');

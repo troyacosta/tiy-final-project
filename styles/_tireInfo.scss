@@ -1,4 +1,10 @@
-.tireImage {
-	width: 100%;
-	max-height: 15em;
+.imageContainer {
+	height: 13em;
+	overflow: hidden;
+	.tireImage {
+		width: 100%
+	}
+}
+.list-group li {
+    list-style: none;
 }

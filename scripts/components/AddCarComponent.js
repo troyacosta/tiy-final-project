@@ -30,10 +30,6 @@ module.exports = React.createClass({
 					<input type="number" className="form-control" ref="weight" placeholder="Optional" />
 				</div>
 				<div className="form-group">					
-					<label>Color</label>
-					<input type="text" className="form-control" ref="color" placeholder="Optional" />
-				</div>
-				<div className="form-group">					
 					<label>Front Wheel Size</label>
 					<input type="text" className="form-control" ref="frontWheelSize" placeholder="Required" />
 				</div>
@@ -55,7 +51,6 @@ module.exports = React.createClass({
 			year: carYear,
 			carClass: this.refs.carClass.value,
 			weight: carWeight,
-			color: this.refs.color.value,
 			frontWheelSize: this.refs.frontWheelSize.value,
 			rearWheelSize: this.refs.rearWheelSize.value,
 			user: Parse.User.current()

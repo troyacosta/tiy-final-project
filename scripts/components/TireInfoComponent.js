@@ -15,6 +15,7 @@ module.exports = React.createClass({
 		var imageQuery = new Parse.Query(ImageModel);
 		var tireQuery = new Parse.Query(TireSetModel);
 		tireQuery.include('car');
+		tireQuery.include('user');
 		imageQuery.include('tires');
 		imageQuery.include('event');
 		imageQuery.equalTo('tires', new TireSetModel({objectId: this.props.tiresId}));
@@ -26,26 +27,39 @@ module.exports = React.createClass({
 		})
 	},
 	render: function() {
+		var tires = this.state.tires ? this.state.tires.get('brand')+' '+this.state.tires.get('model'): 'loading';
+		var user = this.state.tires ? this.state.tires.get('user').get('firstName')+' '+
+			this.state.tires.get('user').get('lastName'): 'loading';
+		var car = this.state.tires ? this.state.tires.get('car').get('carClass')+ ' '+
+			this.state.tires.get('car').get('model'): 'loading';
 		var pic = this.state.pictures.map((picture) => {
 			return(
-				<div className="col-md-4">
-					<ul>
-						<li>Car:  {this.state.tires.get('car').get('carClass')+ ' '+this.state.tires.get('car').get('model')}</li>
-						<li>Tires:  {picture.get('tires').get('brand')+' '+picture.get('tires').get('model')}</li>
-						<li>Event Location:  {picture.get('event').get('location')}</li>
-						<li>Surface:  {picture.get('event').get('surface')}</li>
-						<li>Course Length:  {picture.get('event').get('courseLength')} seconds</li>
-						<li>Number Of Runs:  {picture.get('event').get('numberOfRuns')}</li>
-						<li>Total Runs On Tire:  {picture.get('tires').get('runs')}</li>
-					</ul>
-					<img className="tireImage" src={picture.get('image').url()} />
-				</div>
+				<li className="col-md-4">
+					<div className="panel panel-default">
+            			<div className="panel-body">
+                			<div className="panel-info">
+								<p>Event Location:  {picture.get('event').get('location')}</p>
+								<p>Surface:  {picture.get('event').get('surface')}</p>
+								<p>Course Length:  {picture.get('event').get('courseLength')} seconds</p>
+								<p>Event Runs:  {picture.get('event').get('numberOfRuns')}</p>
+								<p>Total Runs On Tire:  {picture.get('tires').get('runs')}</p>
+							</div>
+							<div className="panel-more1 imageContainer">
+								<img className="tireImage" src={picture.get('image').url()} />
+							</div>
+						</div>
+					</div>
+				</li>
 			)
 		})
 		return(
 			<div className="container-fluid">
-				<h2>Tire Data Page</h2>
-				{pic}
+				<h4>History and event data for the {tires} tire set on {user} {car}</h4>
+				<div className="container" >
+					<ul className="list-group">
+						{pic}
+					</ul>
+				</div>
 			</div>
 		)
 	}

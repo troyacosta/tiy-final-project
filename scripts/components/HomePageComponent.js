@@ -28,40 +28,50 @@ module.exports = React.createClass({
 		})
 	},
 	render: function() {
+		//grabs the tires sets that are still in use
 		var activeTires = this.state.tires.map((tireSet) => {
 			if(tireSet.get('retired') === false) {
 				return(
 					<div>
-						<p>Owner: {tireSet.get('user').get('firstName')+' '+tireSet.get('user').get('lastName')}</p>
-						<a href={'#tireInfo/'+tireSet.id}>{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
+						<a href={'#tireInfo/'+tireSet.id} className="list-group-item">
+							{tireSet.get('brand')+' - '+tireSet.get('model')}<br />
+							Owner: {tireSet.get('user').get('firstName')+' '+tireSet.get('user').get('lastName')}
+						</a>
 					</div>
 				)
 			}
 		}).reverse();
+		//grabs all the tires that have been marked as retired
 		var retiredTires = this.state.tires.map((tireSet) => {
 			if(tireSet.get('retired') === true) {
 				return(
 					<div>
-						<p>Owner: {tireSet.get('user').get('firstName')+' '+tireSet.get('user').get('lastName')}</p>
-						<a href={'#tireInfo/'+tireSet.id}>{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
+						<a href={'#tireInfo/'+tireSet.id} className="list-group-item">
+							{tireSet.get('brand')+' - '+tireSet.get('model')}<br />
+							Owner: {tireSet.get('user').get('firstName')+' '+tireSet.get('user').get('lastName')}
+						</a>
 					</div>
 				)
 			}
 		}).reverse();
+		//this function grabs all the event info for all the tires. It is then mapped over and then rendered
 		var eventInfo = this.state.events.map((Event) => {
 			var car = Event.get('car');
 			var tires = Event.get('tires');
 			var poster = Event.get('user');
+			//adds a video link if one has been stored in the model, otherwise it displays nothing
+			var video = Event.get('videoLink') !== '' ? <a href={Event.get('videoLink')}>Video</a>: <br />;
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return(
 				<div className="container homePage">
 					<div className="row">
 						<div className="homePageEvent col-md-9">
+							<h6><i>Added by: {poster.get('firstName')+' '+poster.get('lastName')} on {date}</i></h6>
 							<h4>Event Location: {Event.get('location')}</h4>
 							<div>Car - {car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</div>
-							<div>Tires - {tires.get('model')}</div>
+							<a href={'#tireInfo/'+tires.id}>Tires - {tires.get('model')}</a>
 							<div>{Event.get('eventComments')}</div>
-							<h6><i>Added by {poster.get('firstName')+' '+poster.get('lastName')} on {date}</i></h6>
+							{video}
 						</div>
 					</div>
 				</div>
@@ -69,14 +79,14 @@ module.exports = React.createClass({
 		}).reverse();
 		return(
 			<div className="homePage">
-				<div className="col-md-2">
+				<div className="col-md-2 list-group">
 					<h4>Active Tire Sets</h4>
 					{activeTires}
 					<h4>Retired Tire Sets</h4>
 					{retiredTires}
 				</div>
 				<div className="col-md-8">
-					<h2>Events</h2>
+					<h2>Recents Events</h2>
 					{eventInfo}
 				</div>
 			</div>
