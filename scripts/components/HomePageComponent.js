@@ -32,7 +32,7 @@ module.exports = React.createClass({
 		var activeTires = this.state.tires.map((tireSet) => {
 			if(tireSet.get('retired') === false) {
 				return(
-					<div>
+					<div key={tireSet.id}>
 						<a href={'#tireInfo/'+tireSet.id} className="list-group-item">
 							{tireSet.get('brand')+' - '+tireSet.get('model')}<br />
 							Owner: {tireSet.get('user').get('firstName')+' '+tireSet.get('user').get('lastName')}
@@ -45,7 +45,7 @@ module.exports = React.createClass({
 		var retiredTires = this.state.tires.map((tireSet) => {
 			if(tireSet.get('retired') === true) {
 				return(
-					<div>
+					<div key={tireSet.id}>
 						<a href={'#tireInfo/'+tireSet.id} className="list-group-item">
 							{tireSet.get('brand')+' - '+tireSet.get('model')}<br />
 							Owner: {tireSet.get('user').get('firstName')+' '+tireSet.get('user').get('lastName')}
@@ -63,7 +63,7 @@ module.exports = React.createClass({
 			var video = Event.get('videoLink') !== '' ? <a href={Event.get('videoLink')}>Video</a>: <br />;
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return(
-				<div className="container homePage">
+				<div key={Event.id} className="container homePage">
 					<div className="row">
 						<div className="homePageEvent col-md-9">
 							<h6><i>Added by: {poster.get('firstName')+' '+poster.get('lastName')} on {date}</i></h6>

@@ -2,6 +2,7 @@
 var React = require('react');
 var ImageModel = require('../models/ImageModel');
 var TireSetModel = require('../models/TireSetModel');
+var TireProgressBar = require('./TireProgressBar');
 
 module.exports = React.createClass({
 	getInitialState: function() {
@@ -34,7 +35,7 @@ module.exports = React.createClass({
 			this.state.tires.get('car').get('model'): 'loading';
 		var pic = this.state.pictures.map((picture) => {
 			return(
-				<li className="col-md-4">
+				<li key={picture.id} className="col-md-4">
 					<div className="panel panel-default">
             			<div className="panel-body">
                 			<div className="panel-info">
@@ -60,6 +61,8 @@ module.exports = React.createClass({
 						{pic}
 					</ul>
 				</div>
+				<h4>Projected lifespan of this set of tires</h4>
+				<TireProgressBar tiresId={this.props.tiresId}/>
 			</div>
 		)
 	}

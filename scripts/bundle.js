@@ -34196,7 +34196,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/CarModel":187,"../models/TireSetModel":190,"react":174}],176:[function(require,module,exports){
+},{"../models/CarModel":188,"../models/TireSetModel":191,"react":174}],176:[function(require,module,exports){
 //this component is used to allow the user to create a new event. It takes in several data fields and stores that data
 //in the appropriate models. It is passed into the UserPageComponent for rendering.
 'use strict';
@@ -34249,10 +34249,10 @@ module.exports = React.createClass({
 				),
 				React.createElement(
 					'select',
-					{ className: 'form-control', onChange: this.getTires, ref: 'carPick' },
+					{ defaultValue: 'Cars', className: 'form-control', onChange: this.getTires, ref: 'carPick' },
 					React.createElement(
 						'option',
-						{ selected: true },
+						null,
 						'Cars'
 					),
 					carOptions
@@ -34402,7 +34402,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/CarModel":187,"../models/EventModel":188,"../models/ImageModel":189,"../models/TireSetModel":190,"react":174}],177:[function(require,module,exports){
+},{"../models/CarModel":188,"../models/EventModel":189,"../models/ImageModel":190,"../models/TireSetModel":191,"react":174}],177:[function(require,module,exports){
 //this component passes into the UserPageComponent and is used to add new tires to a new car or replace old tires
 //from an existing car
 'use strict';
@@ -34454,10 +34454,10 @@ module.exports = React.createClass({
 				),
 				React.createElement(
 					'select',
-					{ className: 'form-control', onChange: this.getCarTireInfo, ref: 'carPick' },
+					{ defaultValue: 'cars', className: 'form-control', onChange: this.getCarTireInfo, ref: 'carPick' },
 					React.createElement(
 						'option',
-						{ selected: true },
+						null,
 						'Cars'
 					),
 					carOptions
@@ -34580,7 +34580,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/CarModel":187,"../models/TireSetModel":190,"react":174}],178:[function(require,module,exports){
+},{"../models/CarModel":188,"../models/TireSetModel":191,"react":174}],178:[function(require,module,exports){
 //this component will give the user the ability to edit information about their cars and then save
 //those changes.
 'use strict';
@@ -34632,7 +34632,7 @@ module.exports = React.createClass({
 					{ className: 'form-control', onChange: this.getCarInfo, ref: 'carPick' },
 					React.createElement(
 						'option',
-						{ selected: true },
+						null,
 						'Cars'
 					),
 					carOptions
@@ -34721,7 +34721,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/CarModel":187,"../models/TireSetModel":190,"react":174}],179:[function(require,module,exports){
+},{"../models/CarModel":188,"../models/TireSetModel":191,"react":174}],179:[function(require,module,exports){
 //this component will be the home page for users once they're logged in. It will display the latest
 //events that have been added, regardless of who added them.
 'use strict';
@@ -34763,7 +34763,7 @@ module.exports = React.createClass({
 			if (tireSet.get('retired') === false) {
 				return React.createElement(
 					'div',
-					null,
+					{ key: tireSet.id },
 					React.createElement(
 						'a',
 						{ href: '#tireInfo/' + tireSet.id, className: 'list-group-item' },
@@ -34780,7 +34780,7 @@ module.exports = React.createClass({
 			if (tireSet.get('retired') === true) {
 				return React.createElement(
 					'div',
-					null,
+					{ key: tireSet.id },
 					React.createElement(
 						'a',
 						{ href: '#tireInfo/' + tireSet.id, className: 'list-group-item' },
@@ -34806,7 +34806,7 @@ module.exports = React.createClass({
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return React.createElement(
 				'div',
-				{ className: 'container homePage' },
+				{ key: Event.id, className: 'container homePage' },
 				React.createElement(
 					'div',
 					{ className: 'row' },
@@ -34886,7 +34886,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/EventModel":188,"../models/TireSetModel":190,"react":174}],180:[function(require,module,exports){
+},{"../models/EventModel":189,"../models/TireSetModel":191,"react":174}],180:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -35328,6 +35328,7 @@ module.exports = React.createClass({
 var React = require('react');
 var ImageModel = require('../models/ImageModel');
 var TireSetModel = require('../models/TireSetModel');
+var TireProgressBar = require('./TireProgressBar');
 
 module.exports = React.createClass({
 	displayName: 'exports',
@@ -35363,7 +35364,7 @@ module.exports = React.createClass({
 		var pic = this.state.pictures.map(function (picture) {
 			return React.createElement(
 				'li',
-				{ className: 'col-md-4' },
+				{ key: picture.id, className: 'col-md-4' },
 				React.createElement(
 					'div',
 					{ className: 'panel panel-default' },
@@ -35435,12 +35436,53 @@ module.exports = React.createClass({
 					{ className: 'list-group' },
 					pic
 				)
+			),
+			React.createElement(
+				'h4',
+				null,
+				'Projected lifespan of this set of tires'
+			),
+			React.createElement(TireProgressBar, { tiresId: this.props.tiresId })
+		);
+	}
+});
+
+},{"../models/ImageModel":190,"../models/TireSetModel":191,"./TireProgressBar":185,"react":174}],185:[function(require,module,exports){
+//this component will track and display the life span of a tire set
+'use strict';
+
+var React = require('react');
+var TireSetModel = require('../models/TireSetModel');
+
+module.exports = React.createClass({
+	displayName: 'exports',
+
+	coponentWillMount: function coponentWillMount() {
+		var query = new Parse.Query(TireSetModel);
+	},
+	render: function render() {
+		return React.createElement(
+			'div',
+			{ className: 'progress' },
+			React.createElement(
+				'div',
+				{ className: 'progress-bar',
+					role: 'progressbar',
+					'aria-valuenow': '70',
+					'aria-valuemin': '0',
+					'aria-valuemax': '200',
+					style: { width: '70%' } },
+				React.createElement(
+					'span',
+					{ className: 'sr-only' },
+					'70% Complete'
+				)
 			)
 		);
 	}
 });
 
-},{"../models/ImageModel":189,"../models/TireSetModel":190,"react":174}],185:[function(require,module,exports){
+},{"../models/TireSetModel":191,"react":174}],186:[function(require,module,exports){
 // this component has several other components passed into it for rendering. It will also display most of the user's information.
 'use strict';
 
@@ -35498,18 +35540,38 @@ module.exports = React.createClass({
 		var activeTires = this.state.tires.map(function (tireSet) {
 			if (tireSet.get('retired') === false) {
 				return React.createElement(
-					'a',
-					{ href: '#tireInfo/' + tireSet.id },
-					tireSet.get('brand') + ' - ' + tireSet.get('model')
+					'div',
+					{ key: tireSet.id },
+					React.createElement(
+						'a',
+						{ href: '#tireInfo/' + tireSet.id, className: 'list-group-item' },
+						tireSet.get('brand') + ' - ' + tireSet.get('model'),
+						React.createElement('br', null),
+						'Owner: ',
+						tireSet.get('user').get('firstName') + ' ' + tireSet.get('user').get('lastName')
+					)
 				);
 			}
 		}).reverse();
 		var retiredTires = this.state.tires.map(function (tireSet) {
-			if (tireSet.get('retired') === true) {
+			if (tireSet.get('retired') !== true) {
 				return React.createElement(
-					'a',
-					{ href: '#tireInfo/' + tireSet.id },
-					tireSet.get('brand') + ' - ' + tireSet.get('model')
+					'p',
+					{ key: tireSet.id },
+					'No Retired Tires Yet'
+				);
+			} else {
+				return React.createElement(
+					'div',
+					{ key: tireSet.id },
+					React.createElement(
+						'a',
+						{ href: '#tireInfo/' + tireSet.id, className: 'list-group-item' },
+						tireSet.get('brand') + ' - ' + tireSet.get('model'),
+						React.createElement('br', null),
+						'Owner: ',
+						tireSet.get('user').get('firstName') + ' ' + tireSet.get('user').get('lastName')
+					)
 				);
 			}
 		}).reverse();
@@ -35520,7 +35582,7 @@ module.exports = React.createClass({
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return React.createElement(
 				'div',
-				{ className: 'eventBox' },
+				{ key: Event.id, className: 'eventBox' },
 				React.createElement(
 					'h4',
 					null,
@@ -35636,23 +35698,23 @@ module.exports = React.createClass({
 								React.createElement(AddUpdateTireComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
 							)
 						)
-					),
-					React.createElement(
-						'div',
-						null,
-						React.createElement(
-							'h4',
-							null,
-							'Active'
-						),
-						activeTires,
-						React.createElement(
-							'h4',
-							null,
-							'Retired'
-						),
-						retiredTires
 					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'col-md-2 list-group' },
+					React.createElement(
+						'h4',
+						null,
+						'Active Tire Sets'
+					),
+					activeTires,
+					React.createElement(
+						'h4',
+						null,
+						'Retired Tire Sets'
+					),
+					retiredTires
 				),
 				React.createElement(
 					'div',
@@ -35689,7 +35751,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/EventModel":188,"../models/TireSetModel":190,"./AddCarComponent":175,"./AddEventComponent":176,"./AddUpdateTireComponent":177,"./EditCarComponent":178,"backbone":1,"react":174}],186:[function(require,module,exports){
+},{"../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/EventModel":189,"../models/TireSetModel":191,"./AddCarComponent":175,"./AddEventComponent":176,"./AddUpdateTireComponent":177,"./EditCarComponent":178,"backbone":1,"react":174}],187:[function(require,module,exports){
 'use strict';
 Parse.initialize('u0gLvnJkdRJJehZdZM1yjsdXQ5UBUDpMNYW8XwT2', 'J1ZNtYR0d27pbIEhWIaAE9ZN5OTqwhuqXxaU22QQ');
 var React = require('react');
@@ -35734,35 +35796,35 @@ var r = new Router();
 Backbone.history.start();
 ReactDOM.render(React.createElement(NavigationComponent, { router: r }), document.getElementById('nav'));
 
-},{"./components/HomePageComponent":179,"./components/LandingPageComponent":180,"./components/NavigationComponent":182,"./components/TireInfoComponent":184,"./components/UserPageComponent":185,"backbone":1,"bootstrap":4,"jquery":18,"react":174,"react-dom":19}],187:[function(require,module,exports){
+},{"./components/HomePageComponent":179,"./components/LandingPageComponent":180,"./components/NavigationComponent":182,"./components/TireInfoComponent":184,"./components/UserPageComponent":186,"backbone":1,"bootstrap":4,"jquery":18,"react":174,"react-dom":19}],188:[function(require,module,exports){
 'use strict';
 
 module.exports = Parse.Object.extend({
 	className: 'Car'
 });
 
-},{}],188:[function(require,module,exports){
+},{}],189:[function(require,module,exports){
 'use strict';
 
 module.exports = Parse.Object.extend({
 	className: 'Event'
 });
 
-},{}],189:[function(require,module,exports){
+},{}],190:[function(require,module,exports){
 'use strict';
 
 module.exports = Parse.Object.extend({
 	className: 'Image'
 });
 
-},{}],190:[function(require,module,exports){
+},{}],191:[function(require,module,exports){
 'use strict';
 
 module.exports = Parse.Object.extend({
 	className: 'Tires'
 });
 
-},{}]},{},[186])
+},{}]},{},[187])
 
 
 //# sourceMappingURL=bundle.js.map

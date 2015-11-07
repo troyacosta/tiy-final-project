@@ -34,8 +34,8 @@ module.exports = React.createClass({
 			<form className="loginForm" onSubmit={this.addEvent}>
 				<div className="form-group">
 					<label>Select Your Car</label>
-					<select className="form-control" onChange={this.getTires} ref="carPick">
-						<option selected>Cars</option>
+					<select defaultValue="Cars" className="form-control" onChange={this.getTires} ref="carPick">
+						<option>Cars</option>
 						{carOptions}
 					</select>
 				</div>

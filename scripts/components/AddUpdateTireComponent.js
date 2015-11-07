@@ -33,8 +33,8 @@ module.exports = React.createClass({
 			<form className="addTireForm" onSubmit={this.saveTireInfo}>
 				<div className="form-group">
 					<label>Select Your Car</label>
-					<select className="form-control" onChange={this.getCarTireInfo} ref="carPick">
-						<option selected>Cars</option>
+					<select defaultValue="cars" className="form-control" onChange={this.getCarTireInfo} ref="carPick">
+						<option>Cars</option>
 						{carOptions}
 					</select>
 				</div>

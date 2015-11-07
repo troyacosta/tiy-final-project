@@ -21,7 +21,7 @@ module.exports = React.createClass({
 		})
 	},
 	render: function() {
-			var carOptions = this.state.cars.map(function(car) {
+		var carOptions = this.state.cars.map(function(car) {
 			return(
 				<option value={car.id} key={car.id}>{car.get('make')+ ' - '+car.get('model')}</option>
 			)
@@ -31,7 +31,7 @@ module.exports = React.createClass({
 					<div className="form-group">
 						<label>Select Your Car</label>
 						<select className="form-control" onChange={this.getCarInfo} ref="carPick">
-							<option selected>Cars</option>
+							<option>Cars</option>
 							{carOptions}
 						</select>
 					</div>

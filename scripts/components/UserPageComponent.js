@@ -49,14 +49,29 @@ module.exports = React.createClass({
 		var activeTires = this.state.tires.map((tireSet) => {
 			if(tireSet.get('retired') === false) {
 				return(
-					<a href={'#tireInfo/'+tireSet.id}>{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
+					<div key={tireSet.id}>
+						<a href={'#tireInfo/'+tireSet.id} className="list-group-item">
+							{tireSet.get('brand')+' - '+tireSet.get('model')}<br />
+							Owner: {tireSet.get('user').get('firstName')+' '+tireSet.get('user').get('lastName')}
+						</a>
+					</div>
 				)
-			}
+		}
 		}).reverse();
 		var retiredTires = this.state.tires.map((tireSet) => {
-			if(tireSet.get('retired') === true) {
+			if(tireSet.get('retired') !== true) {
 				return(
-					<a href={'#tireInfo/'+tireSet.id}>{tireSet.get('brand')+' - '+tireSet.get('model')}</a>
+					<p key={tireSet.id}>No Retired Tires Yet</p>
+				)
+			}
+			else {
+				return(
+					<div key={tireSet.id}>
+						<a href={'#tireInfo/'+tireSet.id} className="list-group-item">
+							{tireSet.get('brand')+' - '+tireSet.get('model')}<br />
+							Owner: {tireSet.get('user').get('firstName')+' '+tireSet.get('user').get('lastName')}
+						</a>
+					</div>
 				)
 			}
 		}).reverse();
@@ -66,7 +81,7 @@ module.exports = React.createClass({
 			var user = Event.get('user');
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return(
-				<div className="eventBox">
+				<div key={Event.id} className="eventBox">
 					<h4>Event Location: {Event.get('location')}</h4>
 					<div>{date}</div>
 					<div>{car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</div>
@@ -111,13 +126,13 @@ module.exports = React.createClass({
 		                        </div>
 		                    </div>
 		                </div> 
-		                <div>
-				        	<h4>Active</h4>
-				        	{activeTires}
-				        	<h4>Retired</h4>
-				        	{retiredTires}
-			        	</div>    
 			        </div>
+			        <div className="col-md-2 list-group">
+						<h4>Active Tire Sets</h4>
+						{activeTires}
+						<h4>Retired Tire Sets</h4>
+						{retiredTires}
+					</div> 
 			        <div className="col-md-8">
 						{events}
 					</div>
