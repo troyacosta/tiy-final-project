@@ -34931,46 +34931,58 @@ module.exports = React.createClass({
 					React.createElement(
 						"div",
 						{ className: "col-md-4 icons" },
-						React.createElement("img", { src: "../images/helmet.png", height: "100px", width: "100px" }),
 						React.createElement(
-							"h3",
-							null,
-							"Lorem Ipsum"
-						),
-						React.createElement(
-							"h4",
-							null,
-							" Let us face it textbooks are not cheap. With PaperBack you can choose to borrow a book then return it when the semester ends."
+							"a",
+							{ href: "http://www.spokes.org/" },
+							React.createElement("img", { src: "../images/helmet.png", height: "100px", width: "100px" }),
+							React.createElement(
+								"h3",
+								null,
+								"Texas Spokes Sports Car Club"
+							),
+							React.createElement(
+								"h4",
+								null,
+								"The Texas Spokes Sports Car Club is based in Autin, Texas and is the premire autocross club in Central Texas."
+							)
 						)
 					),
 					React.createElement(
 						"div",
 						{ className: "col-md-4 icons" },
-						React.createElement("img", { src: "../images/race-car.png", height: "100px", width: "100px" }),
 						React.createElement(
-							"h3",
-							null,
-							"Auto Cross Ipsum"
-						),
-						React.createElement(
-							"h4",
-							null,
-							"This site is for anyone wanting to learn and explore the beauty of literature."
+							"a",
+							{ href: "http://www.scca.com/" },
+							React.createElement("img", { src: "../images/race-car.png", height: "100px", width: "100px" }),
+							React.createElement(
+								"h3",
+								null,
+								"The Sports Car Club of America"
+							),
+							React.createElement(
+								"h4",
+								null,
+								"The SportsCAr Club of America is your one stop shop for all things road racing, time trails and autocross."
+							)
 						)
 					),
 					React.createElement(
 						"div",
 						{ className: "col-md-4 icons" },
-						React.createElement("img", { src: "../images/tire.png", height: "100px", width: "100px" }),
 						React.createElement(
-							"h3",
-							null,
-							"Tire Ipsum"
-						),
-						React.createElement(
-							"h4",
-							null,
-							"Dont have time to go the bookstore. PaperBack is perfect for you."
+							"a",
+							{ href: "http://www.tirerack.com/" },
+							React.createElement("img", { src: "../images/tire.png", height: "100px", width: "100px" }),
+							React.createElement(
+								"h3",
+								null,
+								"The Tire Rack"
+							),
+							React.createElement(
+								"h4",
+								null,
+								"The Tire Rack has been a long time sponsor of the SCCA Solo Program. Shop here for all your tire needs."
+							)
 						)
 					)
 				)
@@ -35419,15 +35431,32 @@ module.exports = React.createClass({
 			'div',
 			{ className: 'container-fluid' },
 			React.createElement(
+				'p',
+				null,
+				'Car: ',
+				React.createElement(
+					'strong',
+					null,
+					car
+				)
+			),
+			React.createElement(
+				'p',
+				null,
+				'Driver: ',
+				React.createElement(
+					'strong',
+					null,
+					user
+				)
+			),
+			React.createElement(
 				'h4',
 				null,
-				'History and event data for the ',
-				tires,
-				' tire set on ',
-				user,
-				' ',
-				car
+				'Projected life cycle for this set of ',
+				tires
 			),
+			React.createElement(TireProgressBar, { tiresId: this.props.tiresId }),
 			React.createElement(
 				'div',
 				{ className: 'container' },
@@ -35436,13 +35465,7 @@ module.exports = React.createClass({
 					{ className: 'list-group' },
 					pic
 				)
-			),
-			React.createElement(
-				'h4',
-				null,
-				'Projected lifespan of this set of tires'
-			),
-			React.createElement(TireProgressBar, { tiresId: this.props.tiresId })
+			)
 		);
 	}
 });
@@ -35457,10 +35480,29 @@ var TireSetModel = require('../models/TireSetModel');
 module.exports = React.createClass({
 	displayName: 'exports',
 
-	coponentWillMount: function coponentWillMount() {
+	getInitialState: function getInitialState() {
+		return {
+			percentage: null
+		};
+	},
+	componentWillMount: function componentWillMount() {
+		var _this = this;
+
 		var query = new Parse.Query(TireSetModel);
+		query.get(this.props.tiresId).then(function (tires) {
+			var wearPercentage = null;
+			//calculation will be based on whether the tires are street or race tires
+			if (tires.get('raceTires') === true) {
+				wearPercentage = Math.floor(tires.get('runs') / 75 * 100);
+				_this.setState({ percentage: wearPercentage });
+			} else {
+				wearPercentage = Math.round(tires.get('runs') / 130 * 100);
+				_this.setState({ percentage: wearPercentage });
+			}
+		});
 	},
 	render: function render() {
+		var wearPercentage = this.state.percentage;
 		return React.createElement(
 			'div',
 			{ className: 'progress' },
@@ -35468,15 +35510,11 @@ module.exports = React.createClass({
 				'div',
 				{ className: 'progress-bar',
 					role: 'progressbar',
-					'aria-valuenow': '70',
 					'aria-valuemin': '0',
-					'aria-valuemax': '200',
-					style: { width: '70%' } },
-				React.createElement(
-					'span',
-					{ className: 'sr-only' },
-					'70% Complete'
-				)
+					'aria-valuemax': '100',
+					style: { width: wearPercentage + '%' } },
+				wearPercentage,
+				'% Complete'
 			)
 		);
 	}

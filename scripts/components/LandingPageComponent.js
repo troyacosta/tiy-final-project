@@ -15,19 +15,27 @@ module.exports = React.createClass({
 				<div className="container-fluid">
 					<div className="row">
 						<div className="col-md-4 icons">
-						<img src="../images/helmet.png" height="100px" width="100px" />
-						<h3>Lorem Ipsum</h3>
-						<h4> Let us face it textbooks are not cheap. With PaperBack you can choose to borrow a book then return it when the semester ends.</h4>
+							<a href="http://www.spokes.org/">
+								<img src="../images/helmet.png" height="100px" width="100px" />
+								<h3>Texas Spokes Sports Car Club</h3>
+								<h4>The Texas Spokes Sports Car Club is based in Autin, Texas and is the premire autocross
+									club in Central Texas.</h4>
+							</a>
 						</div>
 						<div className="col-md-4 icons">
-						<img src="../images/race-car.png" height="100px" width="100px" />
-						<h3>Auto Cross Ipsum</h3>
-						<h4>This site is for anyone wanting to learn and explore the beauty of literature.</h4>
+							<a href="http://www.scca.com/">
+								<img src="../images/race-car.png" height="100px" width="100px" />
+								<h3>The Sports Car Club of America</h3>
+								<h4>The SportsCAr Club of America is your one stop shop for all things road racing, time trails and autocross.</h4>
+							</a>
 						</div>
 						<div className="col-md-4 icons">
-						<img src="../images/tire.png" height="100px" width="100px" />
-						<h3>Tire Ipsum</h3>
-						<h4>Dont have time to go the bookstore. PaperBack is perfect for you.</h4>
+							<a href="http://www.tirerack.com/">
+								<img src="../images/tire.png" height="100px" width="100px" />
+								<h3>The Tire Rack</h3>
+								<h4>The Tire Rack has been a long time sponsor of the SCCA Solo Program. Shop here for all your
+									tire needs.</h4>
+							</a>
 						</div>
 					</div>
 				</div>
