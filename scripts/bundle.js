@@ -34469,6 +34469,34 @@ module.exports = React.createClass({
 				React.createElement(
 					'label',
 					null,
+					'Tire Type'
+				),
+				React.createElement(
+					'select',
+					{ className: 'form-control', ref: 'tireType' },
+					React.createElement(
+						'option',
+						null,
+						'Choose Tire Type'
+					),
+					React.createElement(
+						'option',
+						{ value: 'streetTire' },
+						'Street Tires'
+					),
+					React.createElement(
+						'option',
+						{ value: 'raceTire' },
+						'Race Tires'
+					)
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-group' },
+				React.createElement(
+					'label',
+					null,
 					'Tire Brand'
 				),
 				React.createElement('input', { type: 'text', className: 'form-control', ref: 'brand', placeholder: 'Required' })
@@ -34548,6 +34576,7 @@ module.exports = React.createClass({
 		var _this3 = this;
 
 		e.preventDefault();
+		var tireType = this.refs.tireType.value === 'raceTire' ? true : false;
 		var runs = parseInt(this.refs.runs.value);
 		var oldTires = this.state.tires[0] ? this.state.tires[0] : null;
 		var carId = this.refs.carPick.value;
@@ -34565,6 +34594,7 @@ module.exports = React.createClass({
 			runs: runs,
 			retired: false,
 			car: car,
+			raceTires: tireType,
 			user: Parse.User.current()
 		});
 		Tires.save(null, {
@@ -35170,7 +35200,7 @@ module.exports = React.createClass({
               React.createElement(
                 'i',
                 null,
-                'Track It'
+                'Track It!'
               )
             )
           ),
@@ -35372,7 +35402,9 @@ module.exports = React.createClass({
 	render: function render() {
 		var tires = this.state.tires ? this.state.tires.get('brand') + ' ' + this.state.tires.get('model') : 'loading';
 		var user = this.state.tires ? this.state.tires.get('user').get('firstName') + ' ' + this.state.tires.get('user').get('lastName') : 'loading';
-		var car = this.state.tires ? this.state.tires.get('car').get('carClass') + ' ' + this.state.tires.get('car').get('model') : 'loading';
+		var car = this.state.tires ? this.state.tires.get('car').get('carClass') : 'loading';
+		var carClass = this.state.tires ? this.state.tires.get('car').get('model') : 'loading';
+		var runs = this.state.tires ? this.state.tires.get('runs') : 'loading';
 		var pic = this.state.pictures.map(function (picture) {
 			return React.createElement(
 				'li',
@@ -35410,12 +35442,6 @@ module.exports = React.createClass({
 								null,
 								'Event Runs:  ',
 								picture.get('event').get('numberOfRuns')
-							),
-							React.createElement(
-								'p',
-								null,
-								'Total Runs On Tire:  ',
-								picture.get('tires').get('runs')
 							)
 						),
 						React.createElement(
@@ -35443,11 +35469,31 @@ module.exports = React.createClass({
 			React.createElement(
 				'p',
 				null,
+				'Class: ',
+				React.createElement(
+					'strong',
+					null,
+					carClass
+				)
+			),
+			React.createElement(
+				'p',
+				null,
 				'Driver: ',
 				React.createElement(
 					'strong',
 					null,
 					user
+				)
+			),
+			React.createElement(
+				'p',
+				null,
+				'Total Runs On Tire: ',
+				React.createElement(
+					'strong',
+					null,
+					runs
 				)
 			),
 			React.createElement(
@@ -35482,7 +35528,8 @@ module.exports = React.createClass({
 
 	getInitialState: function getInitialState() {
 		return {
-			percentage: null
+			percentage: null,
+			message: null
 		};
 	},
 	componentWillMount: function componentWillMount() {
@@ -35495,10 +35542,32 @@ module.exports = React.createClass({
 			if (tires.get('raceTires') === true) {
 				wearPercentage = Math.floor(tires.get('runs') / 75 * 100);
 				_this.setState({ percentage: wearPercentage });
-			} else {
+				if (_this.state.percentage < 20) {
+					_this.setState({ message: 'These are awesome!' });
+				} else if (_this.state.percentage > 20 && _this.state.percentage < 40) {
+					_this.setState({ message: 'They\'re decent, but you\'re not winning Nats with them' });
+				} else if (_this.state.percentage > 41 && _this.state.percentage < 65) {
+					_this.setState({ message: 'Closer to being dead than being alive' });
+				} else {
+					_this.setState({ message: 'You should be sending Tire Rack an order right now.' });
+				}
+			}
+			if (tires.get('raceTires') === false) {
 				wearPercentage = Math.round(tires.get('runs') / 130 * 100);
 				_this.setState({ percentage: wearPercentage });
+				if (_this.state.percentage < 50) {
+					_this.setState({ message: 'These are awesome!' });
+				} else if (_this.state.percentage > 50 && _this.state.percentage < 75) {
+					_this.setState({ message: 'They\'re decent, but you\'re not winning Nationals with them' });
+				} else if (_this.state.percentage > 76 && _this.state.percentage < 110) {
+					_this.setState({ message: 'Closer to being dead than being alive' });
+				} else {
+					_this.setState({ message: 'You should be sending Tire Rack an order right now.' });
+				}
 			}
+			console.log(tires.get('raceTires'));
+			console.log(_this.state.percentage);
+			console.log(_this.state.message);
 		});
 	},
 	render: function render() {
@@ -35514,7 +35583,8 @@ module.exports = React.createClass({
 					'aria-valuemax': '100',
 					style: { width: wearPercentage + '%' } },
 				wearPercentage,
-				'% Complete'
+				'% ',
+				this.state.message
 			)
 		);
 	}
@@ -35575,8 +35645,8 @@ module.exports = React.createClass({
 		});
 	},
 	render: function render() {
-		var activeTires = this.state.tires.map(function (tireSet) {
-			if (tireSet.get('retired') === false) {
+		var retiredTires = this.state.tires.map(function (tireSet) {
+			if (tireSet.get('retired') === true) {
 				return React.createElement(
 					'div',
 					{ key: tireSet.id },
@@ -35591,14 +35661,8 @@ module.exports = React.createClass({
 				);
 			}
 		}).reverse();
-		var retiredTires = this.state.tires.map(function (tireSet) {
-			if (tireSet.get('retired') !== true) {
-				return React.createElement(
-					'p',
-					{ key: tireSet.id },
-					'No Retired Tires Yet'
-				);
-			} else {
+		var activeTires = this.state.tires.map(function (tireSet) {
+			if (tireSet.get('retired') === false) {
 				return React.createElement(
 					'div',
 					{ key: tireSet.id },

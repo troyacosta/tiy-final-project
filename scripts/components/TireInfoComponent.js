@@ -31,8 +31,9 @@ module.exports = React.createClass({
 		var tires = this.state.tires ? this.state.tires.get('brand')+' '+this.state.tires.get('model'): 'loading';
 		var user = this.state.tires ? this.state.tires.get('user').get('firstName')+' '+
 			this.state.tires.get('user').get('lastName'): 'loading';
-		var car = this.state.tires ? this.state.tires.get('car').get('carClass')+ ' '+
-			this.state.tires.get('car').get('model'): 'loading';
+		var car = this.state.tires ? this.state.tires.get('car').get('carClass'): 'loading';
+		var carClass = this.state.tires ? this.state.tires.get('car').get('model'): 'loading';
+		var runs = this.state.tires ? this.state.tires.get('runs'): 'loading';
 		var pic = this.state.pictures.map((picture) => {
 			return(
 				<li key={picture.id} className="col-md-4">
@@ -43,7 +44,6 @@ module.exports = React.createClass({
 								<p>Surface:  {picture.get('event').get('surface')}</p>
 								<p>Course Length:  {picture.get('event').get('courseLength')} seconds</p>
 								<p>Event Runs:  {picture.get('event').get('numberOfRuns')}</p>
-								<p>Total Runs On Tire:  {picture.get('tires').get('runs')}</p>
 							</div>
 							<div className="panel-more1 imageContainer">
 								<img className="tireImage" src={picture.get('image').url()} />
@@ -56,7 +56,9 @@ module.exports = React.createClass({
 		return(
 			<div className="container-fluid">
 				<p>Car: <strong>{car}</strong></p>
+				<p>Class: <strong>{carClass}</strong></p>
 				<p>Driver: <strong>{user}</strong></p>
+				<p>Total Runs On Tire: <strong>{runs}</strong></p>
 				<h4>Projected life cycle for this set of {tires}</h4>
 				<TireProgressBar tiresId={this.props.tiresId}/>
 				<div className="container" >

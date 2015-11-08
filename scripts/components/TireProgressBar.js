@@ -5,7 +5,8 @@ var TireSetModel = require('../models/TireSetModel');
 module.exports = React.createClass({
 	getInitialState: function() {
 	    return ({
-	      	percentage: null   	
+	      	percentage: null,
+	      	message: null  	
 	    })
 	},
 	componentWillMount: function() {
@@ -16,11 +17,38 @@ module.exports = React.createClass({
 			if(tires.get('raceTires') === true) {
 				wearPercentage = Math.floor((tires.get('runs')/75)*100);
 				this.setState({percentage: wearPercentage});
+				if(this.state.percentage < 20) {
+					this.setState({message: 'These are awesome!'});
+				}
+				else if(this.state.percentage > 20 && this.state.percentage < 40) {
+					this.setState({message: 'They\'re decent, but you\'re not winning Nats with them'});
+				}
+				else if(this.state.percentage > 41 && this.state.percentage < 65) {
+					this.setState({message: 'Closer to being dead than being alive'});
+				}
+				else {
+					this.setState({message: 'You should be sending Tire Rack an order right now.'});
+				}
 			}
-			else {
+			if(tires.get('raceTires') === false) {
 				wearPercentage = Math.round((tires.get('runs')/130)*100);
 				this.setState({percentage: wearPercentage});
+				if(this.state.percentage < 50) {
+					this.setState({message: 'These are awesome!'});
+				}
+				else if(this.state.percentage > 50 && this.state.percentage < 75) {
+					this.setState({message: 'They\'re decent, but you\'re not winning Nationals with them'});
+				}
+				else if(this.state.percentage > 76 && this.state.percentage < 110) {
+					this.setState({message: 'Closer to being dead than being alive'});
+				}
+				else {
+					this.setState({message: 'You should be sending Tire Rack an order right now.'});
+				}
 			}
+			console.log(tires.get('raceTires'));
+			console.log(this.state.percentage);
+			console.log(this.state.message);
 		})
 	},
 	render: function() {
@@ -32,7 +60,7 @@ module.exports = React.createClass({
 					aria-valuemin='0'
 					aria-valuemax='100'
 					style={{width: wearPercentage+'%'}}>
-					{wearPercentage}% Complete
+					{wearPercentage}% {this.state.message}
 				</div>
 			</div>
 		)

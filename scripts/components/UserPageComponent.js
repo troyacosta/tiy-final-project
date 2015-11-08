@@ -46,8 +46,8 @@ module.exports = React.createClass({
 		})
 	},
 	render: function() {
-		var activeTires = this.state.tires.map((tireSet) => {
-			if(tireSet.get('retired') === false) {
+		var retiredTires = this.state.tires.map((tireSet) => {
+			if(tireSet.get('retired') === true) {
 				return(
 					<div key={tireSet.id}>
 						<a href={'#tireInfo/'+tireSet.id} className="list-group-item">
@@ -56,15 +56,10 @@ module.exports = React.createClass({
 						</a>
 					</div>
 				)
-		}
-		}).reverse();
-		var retiredTires = this.state.tires.map((tireSet) => {
-			if(tireSet.get('retired') !== true) {
-				return(
-					<p key={tireSet.id}>No Retired Tires Yet</p>
-				)
 			}
-			else {
+		}).reverse();
+		var activeTires = this.state.tires.map((tireSet) => {
+			if(tireSet.get('retired') === false) {
 				return(
 					<div key={tireSet.id}>
 						<a href={'#tireInfo/'+tireSet.id} className="list-group-item">

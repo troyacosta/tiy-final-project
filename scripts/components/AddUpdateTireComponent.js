@@ -38,6 +38,14 @@ module.exports = React.createClass({
 						{carOptions}
 					</select>
 				</div>
+				<div className="form-group">
+					<label>Tire Type</label>
+					<select className="form-control" ref="tireType">
+						<option>Choose Tire Type</option>
+						<option value="streetTire">Street Tires</option>
+						<option value="raceTire">Race Tires</option>
+					</select>
+				</div>
 				<div className="form-group">					
 					<label>Tire Brand</label>
 					<input type="text" className="form-control" ref="brand" placeholder="Required" />
@@ -86,6 +94,7 @@ module.exports = React.createClass({
 	//to true on the old set of tires if the car is not new.
 	saveTireInfo: function(e) {
 		e.preventDefault();
+		var tireType = (this.refs.tireType.value === 'raceTire') ? true: false;
 		var runs = parseInt(this.refs.runs.value);
 		var oldTires = (this.state.tires[0]) ? this.state.tires[0] : null;
 		var carId = this.refs.carPick.value;
@@ -103,6 +112,7 @@ module.exports = React.createClass({
 			runs: runs,
 			retired: false,
 			car: car,
+			raceTires: tireType,
 			user: Parse.User.current()
 		})
 		Tires.save(null, {
