@@ -31,7 +31,9 @@ module.exports = React.createClass({
 						<input type="password" className="form-control" ref="password" placeholder="Password" />
 					</div>
 					{errorElement}
-					<button type="submit" className="btn btn-default">Register!</button>
+					<div className="formButton">
+						<button type="submit" className="btn btn-default">Register!</button>
+					</div>
 				</form>
 			)
 	},

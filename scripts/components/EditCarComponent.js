@@ -51,7 +51,9 @@ module.exports = React.createClass({
 						<label>Rear Wheel Size</label>
 						<input type="text" className="form-control" ref="rearWheelSize" placeholder="Required" />
 					</div>
-					<button type="submit" className="btn btn-default">Save Car Info!</button>
+					<div className="formButton">
+						<button type="submit" className="btn btn-default">Save Car Info!</button>
+					</div>
 				</form>
 			)
 	},

@@ -5,18 +5,19 @@
 	margin-top: 5em;
 	box-sizing: border-box;
 	.eventBox {
-		border: 1px solid black;
-		background: #EE3536;
+		border: $border;
+		border-radius: $border-radius;
+		background: $event-box;
 		padding: 1em;
 		margin-top: 2em;
 	}
 	.userButton {
 		width: 10em;
-		background: #EE3536;
+		background: $button;
 		color: black;
 		margin-top: 2em;
-		border-radius:  5px;
+		border-radius: $border-radius;
 		outline: none;
-		border: 2px solid black;
+		border: $border;
 	}
 }

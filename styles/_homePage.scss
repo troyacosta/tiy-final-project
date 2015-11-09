@@ -10,8 +10,9 @@
 	}
 	.homePageEvent {
 		margin-top: 2em;
-		background: #EE3536;
-		border: 1px solid black;
+		background: $event-box;
+		border: $border;
+		border-radius: $border-radius;
 	}
 }
 

@@ -34168,9 +34168,13 @@ module.exports = React.createClass({
 				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearWheelSize', placeholder: 'Required' })
 			),
 			React.createElement(
-				'button',
-				{ type: 'submit', className: 'btn btn-default' },
-				'Add Car!'
+				'div',
+				{ className: 'formButton' },
+				React.createElement(
+					'button',
+					{ type: 'submit', className: 'btn btn-default' },
+					'Add Car!'
+				)
 			)
 		);
 	},
@@ -34339,9 +34343,13 @@ module.exports = React.createClass({
 				React.createElement('input', { type: 'file', className: 'form-control', ref: 'tirePic' })
 			),
 			React.createElement(
-				'button',
-				{ type: 'submit', className: 'btn btn-default' },
-				'Add Event!'
+				'div',
+				{ className: 'formButton' },
+				React.createElement(
+					'button',
+					{ type: 'submit', className: 'btn btn-default' },
+					'Add Event!'
+				)
 			)
 		);
 	},
@@ -34542,9 +34550,13 @@ module.exports = React.createClass({
 				React.createElement('input', { type: 'number', className: 'form-control', ref: 'runs', placeholder: 'Optional' })
 			),
 			React.createElement(
-				'button',
-				{ type: 'submit', className: 'btn btn-default' },
-				'Add Tire Info!'
+				'div',
+				{ className: 'formButton' },
+				React.createElement(
+					'button',
+					{ type: 'submit', className: 'btn btn-default' },
+					'Add Tire Info!'
+				)
 			)
 		);
 	},
@@ -34709,9 +34721,13 @@ module.exports = React.createClass({
 				React.createElement('input', { type: 'text', className: 'form-control', ref: 'rearWheelSize', placeholder: 'Required' })
 			),
 			React.createElement(
-				'button',
-				{ type: 'submit', className: 'btn btn-default' },
-				'Save Car Info!'
+				'div',
+				{ className: 'formButton' },
+				React.createElement(
+					'button',
+					{ type: 'submit', className: 'btn btn-default' },
+					'Save Car Info!'
+				)
 			)
 		);
 	},
@@ -35067,9 +35083,13 @@ module.exports = React.createClass({
 			),
 			errorElement,
 			React.createElement(
-				'button',
-				{ type: 'submit', className: 'btn btn-default' },
-				'Log On!'
+				'div',
+				{ className: 'formButton' },
+				React.createElement(
+					'button',
+					{ type: 'submit', className: 'btn btn-default' },
+					'Log On!'
+				)
 			)
 		);
 	},
@@ -35333,9 +35353,13 @@ module.exports = React.createClass({
 			),
 			errorElement,
 			React.createElement(
-				'button',
-				{ type: 'submit', className: 'btn btn-default' },
-				'Register!'
+				'div',
+				{ className: 'formButton' },
+				React.createElement(
+					'button',
+					{ type: 'submit', className: 'btn btn-default' },
+					'Register!'
+				)
 			)
 		);
 	},
@@ -35565,9 +35589,6 @@ module.exports = React.createClass({
 					_this.setState({ message: 'You should be sending Tire Rack an order right now.' });
 				}
 			}
-			console.log(tires.get('raceTires'));
-			console.log(_this.state.percentage);
-			console.log(_this.state.message);
 		});
 	},
 	render: function render() {

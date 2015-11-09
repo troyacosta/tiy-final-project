@@ -66,7 +66,9 @@ module.exports = React.createClass({
 					<label>Current Runs On Tires</label>
 					<input type="number" className="form-control" ref="runs" placeholder="Optional" />
 				</div>
-				<button type="submit" className="btn btn-default">Add Tire Info!</button>
+				<div className="formButton">
+					<button type="submit" className="btn btn-default">Add Tire Info!</button>
+				</div>
 			</form>
 		)
 	},

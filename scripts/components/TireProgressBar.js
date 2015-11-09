@@ -46,9 +46,6 @@ module.exports = React.createClass({
 					this.setState({message: 'You should be sending Tire Rack an order right now.'});
 				}
 			}
-			console.log(tires.get('raceTires'));
-			console.log(this.state.percentage);
-			console.log(this.state.message);
 		})
 	},
 	render: function() {

@@ -71,7 +71,9 @@ module.exports = React.createClass({
 					<label>Upload Tire Photo</label>
 					<input type="file" className="form-control" ref="tirePic"/>
 				</div>
+				<div className="formButton">
 					<button type="submit" className="btn btn-default">Add Event!</button>
+				</div>
 			</form>			
 		)
 	},
