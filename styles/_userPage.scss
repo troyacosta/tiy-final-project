@@ -1,23 +1,15 @@
-
-
-.userContainer {
-	margin: 0 auto;
-	margin-top: 5em;
-	box-sizing: border-box;
-	.eventBox {
-		border: $border;
-		border-radius: $border-radius;
-		background: $event-box;
-		padding: 1em;
-		margin-top: 2em;
-	}
-	.userButton {
-		width: 10em;
-		background: $button;
+.userButton {
+	width: 10em;
+	background: $button;
+	color: black;
+	margin-top: 2em;
+	border-radius: $border-radius;
+	outline: none;
+	border: $border;
+}
+.userPage {
+	h2 {
 		color: black;
-		margin-top: 2em;
-		border-radius: $border-radius;
-		outline: none;
-		border: $border;
+		text-align: center;
 	}
 }

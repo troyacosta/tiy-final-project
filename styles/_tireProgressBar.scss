@@ -1,7 +1,10 @@
 .progress {
 	border-radius: 10px;
-	height: 2.5em;
+	height: 3em;
+	width: 60%;
+	margin: 0 auto;
 	.progress-bar {
 		color: #fff;
+		background-color: $progress-bar;
 	}
 }

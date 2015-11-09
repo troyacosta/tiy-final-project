@@ -19,4 +19,12 @@ form{
 		text-align: center;
 	}
 }
+.eventBox {
+	border: $border;
+	border-radius: $border-radius;
+	background: $box;
+	color: $box-text;
+	padding: 1em;
+	margin-top: 2em;
+}
 

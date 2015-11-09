@@ -63,9 +63,8 @@ module.exports = React.createClass({
 			var video = Event.get('videoLink') !== '' ? <a href={Event.get('videoLink')}>Video</a>: <br />;
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return(
-				<div key={Event.id} className="container homePage">
-					<div className="row">
-						<div className="homePageEvent col-md-9">
+				
+						<div key={Event.id} className="eventBox">
 							<h6><i>Added by: {poster.get('firstName')+' '+poster.get('lastName')} on {date}</i></h6>
 							<h4>Event Location: {Event.get('location')}</h4>
 							<div>Car - {car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</div>
@@ -73,21 +72,23 @@ module.exports = React.createClass({
 							<div>{Event.get('eventComments')}</div>
 							{video}
 						</div>
-					</div>
-				</div>
+					
+				
 			)
 		}).reverse();
 		return(
-			<div className="homePage">
-				<div className="col-md-2 list-group">
-					<h4>Active Tire Sets</h4>
-					{activeTires}
-					<h4>Retired Tire Sets</h4>
-					{retiredTires}
-				</div>
-				<div className="col-md-8">
-					<h2>Recents Events</h2>
-					{eventInfo}
+			<div className="container-fluid homePage">
+				<div className="row">
+					<div className="col-md-2 list-group">
+						<h2>Active Tire Sets</h2>
+						{activeTires}
+						<h2>Retired Tire Sets</h2>
+						{retiredTires}
+					</div>
+					<div className="col-md-10">
+						<h2>Recents Events</h2>
+						{eventInfo}
+					</div>
 				</div>
 			</div>
 		)

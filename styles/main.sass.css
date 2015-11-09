@@ -3,7 +3,7 @@
   margin-bottom: 0;
   border-bottom: black; }
   .navbar .container-fluid {
-    background: #95BCC5;
+    background: #12D9FF;
     border-bottom: black; }
 
 .navbar-default .navbar-nav > li > a {
@@ -125,33 +125,21 @@ main {
   padding-bottom: 3em;
   margin: 0 auto; }
 
-.homePage .homePageEvent {
-  margin-top: 2em;
-  background: #95BCC5;
-  border: 1px solid #000000;
-  border-radius: 5px; }
-
 a {
   display: block; }
 
-.userContainer {
-  margin: 0 auto;
-  margin-top: 5em;
-  box-sizing: border-box; }
-  .userContainer .eventBox {
-    border: 1px solid #000000;
-    border-radius: 5px;
-    background: #95BCC5;
-    padding: 1em;
-    margin-top: 2em; }
-  .userContainer .userButton {
-    width: 10em;
-    background: #95BCC5;
-    color: black;
-    margin-top: 2em;
-    border-radius: 5px;
-    outline: none;
-    border: 1px solid #000000; }
+.userButton {
+  width: 10em;
+  background: #95BCC5;
+  color: black;
+  margin-top: 2em;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid #C5BDBD; }
+
+.userPage h2 {
+  color: black;
+  text-align: center; }
 
 .imageContainer {
   height: 13em;
@@ -162,19 +150,34 @@ a {
 .list-group li {
   list-style: none; }
 
+.panel {
+  background-color: #E4E6E6;
+  color: #4B4F50; }
+
 .progress {
   border-radius: 10px;
-  height: 2.5em; }
+  height: 3em;
+  width: 60%;
+  margin: 0 auto; }
   .progress .progress-bar {
-    color: #fff; }
+    color: #fff;
+    background-color: #12D9FF; }
 
 html {
   height: 100em; }
 
 form {
   background: #95BCC5;
-  border: 1px solid #000000;
+  border: 1px solid #C5BDBD;
   border-radius: 5px;
   padding: 6%; }
   form .formButton {
     text-align: center; }
+
+.eventBox {
+  border: 1px solid #C5BDBD;
+  border-radius: 5px;
+  background: #E4E6E6;
+  color: #4B4F50;
+  padding: 1em;
+  margin-top: 2em; }

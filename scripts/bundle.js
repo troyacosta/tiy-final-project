@@ -34852,81 +34852,77 @@ module.exports = React.createClass({
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return React.createElement(
 				'div',
-				{ key: Event.id, className: 'container homePage' },
+				{ key: Event.id, className: 'eventBox' },
+				React.createElement(
+					'h6',
+					null,
+					React.createElement(
+						'i',
+						null,
+						'Added by: ',
+						poster.get('firstName') + ' ' + poster.get('lastName'),
+						' on ',
+						date
+					)
+				),
+				React.createElement(
+					'h4',
+					null,
+					'Event Location: ',
+					Event.get('location')
+				),
 				React.createElement(
 					'div',
-					{ className: 'row' },
-					React.createElement(
-						'div',
-						{ className: 'homePageEvent col-md-9' },
-						React.createElement(
-							'h6',
-							null,
-							React.createElement(
-								'i',
-								null,
-								'Added by: ',
-								poster.get('firstName') + ' ' + poster.get('lastName'),
-								' on ',
-								date
-							)
-						),
-						React.createElement(
-							'h4',
-							null,
-							'Event Location: ',
-							Event.get('location')
-						),
-						React.createElement(
-							'div',
-							null,
-							'Car - ',
-							car.get('carClass') + ' - ' + car.get('make') + ' ' + car.get('model')
-						),
-						React.createElement(
-							'a',
-							{ href: '#tireInfo/' + tires.id },
-							'Tires - ',
-							tires.get('model')
-						),
-						React.createElement(
-							'div',
-							null,
-							Event.get('eventComments')
-						),
-						video
-					)
-				)
+					null,
+					'Car - ',
+					car.get('carClass') + ' - ' + car.get('make') + ' ' + car.get('model')
+				),
+				React.createElement(
+					'a',
+					{ href: '#tireInfo/' + tires.id },
+					'Tires - ',
+					tires.get('model')
+				),
+				React.createElement(
+					'div',
+					null,
+					Event.get('eventComments')
+				),
+				video
 			);
 		}).reverse();
 		return React.createElement(
 			'div',
-			{ className: 'homePage' },
+			{ className: 'container-fluid homePage' },
 			React.createElement(
 				'div',
-				{ className: 'col-md-2 list-group' },
+				{ className: 'row' },
 				React.createElement(
-					'h4',
-					null,
-					'Active Tire Sets'
+					'div',
+					{ className: 'col-md-2 list-group' },
+					React.createElement(
+						'h2',
+						null,
+						'Active Tire Sets'
+					),
+					activeTires,
+					React.createElement(
+						'h2',
+						null,
+						'Retired Tire Sets'
+					),
+					retiredTires
 				),
-				activeTires,
 				React.createElement(
-					'h4',
-					null,
-					'Retired Tire Sets'
-				),
-				retiredTires
-			),
-			React.createElement(
-				'div',
-				{ className: 'col-md-8' },
-				React.createElement(
-					'h2',
-					null,
-					'Recents Events'
-				),
-				eventInfo
+					'div',
+					{ className: 'col-md-10' },
+					React.createElement(
+						'h2',
+						null,
+						'Recents Events'
+					),
+					eventInfo
+				)
 			)
 		);
 	}
@@ -35701,7 +35697,6 @@ module.exports = React.createClass({
 		var events = this.state.events.map(function (Event) {
 			var car = Event.get('car');
 			var tires = Event.get('tires');
-			var user = Event.get('user');
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return React.createElement(
 				'div',
@@ -35737,13 +35732,13 @@ module.exports = React.createClass({
 		}).reverse();
 		return React.createElement(
 			'div',
-			{ className: 'container userContainer' },
+			{ className: 'container-fluid userContainer' },
 			React.createElement(
 				'div',
 				{ className: 'row' },
 				React.createElement(
 					'div',
-					{ className: 'col-md-3' },
+					{ className: 'col-xs-3' },
 					React.createElement(
 						'button',
 						{ type: 'button', className: 'btn btn-primary userButton', onClick: this.onAddCarModal },
@@ -35761,9 +35756,11 @@ module.exports = React.createClass({
 								React.createElement(AddCarComponent, { dispatcher: this.dispatcher })
 							)
 						)
-					),
-					' ',
-					React.createElement('br', null),
+					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'col-xs-3' },
 					React.createElement(
 						'button',
 						{ type: 'button', className: 'btn btn-primary userButton', onClick: this.onAddEventModal },
@@ -35781,9 +35778,11 @@ module.exports = React.createClass({
 								React.createElement(AddEventComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
 							)
 						)
-					),
-					'  ',
-					React.createElement('br', null),
+					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'col-xs-3' },
 					React.createElement(
 						'button',
 						{ type: 'button', className: 'btn btn-primary userButton', onClick: this.onEditCarModal },
@@ -35801,9 +35800,11 @@ module.exports = React.createClass({
 								React.createElement(EditCarComponent, { dispatcher: this.dispatcher, userId: this.props.userId })
 							)
 						)
-					),
-					'   ',
-					React.createElement('br', null),
+					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'col-xs-3' },
 					React.createElement(
 						'button',
 						{ type: 'button', className: 'btn btn-primary userButton', onClick: this.onUpdateTiresModal },
@@ -35822,18 +35823,22 @@ module.exports = React.createClass({
 							)
 						)
 					)
-				),
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'row userPage' },
 				React.createElement(
 					'div',
-					{ className: 'col-md-2 list-group' },
+					{ className: 'col-md-2' },
 					React.createElement(
-						'h4',
+						'h2',
 						null,
 						'Active Tire Sets'
 					),
 					activeTires,
 					React.createElement(
-						'h4',
+						'h2',
 						null,
 						'Retired Tire Sets'
 					),
@@ -35841,7 +35846,12 @@ module.exports = React.createClass({
 				),
 				React.createElement(
 					'div',
-					{ className: 'col-md-8' },
+					{ className: 'col-md-10' },
+					React.createElement(
+						'h2',
+						null,
+						'Your Recent Events'
+					),
 					events
 				)
 			)
