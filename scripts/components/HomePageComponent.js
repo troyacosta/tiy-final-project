@@ -60,27 +60,24 @@ module.exports = React.createClass({
 			var tires = Event.get('tires');
 			var poster = Event.get('user');
 			//adds a video link if one has been stored in the model, otherwise it displays nothing
-			var video = Event.get('videoLink') !== '' ? <a href={Event.get('videoLink')}>Video</a>: <br />;
+			var video = Event.get('videoLink') !== '' ? <a href={Event.get('videoLink')}>Video Link</a>: <br />;
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return(
-				
 						<div key={Event.id} className="eventBox">
 							<h5><strong><i>Added by: {poster.get('firstName')+' '+poster.get('lastName')} on {date}</i></strong></h5>
 							<h4>Event Location: {Event.get('location')}</h4>
 							<h5>Car - {car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</h5>
 							<a href={'#tireInfo/'+tires.id}>Tires - {tires.get('model')}</a>
 							<p>{Event.get('eventComments')}</p>
-							{video}
+							{video}						
 						</div>
-					
-				
 			)
 		}).reverse();
 		return(
 			<div className="container-fluid homePage">
 				<div className="row">
 					<div className="col-md-2 list-group">
-						<h2 className="activeTires">Active Tires</h2>
+						<h2>Active Tires</h2>
 						{activeTires}
 						<h2>Retired Tires</h2>
 						{retiredTires}

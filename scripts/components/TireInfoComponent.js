@@ -55,10 +55,12 @@ module.exports = React.createClass({
 		})
 		return(
 			<div className="container-fluid">
-				<p>Car: <strong>{car}</strong></p>
-				<p>Class: <strong>{carClass}</strong></p>
-				<p>Driver: <strong>{user}</strong></p>
-				<p>Total Runs On These Tires: <strong>{runs}</strong></p>
+				<div className="row driverInfo">
+					<div className="col-sm-3"><h5>Car: <strong>{car}</strong></h5></div>
+					<div className="col-sm-3"><h5>Class: <strong>{carClass}</strong></h5></div>
+					<div className="col-sm-3"><h5>Driver: <strong>{user}</strong></h5></div>
+					<div className="col-sm-3"><h5>Total Runs On These Tires: <strong>{runs}</strong></h5></div>
+				</div>
 				<div className="barContainer">
 					<h4>Projected life cycle for this set of {tires}</h4>
 					<TireProgressBar tiresId={this.props.tiresId}/>

@@ -1,13 +1,14 @@
 .navbar {
 	position: relative;
-	margin-bottom: 0;
-	border-bottom: black;
+	margin-bottom: -2px;
 	.container-fluid {
 		background: $nav-bar;
-		border-bottom: black;
 	}
 }
-
+.navbar-default .navbar-brand {
+	font-size: 2em;
+	color: $nav-link-color;
+}
 .navbar-default .navbar-nav>li>a {
-	color: black;
+	color: $nav-link-color;
 }

@@ -34847,7 +34847,7 @@ module.exports = React.createClass({
 			var video = Event.get('videoLink') !== '' ? React.createElement(
 				'a',
 				{ href: Event.get('videoLink') },
-				'Video'
+				'Video Link'
 			) : React.createElement('br', null);
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return React.createElement(
@@ -34906,7 +34906,7 @@ module.exports = React.createClass({
 					{ className: 'col-md-2 list-group' },
 					React.createElement(
 						'h2',
-						{ className: 'activeTires' },
+						null,
 						'Active Tires'
 					),
 					activeTires,
@@ -35481,43 +35481,63 @@ module.exports = React.createClass({
 			'div',
 			{ className: 'container-fluid' },
 			React.createElement(
-				'p',
-				null,
-				'Car: ',
+				'div',
+				{ className: 'row driverInfo' },
 				React.createElement(
-					'strong',
-					null,
-					car
-				)
-			),
-			React.createElement(
-				'p',
-				null,
-				'Class: ',
+					'div',
+					{ className: 'col-sm-3' },
+					React.createElement(
+						'h5',
+						null,
+						'Car: ',
+						React.createElement(
+							'strong',
+							null,
+							car
+						)
+					)
+				),
 				React.createElement(
-					'strong',
-					null,
-					carClass
-				)
-			),
-			React.createElement(
-				'p',
-				null,
-				'Driver: ',
+					'div',
+					{ className: 'col-sm-3' },
+					React.createElement(
+						'h5',
+						null,
+						'Class: ',
+						React.createElement(
+							'strong',
+							null,
+							carClass
+						)
+					)
+				),
 				React.createElement(
-					'strong',
-					null,
-					user
-				)
-			),
-			React.createElement(
-				'p',
-				null,
-				'Total Runs On These Tires: ',
+					'div',
+					{ className: 'col-sm-3' },
+					React.createElement(
+						'h5',
+						null,
+						'Driver: ',
+						React.createElement(
+							'strong',
+							null,
+							user
+						)
+					)
+				),
 				React.createElement(
-					'strong',
-					null,
-					runs
+					'div',
+					{ className: 'col-sm-3' },
+					React.createElement(
+						'h5',
+						null,
+						'Total Runs On These Tires: ',
+						React.createElement(
+							'strong',
+							null,
+							runs
+						)
+					)
 				)
 			),
 			React.createElement(
@@ -35771,7 +35791,7 @@ module.exports = React.createClass({
 					),
 					React.createElement(
 						'div',
-						{ ref: 'addCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+						{ ref: 'addCarBox', className: 'modal fade bs-example-modal-sm', tabIndex: '-1', role: 'dialog' },
 						React.createElement(
 							'div',
 							{ className: 'modal-dialog modal-sm' },
@@ -35793,10 +35813,10 @@ module.exports = React.createClass({
 					),
 					React.createElement(
 						'div',
-						{ ref: 'addEventBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+						{ ref: 'addEventBox', className: 'modal fade bs-example-modal-sm', tabIndex: '-1', role: 'dialog' },
 						React.createElement(
 							'div',
-							{ className: 'modal-dialog modal-lg' },
+							{ className: 'modal-dialog modal-sm' },
 							React.createElement(
 								'div',
 								{ className: 'modal-content' },
@@ -35815,7 +35835,7 @@ module.exports = React.createClass({
 					),
 					React.createElement(
 						'div',
-						{ ref: 'editCarBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+						{ ref: 'editCarBox', className: 'modal fade bs-example-modal-sm', tabIndex: '-1', role: 'dialog' },
 						React.createElement(
 							'div',
 							{ className: 'modal-dialog modal-sm' },
@@ -35837,7 +35857,7 @@ module.exports = React.createClass({
 					),
 					React.createElement(
 						'div',
-						{ ref: 'updateTiresBox', className: 'modal fade bs-example-modal-lg', tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myLargeModalLabel' },
+						{ ref: 'updateTiresBox', className: 'modal fade bs-example-modal-sm', tabIndex: '-1', role: 'dialog' },
 						React.createElement(
 							'div',
 							{ className: 'modal-dialog modal-sm' },

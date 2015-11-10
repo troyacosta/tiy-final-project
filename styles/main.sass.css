@@ -1,13 +1,15 @@
 .navbar {
   position: relative;
-  margin-bottom: 0;
-  border-bottom: black; }
+  margin-bottom: -2px; }
   .navbar .container-fluid {
-    background: #95BCC5;
-    border-bottom: black; }
+    background: #95BCC5; }
+
+.navbar-default .navbar-brand {
+  font-size: 2em;
+  color: #fff; }
 
 .navbar-default .navbar-nav > li > a {
-  color: black; }
+  color: #fff; }
 
 /*==========SCALE-IN==========*/
 @-webkit-keyframes scale-in {
@@ -165,7 +167,11 @@ a {
   text-align: center;
   width: 60%;
   color: #4B4F50;
-  margin: 0 auto 3em auto; }
+  margin: 4em auto; }
+
+.driverInfo {
+  text-align: center;
+  color: #4B4F50; }
 
 .progress {
   border-radius: 5px;
