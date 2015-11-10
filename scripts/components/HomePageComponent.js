@@ -67,7 +67,7 @@ module.exports = React.createClass({
 							<h5><strong><i>Added by: {poster.get('firstName')+' '+poster.get('lastName')} on {date}</i></strong></h5>
 							<h4>Event Location: {Event.get('location')}</h4>
 							<h5>Car - {car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</h5>
-							<a href={'#tireInfo/'+tires.id}>Tires - {tires.get('model')}</a>
+							<a href={'#tireInfo/'+tires.id}>Tires:  {tires.get('brand')+' '+tires.get('model')}</a>
 							<p>{Event.get('eventComments')}</p>
 							{video}						
 						</div>
@@ -77,7 +77,7 @@ module.exports = React.createClass({
 			<div className="container-fluid homePage">
 				<div className="row">
 					<div className="col-md-2 list-group">
-						<h2>Active Tires</h2>
+						<h2 className="activeTires">Active Tires</h2>
 						{activeTires}
 						<h2>Retired Tires</h2>
 						{retiredTires}

@@ -34884,8 +34884,8 @@ module.exports = React.createClass({
 				React.createElement(
 					'a',
 					{ href: '#tireInfo/' + tires.id },
-					'Tires - ',
-					tires.get('model')
+					'Tires:  ',
+					tires.get('brand') + ' ' + tires.get('model')
 				),
 				React.createElement(
 					'p',
@@ -34906,7 +34906,7 @@ module.exports = React.createClass({
 					{ className: 'col-md-2 list-group' },
 					React.createElement(
 						'h2',
-						null,
+						{ className: 'activeTires' },
 						'Active Tires'
 					),
 					activeTires,
@@ -35733,6 +35733,12 @@ module.exports = React.createClass({
 		var events = this.state.events.map(function (Event) {
 			var car = Event.get('car');
 			var tires = Event.get('tires');
+			//adds a video link if one has been stored in the model, otherwise it displays nothing
+			var video = Event.get('videoLink') !== '' ? React.createElement(
+				'a',
+				{ href: Event.get('videoLink') },
+				'Video Link'
+			) : React.createElement('br', null);
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return React.createElement(
 				'div',
@@ -35763,16 +35769,17 @@ module.exports = React.createClass({
 					car.get('carClass') + ' - ' + car.get('make') + ' ' + car.get('model')
 				),
 				React.createElement(
-					'p',
-					null,
-					'Tires - ',
-					tires.get('model')
+					'a',
+					{ href: '#tireInfo/' + tires.id },
+					'Tires:  ',
+					tires.get('brand') + ' ' + tires.get('model')
 				),
 				React.createElement(
 					'p',
 					null,
 					Event.get('eventComments')
-				)
+				),
+				video
 			);
 		}).reverse();
 		return React.createElement(

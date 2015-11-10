@@ -73,14 +73,17 @@ module.exports = React.createClass({
 		var events = this.state.events.map((Event) => {
 			var car = Event.get('car');
 			var tires = Event.get('tires');
+			//adds a video link if one has been stored in the model, otherwise it displays nothing
+			var video = Event.get('videoLink') !== '' ? <a href={Event.get('videoLink')}>Video Link</a>: <br />;
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return(
 				<div key={Event.id} className="eventBox">
 					<h5><strong><i>Added on: {date}</i></strong></h5>
 					<h4>Event Location: {Event.get('location')}</h4>
 					<h5>{car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</h5>
-					<p>Tires - {tires.get('model')}</p>
+					<a href={'#tireInfo/'+tires.id}>Tires:  {tires.get('brand')+' '+tires.get('model')}</a>
 					<p>{Event.get('eventComments')}</p>
+					{video}
 				</div>
 			)
 		}).reverse();

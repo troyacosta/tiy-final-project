@@ -2,14 +2,14 @@
   position: relative;
   margin-bottom: -2px; }
   .navbar .container-fluid {
-    background: #95BCC5; }
+    background: #47639E; }
 
 .navbar-default .navbar-brand {
   font-size: 2em;
-  color: #fff; }
+  color: #FFFFFF; }
 
 .navbar-default .navbar-nav > li > a {
-  color: #fff; }
+  color: #FFFFFF; }
 
 /*==========SCALE-IN==========*/
 @-webkit-keyframes scale-in {
@@ -127,6 +127,9 @@ main {
   padding-bottom: 3em;
   margin: 0 auto; }
 
+.homePage .activeTires {
+  margin-bottom: .9em; }
+
 a {
   display: block; }
 
@@ -135,13 +138,13 @@ a {
 
 .userButton {
   width: 10em;
-  background: #E4E6E6;
+  background: #ADADB1;
   color: #4B4F50;
   margin-top: 1.5em;
   margin-bottom: 4em;
   border-radius: 5px;
   outline: none;
-  border: 1px solid #C5BDBD; }
+  border: 1px solid #656262; }
 
 .userButton:hover {
   opacity: .25; }
@@ -160,7 +163,7 @@ a {
   list-style: none; }
 
 .panel {
-  background-color: #E4E6E6;
+  background-color: #fff;
   color: #4B4F50; }
 
 .barContainer {
@@ -171,33 +174,37 @@ a {
 
 .driverInfo {
   text-align: center;
-  color: #4B4F50; }
+  color: #4B4F50;
+  margin-top: 2em; }
 
 .progress {
   border-radius: 5px;
   color: #4B4F50;
   height: 3em; }
   .progress .progress-bar {
-    color: #4B4F50;
-    background-color: #95BCC5;
+    color: #fff;
+    background-color: #47639E;
     font-size: 2em;
     padding-top: .4em; }
 
 html {
   height: 100em; }
 
+body {
+  background-color: #E9EAED; }
+
 form {
   background: #95BCC5;
-  border: 1px solid #C5BDBD;
+  border: 1px solid #656262;
   border-radius: 5px;
   padding: 6%; }
   form .formButton {
     text-align: center; }
 
 .eventBox {
-  border: 1px solid #C5BDBD;
+  border: 1px solid #656262;
   border-radius: 5px;
-  background: #E4E6E6;
+  background: #fff;
   color: #4B4F50;
   padding: 1em;
   margin-top: 2em; }
@@ -211,9 +218,9 @@ form {
 
 .list-group-item {
   margin: 1em auto 0 auto;
-  background: #E4E6E6;
+  background: #fff;
   color: #4B4F50;
   text-align: center;
   max-width: 15em;
-  border: 1px solid #C5BDBD;
+  border: 1px solid #656262;
   border-radius: 5px; }
