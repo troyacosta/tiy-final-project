@@ -31,8 +31,8 @@ module.exports = React.createClass({
 		var tires = this.state.tires ? this.state.tires.get('brand')+' '+this.state.tires.get('model'): 'loading';
 		var user = this.state.tires ? this.state.tires.get('user').get('firstName')+' '+
 			this.state.tires.get('user').get('lastName'): 'loading';
-		var car = this.state.tires ? this.state.tires.get('car').get('carClass'): 'loading';
-		var carClass = this.state.tires ? this.state.tires.get('car').get('model'): 'loading';
+		var carClass = this.state.tires ? this.state.tires.get('car').get('carClass'): 'loading';
+		var car = this.state.tires ? this.state.tires.get('car').get('model'): 'loading';
 		var runs = this.state.tires ? this.state.tires.get('runs'): 'loading';
 		var pic = this.state.pictures.map((picture) => {
 			return(
@@ -58,9 +58,11 @@ module.exports = React.createClass({
 				<p>Car: <strong>{car}</strong></p>
 				<p>Class: <strong>{carClass}</strong></p>
 				<p>Driver: <strong>{user}</strong></p>
-				<p>Total Runs On Tire: <strong>{runs}</strong></p>
-				<h4>Projected life cycle for this set of {tires}</h4>
-				<TireProgressBar tiresId={this.props.tiresId}/>
+				<p>Total Runs On These Tires: <strong>{runs}</strong></p>
+				<div className="barContainer">
+					<h4>Projected life cycle for this set of {tires}</h4>
+					<TireProgressBar tiresId={this.props.tiresId}/>
+				</div>
 				<div className="container" >
 					<ul className="list-group">
 						{pic}

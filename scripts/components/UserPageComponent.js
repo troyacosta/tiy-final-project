@@ -76,18 +76,18 @@ module.exports = React.createClass({
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return(
 				<div key={Event.id} className="eventBox">
+					<h5><strong><i>Added on: {date}</i></strong></h5>
 					<h4>Event Location: {Event.get('location')}</h4>
-					<div>{date}</div>
-					<div>{car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</div>
-					<div>Tires - {tires.get('model')}</div>
-					<div>{Event.get('eventComments')}</div>
+					<h5>{car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</h5>
+					<p>Tires - {tires.get('model')}</p>
+					<p>{Event.get('eventComments')}</p>
 				</div>
 			)
 		}).reverse();
 		return(
 			<div className="container-fluid userContainer">
-				<div className="row">
-					<div className="col-xs-3">
+				<div className="row buttonContainer">
+					<div className="col-sm-3">
 		                <button type="button" className="btn btn-primary userButton" onClick={this.onAddCarModal}>Add Car</button>
 		                <div ref="addCarBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 		                    <div className="modal-dialog modal-sm">
@@ -97,7 +97,7 @@ module.exports = React.createClass({
 		                    </div>
 		                </div>
 		            </div>   
-		            <div className="col-xs-3">
+		            <div className="col-sm-3">
 			            <button type="button" className="btn btn-primary userButton" onClick={this.onAddEventModal}>Add Event</button>
 		                <div ref="addEventBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 		                    <div className="modal-dialog modal-lg">
@@ -107,7 +107,7 @@ module.exports = React.createClass({
 		                    </div> 
 		                </div> 
 	                </div> 
-	                <div className="col-xs-3">
+	                <div className="col-sm-3">
 			            <button type="button" className="btn btn-primary userButton" onClick={this.onEditCarModal}>Edit Car Info</button>
 		                <div ref="editCarBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 		                    <div className="modal-dialog modal-sm">
@@ -117,7 +117,7 @@ module.exports = React.createClass({
 		                    </div>
 		                </div>
 	                </div> 
-	                <div className="col-xs-3">
+	                <div className="col-sm-3">
 			            <button type="button" className="btn btn-primary userButton" onClick={this.onUpdateTiresModal}>Add Tire Info</button>
 		                <div ref="updateTiresBox" className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 		                    <div className="modal-dialog modal-sm">
@@ -130,9 +130,9 @@ module.exports = React.createClass({
 	            </div>
 	            <div className="row userPage">
 		            <div className="col-md-2">
-						<h2>Active Tire Sets</h2>
+						<h2 className="activeTires">Active Tires</h2>
 						{activeTires}				
-						<h2>Retired Tire Sets</h2>						
+						<h2>Retired Tires</h2>						
 						{retiredTires}						
 			        </div> 
 			        <div className="col-md-10">

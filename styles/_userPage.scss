@@ -1,15 +1,22 @@
+.buttonContainer {
+	text-align: center;
+}
 .userButton {
 	width: 10em;
 	background: $button;
-	color: black;
-	margin-top: 2em;
+	color: $button-text;
+	margin-top: 1.5em;
+	margin-bottom: 4em;
 	border-radius: $border-radius;
 	outline: none;
 	border: $border;
 }
+.userButton:hover {
+	opacity: .25;
+}
 .userPage {
 	h2 {
-		color: black;
+		color: $text-color;
 		text-align: center;
 	}
 }

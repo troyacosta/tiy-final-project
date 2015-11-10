@@ -10,5 +10,11 @@
 }
 .panel {
 	background-color: $box;
-	color: $box-text;
+	color: $text-color;
+}
+.barContainer {
+	text-align: center;
+	width: 60%;
+	color: $text-color;
+	margin: 0 auto 3em auto;
 }

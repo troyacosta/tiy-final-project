@@ -34854,15 +34854,19 @@ module.exports = React.createClass({
 				'div',
 				{ key: Event.id, className: 'eventBox' },
 				React.createElement(
-					'h6',
+					'h5',
 					null,
 					React.createElement(
-						'i',
+						'strong',
 						null,
-						'Added by: ',
-						poster.get('firstName') + ' ' + poster.get('lastName'),
-						' on ',
-						date
+						React.createElement(
+							'i',
+							null,
+							'Added by: ',
+							poster.get('firstName') + ' ' + poster.get('lastName'),
+							' on ',
+							date
+						)
 					)
 				),
 				React.createElement(
@@ -34872,7 +34876,7 @@ module.exports = React.createClass({
 					Event.get('location')
 				),
 				React.createElement(
-					'div',
+					'h5',
 					null,
 					'Car - ',
 					car.get('carClass') + ' - ' + car.get('make') + ' ' + car.get('model')
@@ -34884,7 +34888,7 @@ module.exports = React.createClass({
 					tires.get('model')
 				),
 				React.createElement(
-					'div',
+					'p',
 					null,
 					Event.get('eventComments')
 				),
@@ -34902,14 +34906,14 @@ module.exports = React.createClass({
 					{ className: 'col-md-2 list-group' },
 					React.createElement(
 						'h2',
-						null,
-						'Active Tire Sets'
+						{ className: 'activeTires' },
+						'Active Tires'
 					),
 					activeTires,
 					React.createElement(
 						'h2',
 						null,
-						'Retired Tire Sets'
+						'Retired Tires'
 					),
 					retiredTires
 				),
@@ -35422,8 +35426,8 @@ module.exports = React.createClass({
 	render: function render() {
 		var tires = this.state.tires ? this.state.tires.get('brand') + ' ' + this.state.tires.get('model') : 'loading';
 		var user = this.state.tires ? this.state.tires.get('user').get('firstName') + ' ' + this.state.tires.get('user').get('lastName') : 'loading';
-		var car = this.state.tires ? this.state.tires.get('car').get('carClass') : 'loading';
-		var carClass = this.state.tires ? this.state.tires.get('car').get('model') : 'loading';
+		var carClass = this.state.tires ? this.state.tires.get('car').get('carClass') : 'loading';
+		var car = this.state.tires ? this.state.tires.get('car').get('model') : 'loading';
 		var runs = this.state.tires ? this.state.tires.get('runs') : 'loading';
 		var pic = this.state.pictures.map(function (picture) {
 			return React.createElement(
@@ -35509,7 +35513,7 @@ module.exports = React.createClass({
 			React.createElement(
 				'p',
 				null,
-				'Total Runs On Tire: ',
+				'Total Runs On These Tires: ',
 				React.createElement(
 					'strong',
 					null,
@@ -35517,12 +35521,16 @@ module.exports = React.createClass({
 				)
 			),
 			React.createElement(
-				'h4',
-				null,
-				'Projected life cycle for this set of ',
-				tires
+				'div',
+				{ className: 'barContainer' },
+				React.createElement(
+					'h4',
+					null,
+					'Projected life cycle for this set of ',
+					tires
+				),
+				React.createElement(TireProgressBar, { tiresId: this.props.tiresId })
 			),
-			React.createElement(TireProgressBar, { tiresId: this.props.tiresId }),
 			React.createElement(
 				'div',
 				{ className: 'container' },
@@ -35565,7 +35573,7 @@ module.exports = React.createClass({
 				if (_this.state.percentage < 20) {
 					_this.setState({ message: 'These are awesome!' });
 				} else if (_this.state.percentage > 20 && _this.state.percentage < 40) {
-					_this.setState({ message: 'They\'re decent, but you\'re not winning Nats with them' });
+					_this.setState({ message: 'They\'re decent, but you\'re not winning a championship with them' });
 				} else if (_this.state.percentage > 41 && _this.state.percentage < 65) {
 					_this.setState({ message: 'Closer to being dead than being alive' });
 				} else {
@@ -35578,7 +35586,7 @@ module.exports = React.createClass({
 				if (_this.state.percentage < 50) {
 					_this.setState({ message: 'These are awesome!' });
 				} else if (_this.state.percentage > 50 && _this.state.percentage < 75) {
-					_this.setState({ message: 'They\'re decent, but you\'re not winning Nationals with them' });
+					_this.setState({ message: 'They\'re decent, but you\'re not winning a championship with them' });
 				} else if (_this.state.percentage > 76 && _this.state.percentage < 110) {
 					_this.setState({ message: 'Closer to being dead than being alive' });
 				} else {
@@ -35591,16 +35599,24 @@ module.exports = React.createClass({
 		var wearPercentage = this.state.percentage;
 		return React.createElement(
 			'div',
-			{ className: 'progress' },
+			{ className: 'container-flluid' },
 			React.createElement(
 				'div',
-				{ className: 'progress-bar',
-					role: 'progressbar',
-					'aria-valuemin': '0',
-					'aria-valuemax': '100',
-					style: { width: wearPercentage + '%' } },
-				wearPercentage,
-				'% ',
+				{ className: 'progress' },
+				React.createElement(
+					'div',
+					{ className: 'progress-bar',
+						role: 'progressbar',
+						'aria-valuemin': '0',
+						'aria-valuemax': '100',
+						style: { width: wearPercentage + '%' } },
+					wearPercentage,
+					'%'
+				)
+			),
+			React.createElement(
+				'h4',
+				null,
 				this.state.message
 			)
 		);
@@ -35702,29 +35718,38 @@ module.exports = React.createClass({
 				'div',
 				{ key: Event.id, className: 'eventBox' },
 				React.createElement(
+					'h5',
+					null,
+					React.createElement(
+						'strong',
+						null,
+						React.createElement(
+							'i',
+							null,
+							'Added on: ',
+							date
+						)
+					)
+				),
+				React.createElement(
 					'h4',
 					null,
 					'Event Location: ',
 					Event.get('location')
 				),
 				React.createElement(
-					'div',
-					null,
-					date
-				),
-				React.createElement(
-					'div',
+					'h5',
 					null,
 					car.get('carClass') + ' - ' + car.get('make') + ' ' + car.get('model')
 				),
 				React.createElement(
-					'div',
+					'p',
 					null,
 					'Tires - ',
 					tires.get('model')
 				),
 				React.createElement(
-					'div',
+					'p',
 					null,
 					Event.get('eventComments')
 				)
@@ -35735,10 +35760,10 @@ module.exports = React.createClass({
 			{ className: 'container-fluid userContainer' },
 			React.createElement(
 				'div',
-				{ className: 'row' },
+				{ className: 'row buttonContainer' },
 				React.createElement(
 					'div',
-					{ className: 'col-xs-3' },
+					{ className: 'col-sm-3' },
 					React.createElement(
 						'button',
 						{ type: 'button', className: 'btn btn-primary userButton', onClick: this.onAddCarModal },
@@ -35760,7 +35785,7 @@ module.exports = React.createClass({
 				),
 				React.createElement(
 					'div',
-					{ className: 'col-xs-3' },
+					{ className: 'col-sm-3' },
 					React.createElement(
 						'button',
 						{ type: 'button', className: 'btn btn-primary userButton', onClick: this.onAddEventModal },
@@ -35782,7 +35807,7 @@ module.exports = React.createClass({
 				),
 				React.createElement(
 					'div',
-					{ className: 'col-xs-3' },
+					{ className: 'col-sm-3' },
 					React.createElement(
 						'button',
 						{ type: 'button', className: 'btn btn-primary userButton', onClick: this.onEditCarModal },
@@ -35804,7 +35829,7 @@ module.exports = React.createClass({
 				),
 				React.createElement(
 					'div',
-					{ className: 'col-xs-3' },
+					{ className: 'col-sm-3' },
 					React.createElement(
 						'button',
 						{ type: 'button', className: 'btn btn-primary userButton', onClick: this.onUpdateTiresModal },
@@ -35833,14 +35858,14 @@ module.exports = React.createClass({
 					{ className: 'col-md-2' },
 					React.createElement(
 						'h2',
-						null,
-						'Active Tire Sets'
+						{ className: 'activeTires' },
+						'Active Tires'
 					),
 					activeTires,
 					React.createElement(
 						'h2',
 						null,
-						'Retired Tire Sets'
+						'Retired Tires'
 					),
 					retiredTires
 				),

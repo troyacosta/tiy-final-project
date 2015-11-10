@@ -26,5 +26,22 @@ form{
 	color: $box-text;
 	padding: 1em;
 	margin-top: 2em;
+	a {
+		color: $link-color;
+	}
+	p {
+		font-size: 1.05em;
+	}
 }
-
+.activeTires {
+	margin-bottom: 1em;
+}
+.list-group-item {
+	margin: 1em auto 0 auto;
+	background: $box;
+	color: $box-text;
+	text-align: center;
+	max-width: 15em;
+	border: $border;
+	border-radius: $border-radius;
+}

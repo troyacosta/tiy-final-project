@@ -65,11 +65,11 @@ module.exports = React.createClass({
 			return(
 				
 						<div key={Event.id} className="eventBox">
-							<h6><i>Added by: {poster.get('firstName')+' '+poster.get('lastName')} on {date}</i></h6>
+							<h5><strong><i>Added by: {poster.get('firstName')+' '+poster.get('lastName')} on {date}</i></strong></h5>
 							<h4>Event Location: {Event.get('location')}</h4>
-							<div>Car - {car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</div>
+							<h5>Car - {car.get('carClass')+' - '+car.get('make')+' '+car.get('model')}</h5>
 							<a href={'#tireInfo/'+tires.id}>Tires - {tires.get('model')}</a>
-							<div>{Event.get('eventComments')}</div>
+							<p>{Event.get('eventComments')}</p>
 							{video}
 						</div>
 					
@@ -80,9 +80,9 @@ module.exports = React.createClass({
 			<div className="container-fluid homePage">
 				<div className="row">
 					<div className="col-md-2 list-group">
-						<h2>Active Tire Sets</h2>
+						<h2 className="activeTires">Active Tires</h2>
 						{activeTires}
-						<h2>Retired Tire Sets</h2>
+						<h2>Retired Tires</h2>
 						{retiredTires}
 					</div>
 					<div className="col-md-10">

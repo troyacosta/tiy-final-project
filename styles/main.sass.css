@@ -3,7 +3,7 @@
   margin-bottom: 0;
   border-bottom: black; }
   .navbar .container-fluid {
-    background: #12D9FF;
+    background: #95BCC5;
     border-bottom: black; }
 
 .navbar-default .navbar-nav > li > a {
@@ -118,7 +118,7 @@ main {
     top: 27vw; } }
 
 .homePage h2 {
-  color: black;
+  color: #4B4F50;
   text-align: center; }
 
 .homePage .row {
@@ -128,17 +128,24 @@ main {
 a {
   display: block; }
 
+.buttonContainer {
+  text-align: center; }
+
 .userButton {
   width: 10em;
-  background: #95BCC5;
-  color: black;
-  margin-top: 2em;
+  background: #E4E6E6;
+  color: #4B4F50;
+  margin-top: 1.5em;
+  margin-bottom: 4em;
   border-radius: 5px;
   outline: none;
   border: 1px solid #C5BDBD; }
 
+.userButton:hover {
+  opacity: .25; }
+
 .userPage h2 {
-  color: black;
+  color: #4B4F50;
   text-align: center; }
 
 .imageContainer {
@@ -154,14 +161,21 @@ a {
   background-color: #E4E6E6;
   color: #4B4F50; }
 
-.progress {
-  border-radius: 10px;
-  height: 3em;
+.barContainer {
+  text-align: center;
   width: 60%;
-  margin: 0 auto; }
+  color: #4B4F50;
+  margin: 0 auto 3em auto; }
+
+.progress {
+  border-radius: 5px;
+  color: #4B4F50;
+  height: 3em; }
   .progress .progress-bar {
-    color: #fff;
-    background-color: #12D9FF; }
+    color: #4B4F50;
+    background-color: #95BCC5;
+    font-size: 2em;
+    padding-top: .4em; }
 
 html {
   height: 100em; }
@@ -181,3 +195,19 @@ form {
   color: #4B4F50;
   padding: 1em;
   margin-top: 2em; }
+  .eventBox a {
+    color: #1674F1; }
+  .eventBox p {
+    font-size: 1.05em; }
+
+.activeTires {
+  margin-bottom: 1em; }
+
+.list-group-item {
+  margin: 1em auto 0 auto;
+  background: #E4E6E6;
+  color: #4B4F50;
+  text-align: center;
+  max-width: 15em;
+  border: 1px solid #C5BDBD;
+  border-radius: 5px; }
