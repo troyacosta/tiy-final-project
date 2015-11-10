@@ -194,10 +194,11 @@ body {
   background-color: #E9EAED; }
 
 form {
-  background: #95BCC5;
+  background: #47639E;
   border: 1px solid #656262;
   border-radius: 5px;
-  padding: 6%; }
+  padding: 6%;
+  color: #fff; }
   form .formButton {
     text-align: center; }
 
