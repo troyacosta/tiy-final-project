@@ -124,7 +124,17 @@ module.exports = React.createClass({
 			}
 		});
 		tires[0].increment('runs', NumberOfRuns);
-		tires[0].save().then( () => this.props.dispatcher.trigger('eventAdded'));
+		//clears the form after the event has been saved
+		tires[0].save().then(() => {
+			this.refs.location.value = '',
+			this.refs.weather.value = '',
+			this.refs.surface.value = '',
+			this.refs.courseLength.value = '',
+			this.refs.videoLink.value = '',
+			this.refs.numberOfRuns.value = '',
+			this.refs.eventComments.value = '',
+			this.refs.tirePic.value = ''
+		}).then(() => this.props.dispatcher.trigger('eventAdded'));
 	}
 })
 

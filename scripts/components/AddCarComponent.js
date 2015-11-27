@@ -1,3 +1,4 @@
+//this component allows the user to add a new car to their garage
 var React = require('react');
 var CarModel = require('../models/CarModel');
 var TireSetModel = require('../models/TireSetModel');
@@ -6,6 +7,8 @@ module.exports = React.createClass({
 	getInitialState: function() {
 		return {error: null};
 	},
+	//displays the form that takes in all the data that will be associated with the user's car.
+	//this component is being passed to the UserPageComponent and is then displayed as a model.
 	render: function() {
 		return(
 			<form className="addCarForm" onSubmit={this.addCar}>
@@ -43,6 +46,8 @@ module.exports = React.createClass({
 			</form>
 		)
 	},
+	//function that takes all the data that was entered into the form and then saves it to the 
+	//server and associates it with the user that created it.
 	addCar: function(e) {
 		e.preventDefault();
 		var carYear = parseInt(this.refs.year.value);
@@ -57,6 +62,15 @@ module.exports = React.createClass({
 			rearWheelSize: this.refs.rearWheelSize.value,
 			user: Parse.User.current()
 		});
-		Car.save().then(() => this.props.dispatcher.trigger('carAdded'));
+		//saves the new car and then clears out the form fields
+		Car.save().then(() => {
+			this.refs.make.value = '',
+			this.refs.model.value = '',
+			this.refs.year.value = '',
+			this.refs.carClass.value = '',
+			this.refs.weight.value = '',
+			this.refs.frontWheelSize.value = '',
+			this.refs.rearWheelSize.value = ''
+		}).then(() => this.props.dispatcher.trigger('carAdded'));
 	}
 })

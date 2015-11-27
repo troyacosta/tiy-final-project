@@ -56,6 +56,12 @@ module.exports = React.createClass({
 					error: error.message
 				});
 			}
+		}).then(() => {
+			//resets the input fields to be empty after a user has registered
+			this.refs.firstName.value = '',
+			this.refs.lastName.value = '',
+			this.refs.email.value = '',
+			this.refs.password.value = ''
 		});
 	}
 });

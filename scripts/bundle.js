@@ -34081,6 +34081,7 @@ module.exports = warning;
 module.exports = require('./lib/React');
 
 },{"./lib/React":43}],175:[function(require,module,exports){
+//this component allows the user to add a new car to their garage
 'use strict';
 
 var React = require('react');
@@ -34093,6 +34094,8 @@ module.exports = React.createClass({
 	getInitialState: function getInitialState() {
 		return { error: null };
 	},
+	//displays the form that takes in all the data that will be associated with the user's car.
+	//this component is being passed to the UserPageComponent and is then displayed as a model.
 	render: function render() {
 		return React.createElement(
 			'form',
@@ -34178,6 +34181,8 @@ module.exports = React.createClass({
 			)
 		);
 	},
+	//function that takes all the data that was entered into the form and then saves it to the
+	//server and associates it with the user that created it.
 	addCar: function addCar(e) {
 		var _this = this;
 
@@ -34194,7 +34199,10 @@ module.exports = React.createClass({
 			rearWheelSize: this.refs.rearWheelSize.value,
 			user: Parse.User.current()
 		});
+		//saves the new car and then clears out the form fields
 		Car.save().then(function () {
+			_this.refs.make.value = '', _this.refs.model.value = '', _this.refs.year.value = '', _this.refs.carClass.value = '', _this.refs.weight.value = '', _this.refs.frontWheelSize.value = '', _this.refs.rearWheelSize.value = '';
+		}).then(function () {
 			return _this.props.dispatcher.trigger('carAdded');
 		});
 	}
@@ -34404,7 +34412,10 @@ module.exports = React.createClass({
 			}
 		});
 		tires[0].increment('runs', NumberOfRuns);
+		//clears the form after the event has been saved
 		tires[0].save().then(function () {
+			_this3.refs.location.value = '', _this3.refs.weather.value = '', _this3.refs.surface.value = '', _this3.refs.courseLength.value = '', _this3.refs.videoLink.value = '', _this3.refs.numberOfRuns.value = '', _this3.refs.eventComments.value = '', _this3.refs.tirePic.value = '';
+		}).then(function () {
 			return _this3.props.dispatcher.trigger('eventAdded');
 		});
 	}
@@ -35106,6 +35117,9 @@ module.exports = React.createClass({
 					error: _error.message
 				});
 			}
+		}).then(function () {
+			//resets the input fields to be empty
+			_this.refs.email.value = '', _this.refs.password.value = '';
 		});
 	}
 });
@@ -35383,6 +35397,9 @@ module.exports = React.createClass({
 					error: _error.message
 				});
 			}
+		}).then(function () {
+			//resets the input fields to be empty after a user has registered
+			_this.refs.firstName.value = '', _this.refs.lastName.value = '', _this.refs.email.value = '', _this.refs.password.value = '';
 		});
 	}
 });

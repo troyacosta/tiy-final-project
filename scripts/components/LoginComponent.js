@@ -43,6 +43,10 @@ module.exports = React.createClass({
 						error: error.message
 				});
 			}
+		}).then(() => {
+			//resets the input fields to be empty
+			this.refs.email.value = '',
+			this.refs.password.value = ''
 		});
 	}
 });
