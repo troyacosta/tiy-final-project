@@ -34854,12 +34854,15 @@ module.exports = React.createClass({
 			var car = Event.get('car');
 			var tires = Event.get('tires');
 			var poster = Event.get('user');
-			//adds a video link if one has been stored in the model, otherwise it displays nothing
+			//adds an embedded video and a link if a video was saved with the event, otherwise it displays nothing
 			var video = Event.get('videoLink') !== '' ? React.createElement(
 				'a',
 				{ href: Event.get('videoLink') },
 				'Video Link'
 			) : React.createElement('br', null);
+			var videoCode = Event.get('videoLink').split('=');
+			var embeddedVideo = Event.get('videoLink') !== '' ? React.createElement('iframe', { src: "http://www.youtube.com/embed/" + videoCode[1], frameBorder: '0',
+				width: '640', height: '360', allowFullScreen: true }) : React.createElement('br', null);
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return React.createElement(
 				'div',
@@ -34903,7 +34906,8 @@ module.exports = React.createClass({
 					null,
 					Event.get('eventComments')
 				),
-				video
+				video,
+				embeddedVideo
 			);
 		}).reverse();
 		return React.createElement(
