@@ -35683,6 +35683,7 @@ module.exports = React.createClass({
 			tires: []
 		};
 	},
+	//query event information. Also add the dispatcher calls that will launch the modals.
 	componentWillMount: function componentWillMount() {
 		var _this = this;
 
@@ -35715,6 +35716,7 @@ module.exports = React.createClass({
 		});
 	},
 	render: function render() {
+		//function to display each retired tire set
 		var retiredTires = this.state.tires.map(function (tireSet) {
 			if (tireSet.get('retired') === true) {
 				return React.createElement(
@@ -35731,6 +35733,7 @@ module.exports = React.createClass({
 				);
 			}
 		}).reverse();
+		//function to display each active tire set
 		var activeTires = this.state.tires.map(function (tireSet) {
 			if (tireSet.get('retired') === false) {
 				return React.createElement(
@@ -35750,12 +35753,15 @@ module.exports = React.createClass({
 		var events = this.state.events.map(function (Event) {
 			var car = Event.get('car');
 			var tires = Event.get('tires');
-			//adds a video link if one has been stored in the model, otherwise it displays nothing
+			//adds an embedded video and a link if a video was saved with the event, otherwise it displays nothing
 			var video = Event.get('videoLink') !== '' ? React.createElement(
 				'a',
 				{ href: Event.get('videoLink') },
 				'Video Link'
 			) : React.createElement('br', null);
+			var videoCode = Event.get('videoLink').split('=');
+			var embeddedVideo = Event.get('videoLink') !== '' ? React.createElement('iframe', { src: "http://www.youtube.com/embed/" + videoCode[1], frameBorder: '0',
+				width: '640', height: '360', allowFullScreen: true }) : React.createElement('br', null);
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return React.createElement(
 				'div',
@@ -35796,7 +35802,8 @@ module.exports = React.createClass({
 					null,
 					Event.get('eventComments')
 				),
-				video
+				video,
+				embeddedVideo
 			);
 		}).reverse();
 		return React.createElement(
