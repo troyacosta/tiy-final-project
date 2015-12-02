@@ -34861,7 +34861,7 @@ module.exports = React.createClass({
 				'Video Link'
 			) : React.createElement('br', null);
 			var videoCode = Event.get('videoLink').split('=');
-			var embeddedVideo = Event.get('videoLink') !== '' ? React.createElement('iframe', { src: "http://www.youtube.com/embed/" + videoCode[1], frameBorder: '0',
+			var embeddedVideo = Event.get('videoLink') !== '' ? React.createElement('iframe', { src: 'https://www.youtube.com/embed/' + videoCode[1], frameBorder: '0',
 				width: '640', height: '360', allowFullScreen: true }) : React.createElement('br', null);
 			var date = Event.get('createdAt').toString().slice(0, 15);
 			return React.createElement(
